@@ -26,14 +26,17 @@
 - Verified all eight public downloads and exact hashes; 30 public bootstrap/installation/grant/removal VM checks passed across both supported sudo implementations.
 - Published the responsive HTML page through SH Website and verified live HTML MIME/rendering, desktop/tablet/mobile layouts, real clipboard copying and denied-copy fallback; recorded checksum-guarded metadata update and sanitized publication receipts.
 
-## Short public installation command — 2026-11-02
+## Short public installation command draft — 2026-11-02
 
 - Simplified the page, copy button, command file and documentation to `curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh`.
-- Guarded bootstrap execution with a complete shell compound command so a truncated script cannot begin installation; recipient selection remains on `/dev/tty`.
-- Preserved the exact tested 0.1.0 package and pinned SHA-256; download verification, temporary files and cleanup stay inside the bootstrap.
+- Guarded bootstrap execution with a complete shell compound command so a truncated script cannot begin installation. The initial recipient-prompt draft was superseded by the 0.2.0 machine-wide workflow before publication.
+- Kept 0.1.0 immutable while preparing the new preview; download verification, temporary files and cleanup stay inside the bootstrap.
 
 ## 0.2.0 — 2026-11-02
 
 - Machine-wide installation without recipient selection; positional and prompted administrative grants dynamically authorize existing non-root recipients.
 - Preserve private tokens, exact recipient-only sudo dispatch, independent administrative policy checks, bounded state, maintenance invalidation and separate binary streams.
 - Simplify public installation to a piped hosted bootstrap guarded against truncated scripts; separate administrator and agent guides, using inspected SimpleHelp styles.
+- Bound helper slots before maintenance-lock waiting; verified 222 installed-binary VM checks, native/parser tests, clean dependency audit, and identical relocated builds.
+- Verified seven immutable public downloads and 36 actual public-command VM checks; the 2,598 proper prefixes of the final hosted script cannot begin installation. Fault cases are identified as VM-local injections.
+- Published the guarded installer and SimpleHelp guide; live browser, keyboard, clipboard, 13 URL/MIME/hash checks and unchanged 0.1.0 archives verified. Saved sanitized receipts and stopped the test VMs.

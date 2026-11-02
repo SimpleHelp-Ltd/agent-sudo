@@ -1,0 +1,309 @@
+[
+  {
+    "path": "agent-sudo/agent-sudo-0.2.0-linux-amd64.tar.gz.sha256",
+    "sha256": "8ca5536056b24364d9deacdacda2e6ceed8f7ee67b3fb98441477cdbe829f308",
+    "service_request_id": "988c5b77-1b7f-40e0-a888-f314bde3a175",
+    "expected_previous_sha256": null,
+    "result": {
+      "bytes": 102,
+      "checks": [
+        "Input, authenticated caller, path safety and source checksum validated.",
+        "Local and remote publishing locks held; absent destination verified before atomic installation.",
+        "Anonymous HTTPS returned 200 with matching full checksum, size and attachment header.",
+        "Parent directory returned 404; landing page and robots.txt unchanged.",
+        "SH live returned 200; anonymous staging returned 401; Caddy hashes and release pointers/manifests unchanged.",
+        "Local mirror verified; private receipts and publication history saved."
+      ],
+      "is_current": true,
+      "message": "Published the exact checksum file and verified its public download.",
+      "next_steps": [],
+      "path": "agent-sudo/agent-sudo-0.2.0-linux-amd64.tar.gz.sha256",
+      "receipt_reference": "services/receipts/tools_publish/78c849c4f0dda785b94b74462077695af721a5b8014abe3930c69171cf4f7aec",
+      "request_id": "agent-sudo-02-8ca5536056b24364d9de-agent-sudo-agent-sudo-0.2.0-linux-amd64.tar.gz.sha256",
+      "sha256": "8ca5536056b24364d9deacdacda2e6ceed8f7ee67b3fb98441477cdbe829f308",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-0.2.0-linux-amd64.tar.gz.sha256"
+    }
+  },
+  {
+    "path": "agent-sudo/0.2.0-SHA256SUMS",
+    "sha256": "79b6dfb7e06bd1a9d914d12a984a8e8b4743cad2daa66c19499dcc2489234216",
+    "service_request_id": "4fe93115-4d79-4e7f-b4bb-c3251dcdc93b",
+    "expected_previous_sha256": null,
+    "result": {
+      "bytes": 460,
+      "checks": [
+        "Input, path and content validated; supplied SHA-256 matched.",
+        "Published atomically under local and remote locks.",
+        "Anonymous HTTPS returned 200 with attachment header and matching full checksum and size.",
+        "Parent directory returned 404; landing page and robots unchanged.",
+        "SH live returned 200; protected staging returned 401; Caddy hashes and release pointers/manifests unchanged.",
+        "Local mirror verified; private receipt and publication history recorded."
+      ],
+      "is_current": true,
+      "message": "Published the exact checksum file and verified its public download.",
+      "next_steps": [],
+      "path": "agent-sudo/0.2.0-SHA256SUMS",
+      "receipt_reference": "services/receipts/tools_publish/56928bfae3431ea3ad83f5683991b96b26f9234c02759eeeb8777ae32a40d698",
+      "request_id": "agent-sudo-02-79b6dfb7e06bd1a9d914-agent-sudo-0.2.0-SHA256SUMS",
+      "sha256": "79b6dfb7e06bd1a9d914d12a984a8e8b4743cad2daa66c19499dcc2489234216",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/0.2.0-SHA256SUMS"
+    }
+  },
+  {
+    "path": "agent-sudo/0.2.0-VALIDATION.md",
+    "sha256": "128778a327cc8f1f22a90a4cb9289d4acdc3e9b8e6c925ae51ab2015f5999af0",
+    "service_request_id": "c09854d3-c886-46b5-b42e-344767fb04a0",
+    "expected_previous_sha256": null,
+    "result": {
+      "bytes": 6690,
+      "checks": [
+        "Input, authenticated caller, path and source checksum validated.",
+        "Published atomically under local and remote locks.",
+        "Anonymous HTTPS returned 200 with matching SHA-256, size and attachment header.",
+        "Parent directory returned 404; landing page and robots unchanged.",
+        "SH live returned 200; staging returned 401; Caddy hashes and release pointers/manifests unchanged.",
+        "Local mirror verified; private receipt and publication history recorded."
+      ],
+      "is_current": true,
+      "message": "Published the exact validation document and verified its public download.",
+      "next_steps": [],
+      "path": "agent-sudo/0.2.0-VALIDATION.md",
+      "receipt_reference": "services/receipts/tools_publish/fc53ccb7ef63e067a960de166e8d8e11554d6df906eff126fb529ad9e80e0785",
+      "request_id": "agent-sudo-02-128778a327cc8f1f22a9-agent-sudo-0.2.0-VALIDATION.md",
+      "sha256": "128778a327cc8f1f22a90a4cb9289d4acdc3e9b8e6c925ae51ab2015f5999af0",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/0.2.0-VALIDATION.md"
+    }
+  },
+  {
+    "path": "agent-sudo/0.2.0-SECURITY_REVIEW.md",
+    "sha256": "3e11808a07453fd3c33fa8db19f7a921022a4c680530df2fa1e83046163a45a7",
+    "service_request_id": "283a66c8-7bac-4656-8b63-bf7ea87f68f8",
+    "expected_previous_sha256": null,
+    "result": {
+      "bytes": 10353,
+      "checks": [
+        "Source checksum, size and path validated; no credentials or private user/machine data found.",
+        "Local and remote locks held; previously absent destination installed atomically.",
+        "Anonymous HTTPS returned 200 with attachment header and matching full checksum and size.",
+        "Parent directory returned 404; landing page and robots unchanged.",
+        "SH live returned 200; anonymous staging returned 401; Caddy hashes and release pointers/manifests unchanged.",
+        "Local mirror verified and private publication history recorded."
+      ],
+      "is_current": true,
+      "message": "Published the exact security review document and verified its public download.",
+      "next_steps": [],
+      "path": "agent-sudo/0.2.0-SECURITY_REVIEW.md",
+      "receipt_reference": "services/receipts/tools_publish/a4949dbad60cd91fe644b05867adcbf820586c262a997a23edcad15c6445af05",
+      "request_id": "agent-sudo-02-3e11808a07453fd3c33f-agent-sudo-0.2.0-SECURITY_REVIEW.md",
+      "sha256": "3e11808a07453fd3c33fa8db19f7a921022a4c680530df2fa1e83046163a45a7",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/0.2.0-SECURITY_REVIEW.md"
+    }
+  },
+  {
+    "path": "agent-sudo/0.2.0-OPERATOR.md",
+    "sha256": "1c57c2b08211ad1b8700bb409ef14a3f78c9ffb8309ad74ac6b1c87e4471c4de",
+    "service_request_id": "bb0c5e6f-0511-48fe-beda-358b03b35ab2",
+    "expected_previous_sha256": null,
+    "result": {
+      "bytes": 11579,
+      "checks": [
+        "Input, path and content safety validated; source checksum matched.",
+        "Local and remote locks held; file published atomically.",
+        "Anonymous HTTPS returned 200 with matching full checksum, byte count and attachment header.",
+        "Parent directory returned 404; landing page and robots unchanged.",
+        "SH live returned 200; protected staging returned 401.",
+        "Caddy hashes, SH release pointers and deployment manifests unchanged.",
+        "Local mirror checksum verified; private publication history recorded."
+      ],
+      "is_current": true,
+      "message": "Published the exact operator guide and verified its public download.",
+      "next_steps": [],
+      "path": "agent-sudo/0.2.0-OPERATOR.md",
+      "receipt_reference": "services/receipts/tools_publish/b3e7d08ef50e03f69ddec99e0eb2b87ecf4a59b121968aafa3ebe54e06495679",
+      "request_id": "agent-sudo-02-1c57c2b08211ad1b8700-agent-sudo-0.2.0-OPERATOR.md",
+      "sha256": "1c57c2b08211ad1b8700bb409ef14a3f78c9ffb8309ad74ac6b1c87e4471c4de",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/0.2.0-OPERATOR.md"
+    }
+  },
+  {
+    "path": "agent-sudo/agent-sudo-0.2.0-linux-amd64.tar.gz",
+    "sha256": "1bb0b9626aca32e8f4d07f61ea9a88791c27b20e0b10fb417495f4b8bce36329",
+    "service_request_id": "95ec4309-4c5a-4a9f-a1c2-aae38a6905ae",
+    "expected_previous_sha256": null,
+    "result": {
+      "bytes": 739565,
+      "checks": [
+        "Input, authenticated caller and safe destination validated; local and remote locks held.",
+        "Source fetched anonymously over verified HTTPS; checksum matched before installation.",
+        "Atomic publication verified through anonymous HTTPS: status 200, attachment header, matching full checksum and size.",
+        "Parent directory returned 404; landing page and robots unchanged.",
+        "SH live returned 200; anonymous staging returned 401; Caddy hashes and release pointers/manifests unchanged.",
+        "Local mirror verified and private publication history recorded."
+      ],
+      "is_current": true,
+      "message": "Published the exact archive and verified its public download. The archive was not unpacked or executed.",
+      "next_steps": [],
+      "path": "agent-sudo/agent-sudo-0.2.0-linux-amd64.tar.gz",
+      "receipt_reference": "services/receipts/tools_publish/4ecb85addb77f9cb64624f2d9bed9875f7af9f3ea46e287f5b2def4c90ba90f8",
+      "request_id": "agent-sudo-02-direct-1bb0b9626aca32e8f4d0-agent-sudo-agent-sudo-0.2.0-linux-amd64.tar.gz",
+      "sha256": "1bb0b9626aca32e8f4d07f61ea9a88791c27b20e0b10fb417495f4b8bce36329",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-0.2.0-linux-amd64.tar.gz"
+    }
+  },
+  {
+    "path": "agent-sudo/agent-sudo-0.2.0-source.tar.gz",
+    "sha256": "aa026b165bfe54928bdbb93203d54d94d1aa42154d7419dc8392b32c06252460",
+    "service_request_id": "29a7e8c7-c787-4ee4-934b-69d4995cca4c",
+    "expected_previous_sha256": null,
+    "result": {
+      "bytes": 91011,
+      "checks": [
+        "Source fetched anonymously over verified HTTPS; supplied SHA-256 matched.",
+        "Local and remote locks held; safe destination and absent target verified before atomic installation.",
+        "Public HTTPS returned 200 with attachment header and matching full checksum and byte count.",
+        "Parent directory returned 404 with no listing; landing page and robots.txt unchanged.",
+        "SH live returned 200; staging returned 401; Caddy hashes and release pointers/manifests unchanged.",
+        "Local mirror verified; private receipts and publication history saved.",
+        "Archive was never unpacked or executed."
+      ],
+      "is_current": true,
+      "message": "Published the exact source archive and verified its public download.",
+      "next_steps": [],
+      "path": "agent-sudo/agent-sudo-0.2.0-source.tar.gz",
+      "receipt_reference": "services/receipts/tools_publish/2dd9688114ffc78948deaa57738dc2f1561235ee8ce21a4adf02853c54ae00e1",
+      "request_id": "agent-sudo-02-direct-aa026b165bfe54928bdb-agent-sudo-agent-sudo-0.2.0-source.tar.gz",
+      "sha256": "aa026b165bfe54928bdbb93203d54d94d1aa42154d7419dc8392b32c06252460",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-0.2.0-source.tar.gz"
+    }
+  },
+  {
+    "path": "agent-sudo/install.sh",
+    "sha256": "9bec6205b835cda61d537180717474525c2e6f401e52490ab9888760e44a52d2",
+    "service_request_id": "7484c7ee-0f8a-419e-8cea-19136638d48f",
+    "expected_previous_sha256": "b941c49d72c5787df9a66ad3741dca99693e7d03f61e0f8e8135d9d701ac7268",
+    "result": {
+      "bytes": 2598,
+      "checks": [
+        "Input, checksum and expected previous checksum validated.",
+        "Local and remote locks held; atomic replacement completed with private backup.",
+        "Anonymous HTTPS returned 200 with matching SHA-256, byte count and attachment header.",
+        "Parent directory returned 404; landing page and robots unchanged.",
+        "SH live returned 200; anonymous staging returned 401; Caddy hashes and release pointers/manifests unchanged.",
+        "Local mirror verified and private publication history updated."
+      ],
+      "is_current": true,
+      "message": "Updated the installer and verified the public download. The submitted script was not executed.",
+      "next_steps": [],
+      "path": "agent-sudo/install.sh",
+      "previous_sha256": "b941c49d72c5787df9a66ad3741dca99693e7d03f61e0f8e8135d9d701ac7268",
+      "receipt_reference": "services/receipts/tools_publish/665fd285d9d2039e06233f6df857ff8893e2ec098aba45922dc7f899dedf208e",
+      "request_id": "agent-sudo-02-direct-9bec6205b835cda61d53-agent-sudo-install.sh",
+      "sha256": "9bec6205b835cda61d537180717474525c2e6f401e52490ab9888760e44a52d2",
+      "status": "updated",
+      "url": "https://tools.simplehelp.io/agent-sudo/install.sh"
+    }
+  },
+  {
+    "path": "agent-sudo/0.2.0-PUBLIC_VALIDATION.md",
+    "sha256": "bc852ad9edf386dfaadbca969668ac66ab44e22ba3812c630882b70c9edb98ec",
+    "service_request_id": "20f76e33-543d-408f-9e4c-252984d207c3",
+    "expected_previous_sha256": null,
+    "result": {
+      "bytes": 4294,
+      "checks": [
+        "Input, path and source validated; no credentials or private data found.",
+        "Published atomically under local and remote locks.",
+        "Anonymous HTTPS returned 200 with attachment header and matching SHA-256 and size.",
+        "Parent directory returned 404; landing page and robots unchanged.",
+        "SH live returned 200; staging returned 401; Caddy hashes and release pointers/manifests unchanged.",
+        "Local mirror and private publication history updated."
+      ],
+      "is_current": true,
+      "message": "Published the exact validation report and verified its public download.",
+      "next_steps": [],
+      "path": "agent-sudo/0.2.0-PUBLIC_VALIDATION.md",
+      "receipt_reference": "services/receipts/tools_publish/df472695fde211d86dc5bd295641e692dbe8ccfb0ff79425b0955a43923136fe",
+      "request_id": "agent-sudo-02-direct-bc852ad9edf386dfaadb-agent-sudo-0.2.0-PUBLIC_VALIDATION.md",
+      "sha256": "bc852ad9edf386dfaadbca969668ac66ab44e22ba3812c630882b70c9edb98ec",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/0.2.0-PUBLIC_VALIDATION.md"
+    }
+  },
+  {
+    "path": "agent-sudo.html",
+    "sha256": "e0cfdb32d826da37c3e2e66e55c39c83d60285cf7692e1ed7d8cd4097324ef06",
+    "service_request_id": "8a240dbf-8289-4bba-928c-a09097c9eb66",
+    "expected_previous_sha256": "2b30a54dfed0294b6348ceb62fc7617de661620db2ed448b7483ea0ab69f549c",
+    "result": {
+      "bytes": 17078,
+      "checks": [
+        "Input, authenticated caller and source checksum validated; no credentials or private data found",
+        "Local and remote locks held; previous checksum matched; private backup preserved",
+        "Atomic replacement and full anonymous HTTPS download verified: 200, matching checksum and size, text/html without attachment disposition",
+        "Directory listings disabled; landing page and robots unchanged",
+        "SH live 200 and anonymous staging 401; Caddy hashes, release pointers and deployment manifests unchanged",
+        "Local mirror updated atomically; private receipt and publication history recorded",
+        "Embedded commands were not executed"
+      ],
+      "is_current": true,
+      "message": "Updated agent-sudo.html with the exact submitted bytes. Verified it opens as HTML in the browser.",
+      "next_steps": [],
+      "path": "agent-sudo.html",
+      "previous_sha256": "2b30a54dfed0294b6348ceb62fc7617de661620db2ed448b7483ea0ab69f549c",
+      "receipt_reference": "services/receipts/tools_publish/3e422b33a321a05d102cf1d1486b0d22e42dd7bbf78ca4082cc1d5c6c2d99aca",
+      "request_id": "agent-sudo-02-direct-e0cfdb32d826da37c3e2-agent-sudo.html",
+      "sha256": "e0cfdb32d826da37c3e2e66e55c39c83d60285cf7692e1ed7d8cd4097324ef06",
+      "status": "updated",
+      "url": "https://tools.simplehelp.io/agent-sudo.html"
+    }
+  },
+  {
+    "path": "agent-sudo/agent-sudo-0.2.0-linux-amd64.tar.gz",
+    "sha256": "1bb0b9626aca32e8f4d07f61ea9a88791c27b20e0b10fb417495f4b8bce36329",
+    "service_request_id": "615b7cb2-f72b-47db-9417-bf9d800a6f14",
+    "expected_previous_sha256": null,
+    "result": {
+      "checks": [
+        "Authenticated caller, schema, source exclusivity and destination path validated.",
+        "Located the single Download link and rejected its signed URL before fetching."
+      ],
+      "message": "The relay\u2019s Download link contains an expiry/signature token, which the service prohibits. The archive was not fetched or published. Public files and the local mirror are unchanged.",
+      "next_steps": [
+        "Submit a new request ID with a direct HTTPS artifact URL without credentials, signatures or tokens.",
+        "Alternatively, submit content_base64 under a new request ID if the decoded archive is at most 1 MiB."
+      ],
+      "path": "agent-sudo/agent-sudo-0.2.0-linux-amd64.tar.gz",
+      "receipt_reference": "services/receipts/tools_publish/38fed4622935e133280aec1535c0fdc9b2ab467caf5c2b72093c0ca4deaac59b",
+      "request_id": "agent-sudo-02-1bb0b9626aca32e8f4d0-agent-sudo-agent-sudo-0.2.0-linux-amd64.tar.gz",
+      "status": "needs_information"
+    }
+  },
+  {
+    "path": "agent-sudo/agent-sudo-0.2.0-source.tar.gz",
+    "sha256": "aa026b165bfe54928bdbb93203d54d94d1aa42154d7419dc8392b32c06252460",
+    "service_request_id": "5ef84b95-ddc3-40b8-8bf9-7cec9e7f7690",
+    "expected_previous_sha256": null,
+    "result": {
+      "checks": [
+        "Authenticated caller, input schema, source exclusivity and relative path validated.",
+        "Landing page inspected; signed download link rejected before fetching."
+      ],
+      "message": "The supplied landing page links to a signed/token-bearing download URL prohibited by this service. The archive was not fetched or published; public files and the local mirror are unchanged.",
+      "next_steps": [
+        "Submit a new request ID with a direct HTTPS artifact URL without credentials, signatures or tokens.",
+        "Alternatively, submit content_base64 under a new request ID if the decoded archive is at most 1 MiB."
+      ],
+      "path": "agent-sudo/agent-sudo-0.2.0-source.tar.gz",
+      "receipt_reference": "services/receipts/tools_publish/470bfaecf63de527a2c08f8d82a3ea802dca51c710d999d80a348d02ec0359c5",
+      "request_id": "agent-sudo-02-aa026b165bfe54928bdb-agent-sudo-agent-sudo-0.2.0-source.tar.gz",
+      "status": "needs_information"
+    }
+  }
+]

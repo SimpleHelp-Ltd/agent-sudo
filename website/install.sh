@@ -16,7 +16,7 @@ if [ "$(uname -s)" != Linux ] || [ "$(uname -m)" != x86_64 ]; then fail 'This pr
 . /etc/os-release
 [ "${ID:-}" = ubuntu ] || fail 'This preview supports Ubuntu only.'
 case ${VERSION_ID:-} in 24.04|26.04) ;; *) fail 'This preview supports Ubuntu 24.04 and 26.04 only.';; esac
-for agent_sudo_command in curl sha256sum tar getent mktemp; do
+for agent_sudo_command in curl sha256sum tar mktemp; do
     command -v "$agent_sudo_command" >/dev/null 2>&1 || fail "Missing dependency: $agent_sudo_command"
 done
 if [ "$(id -u)" -ne 0 ]; then command -v sudo >/dev/null 2>&1 || fail 'Install sudo first.'; fi

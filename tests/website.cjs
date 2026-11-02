@@ -5,7 +5,7 @@ const browser=await chromium.launch({headless:true});
 const context=await browser.newContext({permissions:['clipboard-read','clipboard-write']});
 const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
 const url=process.argv[2]||'file://'+process.cwd()+'/website/agent-sudo.html';
-const response=await page.goto(url);
+const response=await page.goto(url);await page.evaluate(()=>document.fonts.ready);
 if(url.startsWith('https:')){
  if(!response.ok() || !response.headers()['content-type']?.startsWith('text/html') || response.headers()['content-disposition']?.includes('attachment'))throw Error('HTML not served as a page');
  await page.locator('#copy').click();if(await page.evaluate(()=>navigator.clipboard.readText())!==fs.readFileSync('website/install-command.txt','utf8').trim())throw Error('real clipboard');
@@ -30,6 +30,7 @@ if(!await page.locator('#copy').evaluate(e=>e===document.activeElement && getCom
 await page.keyboard.press('Enter');
 if(!(await page.locator('#copy-status').textContent()).includes('Copy was blocked'))throw Error('keyboard activation');
 if(await page.locator('#administrators').count()!==1||await page.locator('#agents').count()!==1)throw Error('audiences');
+if(!await page.evaluate(()=>document.fonts.check('400 16px "Noto Sans"')&&document.fonts.check('700 40px Ubuntu')))throw Error('brand fonts did not load');
 const brand=await page.evaluate(()=>({body:getComputedStyle(document.body).fontFamily,heading:getComputedStyle(document.querySelector('h1')).fontFamily,accent:getComputedStyle(document.querySelector('h1')).color,button:getComputedStyle(document.querySelector('button')).backgroundColor}));
 if(!brand.body.includes('Noto Sans')||!brand.heading.includes('Ubuntu')||brand.accent!=='rgb(126, 102, 204)'||brand.button!=='rgb(117, 71, 255)')throw Error('SimpleHelp brand styles');
 const links=await page.locator('a').evaluateAll(as=>as.map(a=>a.href));

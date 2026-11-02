@@ -51,7 +51,7 @@ check('exact-public-pipe-command-normal-sudo-no-recipient-prompt',lambda:termina
 check('machine-wide-schema-no-recipient-list',lambda:ok(json.loads(pathlib.Path('/var/lib/agent-sudo/config').read_bytes())['v']==2 and 'accounts' not in json.loads(pathlib.Path('/var/lib/agent-sudo/config').read_bytes())))
 
 def cycle(who):
- t,i=grant(who);r=run(t,who=who);assert r.returncode==0 and b'uid=0(root)'in r.stdout
+ issued=front([who,'60']);assert issued.returncode==0;t=issued.stdout.strip().decode();i=t.split('.')[1];r=run(t,who=who);assert r.returncode==0 and b'uid=0(root)'in r.stdout
  assert i.encode()in front(['status'],who).stdout
  assert front(['revoke',i],who).returncode==0 and run(t,who=who).returncode!=0
 check('public-installed-grant-run-status-revoke',lambda:cycle('other'))
