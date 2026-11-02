@@ -5,3 +5,7 @@
 
 # Local Lore metadata
 /.lore/
+/target/
+/artifacts/
+/tests/vm/__pycache__/
+/scripts/__pycache__/

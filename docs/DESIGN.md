@@ -1,0 +1,45 @@
+# Design recorded before implementation
+
+Linux x86_64 MVP, separate static Rust frontend/helper, no daemon/listener. Arbitrary root authority, not a sandbox. `/usr/bin/sudo` is the sole elevation path. Administrative operations use `sudo -k -- <helper> grant|admin-list|admin-revoke`; token operations use `sudo -n -- <helper> run|status|revoke|revoke-all`. Helper OS dispatch is exact and independent of request JSON. UID 0 may perform explicit administrative operations directly; sudo identity requires mutually consistent numeric SUDO_UID, SUDO_GID and account SUDO_USER.
+
+## Transport and policy gate
+
+No secrets are sent until helper sends a framed READY after checking root identity, installed executable identity, independently configured enrollment, runtime integrity and a sealed snapshot of local sudo policy. Install verifies actual sudo transport using a nonsecret probe before enabling enrollment. Unsupported sudo plugins/remote policy are rejected. Changes to any sealed policy file fail closed BEFORE frontend reads/transmits a token; re-run installer with explicit enrollment to revalidate. This is conservative and preserves unrelated auditing. Host root tracing remains outside scope.
+
+Request: u32 big endian byte count, 1..65536 UTF-8 JSON bytes, schema v=1, operation-specific struct with deny_unknown_fields (duplicates rejected), <=256 arguments, <=32768 total argv bytes, <=4096 each; max JSON recursion 128 (serde default). No NUL. Non-UTF-8 OS arguments rejected explicitly, no lossy conversion. Exactly requested header bytes read with a total 5-second deadline, then run stdin is a framed stream: type 0 raw input chunks <=32768; type 1 empty EOF; type 2 one byte signal (INT/TERM/HUP). This extension allows independent interruption without relying on sudo's process-group behavior. A nonsecret status preflight verifies policy before token input; frontend closes key fd before spawning actual run sudo and never passes it through sudo.
+
+Responses: one byte type plus u32 BE length <=65536. R=READY (empty), O=stdout raw bytes, E=stderr raw bytes, J=operation JSON result, X=final JSON `{kind:"exit",code,signal}` or `{kind:"error",message}`. Run admission sends A (empty). Final frame required; sudo failure/truncation is a tool failure. Child exit 125/126/127 is distinguishable from tool failure using frontend `--result-fd` (separate final JSON descriptor); `--json-result` is an advisory mixed-stderr convenience; stdout/stderr remain raw. Bounded synchronous chunks and nonblocking poll provide backpressure, never accumulate full streams. No PTY execution; frontend rejects terminal stdin for run and recommends redirected input; token prompt uses /dev/tty independently.
+
+## Exact generated sudoers policy (per username)
+
+```
+# agent-sudo managed v1
+Defaults!/usr/local/libexec/agent-sudo-helper !use_pty, !log_input, !log_output
+alice ALL=(root) NOPASSWD: NOSETENV: /usr/local/libexec/agent-sudo-helper run, /usr/local/libexec/agent-sudo-helper status, /usr/local/libexec/agent-sudo-helper revoke, /usr/local/libexec/agent-sudo-helper revoke-all
+```
+
+Policy syntax and effective results must pass VM gate for both implementations. Command logging/authentication auditing remains enabled. Secret operations share scoped Defaults, administrative access is never granted by this file. Unsupported global plugin/recording settings reject activation; conflicting command tags are detected by effective behavior/probe and policy sealing. Rules may need refinement based on real evidence, recorded here before implementation.
+
+## State, enrollment and ordering
+
+Root-only `/var/lib/agent-sudo` holds persistent control, config and stable lock (never replaced/unlinked, including uninstall; retained tombstone avoids split-lock races). `/run/agent-sudo` root 0700 holds <=128 verifier records, slots and denial limiter; reboot loses grants. All accesses root-relative O_NOFOLLOW with ownership, mode, nlink and ACL checks, bounded reads. Explicit /usr/local installation parents must also be root-owned and not group/other-writable or ACL-extended. Token v1.<16-byte random hex id>.<32-byte random hex secret>; SHA256 domain-separated verifier, constant-time comparison. CLOCK_BOOTTIME deadline, boot ID and machine ID, recipient name+UID, enrollment generation and schema bind each grant. UTC is display only.
+
+A single stable exclusive lock serializes issuance, revocation, admission, cleanup and maintenance. Never wait for request input holding it. Admission rechecks state and time under lock, then releases before command starts. Commands admitted earlier may start/continue after revocation or maintenance. Maintenance locks, disables control, invalidates records, removes enrollment policy, replaces files atomically, validates and probes new policy, commits fresh control generation last. Stale helpers compare their executable device/inode against installed path while locked; cannot recreate grants. Failure restores previous managed files and policy but never old grants. Removal leaves disabled control/lock tombstone, stops units, removes managed policy and executables. No operation silently recreates missing store.
+
+Pending input helpers limited to 32 globally and 4 per UID using nonblocking slot flocks (before input); deadline 5 seconds. At most 128 grants and enrolled accounts. Rate-limit denial syslog records using protected runtime bucket (10/min globally); no tokens, verifiers, argv or streams. Bounded grant listing and serialized writes prevent resource growth.
+
+## Execution and delivery
+
+Child gets real/effective/saved uid/gid 0, empty supplementary groups, cwd /root, umask 077, fixed HOME/USER/LOGNAME/SHELL/PATH/LANG, core limit zero; close_range closes every fd except 0/1/2. Parent retains framing and waits/reaps child, streams both outputs, sends final status. Signals target separate child process group. Connection loss terminates foreground group; deliberate detached descendants and already admitted work have full root authority. Buffered output drains without loss under backpressure; idle inherited background pipes close after two seconds. Continuously writing root descendants can keep streams active.
+
+Grant secret is zeroized in memory where practical. Helper removes record on detectable delivery write failure; frontend performs own revocation if local delivery fails after result. Crash/uncertain delivery may leave a live grant (list/revoke by ID or revoke-all); no claim of transactionally exactly-once token delivery across crashes. A lost token cannot be recovered from verifier. No saved passwords/raw tokens.
+
+### VM gate result and policy refinement
+
+Actual Ubuntu 24.04.5 sudo 1.9.15p5 passed 262 KB binary stdin/stdout and separate binary stderr, with global I/O logging on and helper exemptions. Unrelated commands still produced I/O logs. Actual Ubuntu 26.04.1 sudo-rs 0.2.13-0ubuntu1.2 rejected `log_input` (unsupported); its generated Defaults therefore contain only `!use_pty`. Unknown logging directives/configuration reject activation, rather than being ignored. Both real transports are proved before frontend implementation. Prototype is removed before installing compiled binaries. No traditional sudo I/O plugin exists in sudo-rs; unsupported recording combinations fail `visudo`/policy validation.
+
+Grant delivery adds a one-byte 0x06 receipt from frontend after output flush. The helper releases its shared maintenance lock before waiting up to five seconds for receipt. Missing receipt revokes the grant; a crash after receipt may leave it live.
+
+Policy compatibility is intentionally conservative: external command-scoped Defaults are rejected, because later matching entries could override secret-safe logging/PTY settings. Recording tags, custom plugins, remote includes and continuations are also rejected; global I/O logging remains supported on traditional sudo with the narrow helper exemption. Total policy text is capped at 1 MiB.
+
+Control frames have five-second write deadlines as well as bounded reads. Listing/revocation material is captured while locked, then written after releasing that lock; pending slots remain held while responding. Denial error writes and denial-log lock acquisition are nonblocking after request failure, so a hostile full output pipe cannot pin maintenance or unlimited waiting helpers.

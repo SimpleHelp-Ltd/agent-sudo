@@ -1,0 +1,44 @@
+# Implementation security review — 0.1.0
+
+Reviewed locally on 2026-11-02. This is an implementation review and adversarial testing by the implementer, **not an independent audit**. No production/host privilege changes, push or publication were authorized or performed.
+
+## Scope and conclusion
+
+Reviewed frontend parsing/prompts/descriptors, privileged operation dispatch, sudo transport and policy, account/enrollment authority, token generation/verifiers, state files/ACLs, boot/clock expiration, admission/revocation/maintenance ordering, root process context, framed streams/signals, cleanup, installation/rollback/removal and build/test infrastructure. The prototype transport gate preceded frontend implementation. Actual traditional sudo and sudo-rs VM evidence is in VALIDATION.md.
+
+The trust boundary is explicit: an enrolled account can contact four narrow token operations; it cannot mint a grant through those operations. Requests never select the helper operation. Every operation independently checks effective root identity, consistent sudo actor metadata, installed helper inode, enabled root-owned configuration, current enrollment where applicable, and sealed supported sudo policy. A run then checks the random secret verifier, actor UID/name, current account mapping, host, boot, generation and exact BOOTTIME deadline while locked.
+
+A grant intentionally permits arbitrary root code. Once admitted, root can alter this installation, credentials or the host and retain authority. Expiry/revocation is an admission rule, not containment or termination. Existing sudo policy is independent.
+
+## Findings repaired during development
+
+- Enrollment cannot rely on `sudo -n`: independent config/policy checks deny removed enrollment even when an ordinary administrator's real sudo cache still launches the helper.
+- Stable persistent lock and installation generations serialize issuance/revoke/admission/cleanup with maintenance. Stale helpers compare their executing inode to the installed helper; missing/disabled stores never regenerate grants. Removal retains a disabled lock tombstone.
+- Arbitrary command bytes and child exit 125 cannot serve as tool protocol markers. Versioned response frames and a separate frontend result descriptor distinguish binary output, signals, child status and tool errors. Mixed-stderr JSON is documented as a convenience only.
+- Waiting for input or blocked metadata output while holding the maintenance lock could delay revocation. Header reads occur without that lock; control writes occur after releasing it, have deadlines, and retain admission slots. Failure output and denial-log locking do not block after slot release. An actual 4096-byte stalled status pipe regression verifies concurrent revocation.
+- A blanket sudo logging exemption is insufficient if later command-specific defaults/tags override it. The supported policy model rejects external command-scoped Defaults, recording tags, continuations, custom plugins, external includes and remote/subcommand recorders. Policy/binary hashes are checked before token transmission and again on admission. Global traditional-sudo recording remains supported with a narrow helper exemption; unrelated recording is verified to continue.
+- Sudo-rs 0.2.13 rejects traditional I/O logging options. It receives a separately tested `!use_pty` rule; unsupported recording settings fail activation instead of being ignored.
+- Grant delivery is not transactionally exactly once. A receipt after frontend output flush lets the helper revoke detectable failures/missing receipts. Locks are released while awaiting receipt. Crash after receipt can leave a grant live and is documented.
+- Tokens and request buffers now zeroize on drop/error paths where practical; raw secrets are absent from argv/environment, logs and persistent state. Core dumps are disabled. No secrecy claim against root capture or swap.
+- Safe state access verifies every parent and uses retained directory descriptors for record creation/removal and lock/slot/denial files. Symlinks, multiple links, wrong owners/modes, extended ACLs and unsafe parents fail closed. Invalid/corrupt records do not become authorization.
+- Output timeout originally risked discarding buffered data after child exit when a reader stalled. Only idle inherited pipes now time out; buffered output drains correctly. Actual delayed-reader regression passes.
+- Frontend stdin read failure could leave the child waiting. It now closes command input logically and reports tool failure even if the program exits zero.
+- Reaping a leader before all process-group signaling ended could permit PID reuse. `waitid(WNOWAIT)` keeps the leader unreaped until forwarding stops; interruption during spawn is recorded and forwarded. Child execution resets signal handlers.
+- Child setup clears all UID/GID variants and supplementary groups, environment, cwd, umask and unintended descriptors. `close_range(CLOEXEC)` retains Rust's exec-error pipe until exec without leaking it into the program.
+- Rollback also restores its managed-file manifest; upgrades always invalidate grants. Managed paths and manifest shape are validated, modified/unmanaged files refused, obsolete per-account slots pruned, and state/config/protocol/denial workloads bounded.
+- Test infrastructure fixes prevent stale evidence reuse, enforce exact tested binary hashes, distinguish clock/record injection from real clock tests, and support the two actual PAM prompt formats without echoing fixture passwords.
+
+## Remaining limits and untested scope
+
+- Supported preview is deliberately narrow: Ubuntu amd64/systemd, traditional sudo 1.9.15p5 and sudo-rs 0.2.13 release families. Arbitrary sudo plugins, central policy, command-scoped custom Defaults and other versions are not validated; installation fails closed rather than modifying unrelated policy.
+- No guarantee of secrecy from a compromised root, existing host tracing/audit/eBPF/terminal recording, same-UID process inspection, swap or malicious authorized root code. Static musl account lookup is for local accounts, not general NSS/LDAP integration.
+- Same-name/same-UID/GID account recreation is not reliably detectable; revoke before changing accounts. Machine-id clones are not an independent hardware identity; boot binding and volatile records add separate checks.
+- A killed/crashed frontend after acknowledgment may leave a live grant. Lost secrets cannot be recovered; list/revoke or reboot. Revocation/deletion is not secure erasure.
+- No PTY/editor/GUI support; non-UTF-8 argv is rejected. Background root descendants can continue, and continuously writing descendants can keep streams active. Disconnect termination is best effort, not a sandbox.
+- Pending helpers, records, listings and control deadlines are bounded, but launching sudo, OS process limits and authorized root workloads are not a complete availability defense.
+- Rollback is tested with a real post-replacement systemd failure, not power loss at every filesystem instruction. Multi-file installation is not a filesystem-wide atomic transaction; interruption may require the independent recovery procedure. Repeated rollback I/O failure itself cannot be guaranteed recoverable automatically.
+- Parser mutation fuzzing is bounded deterministic mutation testing, not an unlimited coverage-guided campaign. Privileged state/identity/deadline fixtures are identified separately from actual PAM, clock, reboot, SSH and suspend evidence. Hardware/platform combinations outside the recorded VMs remain untested.
+
+## References
+
+Policy assumptions are checked against the installed VM tools and [sudo's primary manual](https://github.com/sudo-project/sudo/blob/main/docs/sudoers.man.in), especially command matching, Defaults ordering and I/O tags. [sudo-rs upstream](https://github.com/trifectatechfoundation/sudo-rs) documents the Ubuntu 26.04 base as 0.2.13. Expiry uses [Linux CLOCK_BOOTTIME](https://man7.org/linux/man-pages/man2/clock_gettime.2.html), including time spent suspended. These sources explain the design; actual compatibility evidence is the VM test record.

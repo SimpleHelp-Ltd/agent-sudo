@@ -1,6 +1,26 @@
 # File Map
 
-- `README.md`: Project status and entry point.
+- `README.md`: CLI, trust boundary, supported preview and local build entry point.
+- `Cargo.toml` / `Cargo.lock`: Rust frontend/helper package and locked dependencies.
+- `src/bin/agent-sudo.rs`: Unprivileged CLI, hidden/FD token input, sudo preflight and framed stream/result decoding.
+- `src/bin/agent-sudo-helper.rs`: Exact privileged operation dispatch, readiness gates, grant receipt and admissions.
+- `src/protocol.rs`: Bounded versioned requests/frames, deadlines and parser mutation tests.
+- `src/security.rs`: Safe root path traversal, ownership/link/ACL validation, identity, clocks, randomness and audits.
+- `src/store.rs`: Enrollment/state gates, stable lock, verifier records, expiration, revocation and resource bounds.
+- `src/execution.rs`: Root execution context, descriptor hygiene, nonblocking binary relay, signals and child reaping.
+- `src/maintenance.rs`: Policy sealing, sudo compatibility, installation/enrollment, rollback and removal.
+- `install.sh` / `uninstall.sh`: Offline root-authorized package entry points.
+- `scripts/build-release.py`: Static local release build, deterministic archive/checksums and tested hash guard.
+- `docs/SPEC.md`: Supplied requirements.
+- `docs/DESIGN.md`: Privilege/data flow, request/response protocol, exact policy and maintenance ordering.
+- `docs/OPERATOR.md`: Use, SSH delivery, limits, upgrades and independent recovery.
+- `docs/BUILD.md`: Reproducible builds and VM test workflow.
+- `docs/VALIDATION.md`: Exact tested platforms, artifact identity and acceptance evidence.
+- `docs/SECURITY_REVIEW.md`: Final implementation review, fixes and limitations.
+- `tests/vm/lab.py` / `transport.py`: Disposable QEMU lab and initial actual-sudo transport/logging gate.
+- `tests/vm/guest.py` / `run.py`: Installed-binary core acceptance matrix and runner.
+- `tests/vm/extended.py` / `lifecycle.py` / `run_extra.py`: Hostile helper/state/maintenance/logging/clock/expiry checks.
+- `LICENSE`: MIT license for this implementation.
 - `CHANGELOG.md`: Development change history.
-- `.gitignore`: Excludes local working notes, debug logs, and Lore metadata.
-- `FILE_MAP.md`: Development file map.
+- `.gitignore`: Excludes raw debug/working logs, VM state, builds and local artifacts.
+- `tests/vm/suspend.py` / `reboot_ssh.py`: Actual ACPI S3/wakeup, SSH secret transport, reboot invalidation and removal checks.
