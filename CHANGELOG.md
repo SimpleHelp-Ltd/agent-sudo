@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 — 2026-11-02
+
+- Add `agent-sudo revoke all` to revoke grants issued by the calling administrator across all recipients, with fresh sudo authorization and a readable count. Preserve other administrators’ grants and existing recipient `revoke --all` behavior.
+- Serialize batch revocation against issuance, admission and maintenance; retain per-grant auditing and bounded parsing.
+- Passed 254 installed-binary VM checks, seven native/parser tests, lint/MSRV/dependency checks and identical relocated-source reproduction. Publication evidence is recorded under docs/publication/1.0.1-*.
+
 ## 1.0.0 — 2026-11-02
 
 - Default prompted username to the calling account and duration to 10 minutes.

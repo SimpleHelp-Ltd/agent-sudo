@@ -2,7 +2,7 @@
 """Run extended or lifecycle guest checks concurrently in the two disposable VMs."""
 from lab import ROOT,LAB,PEERS,ssh
 import subprocess,sys,concurrent.futures,json,hashlib
-suite=sys.argv[1];assert suite in ['extended','lifecycle','dynamic']
+suite=sys.argv[1];assert suite in ['extended','lifecycle','dynamic','revoke_created']
 def one(n):
  (LAB/(n+'-'+suite+'-results.json')).unlink(missing_ok=True)
  def hashes():
@@ -12,6 +12,7 @@ def one(n):
   return values
  expected=hashes()
  if suite=='dynamic':
+  subprocess.run(['scp','-q','-i',str(LAB/'key'),'-P',str(PEERS[n]),'-o','StrictHostKeyChecking=no','-o','UserKnownHostsFile='+str(LAB/'known_hosts'),str(ROOT/'artifacts/agent-sudo-1.0.0-linux-amd64.tar.gz'),'root@127.0.0.1:/root/old-1.0.0.tar.gz'],check=True)
   subprocess.run(['scp','-q','-i',str(LAB/'key'),'-P',str(PEERS[n]),'-o','StrictHostKeyChecking=no','-o','UserKnownHostsFile='+str(LAB/'known_hosts'),str(ROOT/'artifacts/agent-sudo-0.2.0-linux-amd64.tar.gz'),'root@127.0.0.1:/root/old-0.2.0.tar.gz'],check=True)
   subprocess.run(['scp','-q','-i',str(LAB/'key'),'-P',str(PEERS[n]),'-o','StrictHostKeyChecking=no','-o','UserKnownHostsFile='+str(LAB/'known_hosts'),str(ROOT/'artifacts/agent-sudo-0.1.0-linux-amd64.tar.gz'),'root@127.0.0.1:/root/old-0.1.0.tar.gz'],check=True)
  for f in ['guest.py',suite+'.py']:

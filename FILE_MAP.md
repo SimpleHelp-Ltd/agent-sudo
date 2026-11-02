@@ -19,7 +19,7 @@
 - `docs/SECURITY_REVIEW.md`: Final implementation review, fixes and limitations.
 - `tests/vm/lab.py` / `transport.py`: Disposable QEMU lab and initial actual-sudo transport/logging gate.
 - `tests/vm/guest.py` / `run.py`: Installed-binary core acceptance matrix and runner.
-- `tests/vm/extended.py` / `dynamic.py` / `lifecycle.py` / `run_extra.py`: Hostile helper/state/maintenance/logging, dynamic issuance/migration and clock/expiry checks.
+- `tests/vm/extended.py` / `dynamic.py` / `revoke_created.py` / `lifecycle.py` / `run_extra.py`: Hostile helper/state/maintenance/logging, dynamic issuance/migration, creator-scoped revocation and clock/expiry checks.
 - `LICENSE`: MIT license for this implementation.
 - `CHANGELOG.md`: Development change history.
 - `.gitignore`: Excludes raw debug/working logs, VM state, builds and local artifacts.

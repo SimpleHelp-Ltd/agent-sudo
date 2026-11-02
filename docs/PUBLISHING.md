@@ -3,7 +3,7 @@
 Public page: https://tools.simplehelp.io/agent-sudo.html
 Bootstrap: https://tools.simplehelp.io/agent-sudo/install.sh
 
-1.0.0 is the current release. The exact release binaries are tested in disposable Ubuntu VMs. A Loom 0.2.0 root-command smoke test passed; its user-requested expiry recheck is pending. No Loom/development-host installation, GitHub push or GitHub release is part of this publication.
+1.0.1 is the current release. The exact release binaries are tested in disposable Ubuntu VMs. A Loom 0.2.0 root-command smoke test passed; its user-requested expiry recheck is pending. No Loom/development-host installation, GitHub push or GitHub release is part of this publication.
 
 ## Versioned release inputs
 
@@ -29,7 +29,7 @@ Use `agent-sudo.html`: tools_publish prohibits `index.html`; no directory listin
 
 ## Bootstrap trust and privileges
 
-The one-line command is `curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh`. It streams the bootstrap to `sh`; the script needs no recipient, and sudo retains its normal terminal authentication. A single outer shell compound command must parse completely before execution; keep its closing brace as the final byte so every truncated prefix is incomplete or a harmless no-op. Package download, pinned checksum verification, temporary directory and cleanup are handled inside the bootstrap. HTTPS authenticates the hosting connection; the embedded SHA-256 pins the package. It is not a signature or protection from a compromised publisher/site. Downloads, checksum verification and extraction are unprivileged for a normal administrator. Only the verified package's existing offline installer is invoked through sudo; it independently validates payload, ownership, policy and supported sudo version. Installation selects no recipient. Administrative issuance later authorizes each account dynamically. Reinstallation invalidates all grants. Current release is 1.0.0; immutable 0.1.0 and 0.2.0 assets are retained.
+The one-line command is `curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh`. It streams the bootstrap to `sh`; the script needs no recipient, and sudo retains its normal terminal authentication. A single outer shell compound command must parse completely before execution; keep its closing brace as the final byte so every truncated prefix is incomplete or a harmless no-op. Package download, pinned checksum verification, temporary directory and cleanup are handled inside the bootstrap. HTTPS authenticates the hosting connection; the embedded SHA-256 pins the package. It is not a signature or protection from a compromised publisher/site. Downloads, checksum verification and extraction are unprivileged for a normal administrator. Only the verified package's existing offline installer is invoked through sudo; it independently validates payload, ownership, policy and supported sudo version. Installation selects no recipient. Administrative issuance later authorizes each account dynamically. Reinstallation invalidates all grants. Current release is 1.0.1; immutable 0.1.0 and 0.2.0 assets are retained.
 
 ## 0.1.0 historical public validation
 
@@ -69,3 +69,7 @@ Versioned package/source/checksum/guides use `agent-sudo-1.0.0-*` and `1.0.0-*` 
 Verified 1.0 publication identities: source commit `b43b4ee0ef879ed1838907c9679ff274d89e8cb5`; package SHA-256 `8ef93794557f6dfe591622ecc95a391c1b6a5b49d9afd94ec6e1d946154e1f33`; source SHA-256 `5727fdc6ae99dab5bc8692a482db713dcdf9ccaca7f605c1fbb8b271881c312c`. Both VM environments passed 230 installed-binary checks and 36 exact public-command checks (18 per VM), including all 2,564 proper bootstrap byte prefixes with a complete-script positive control. Current bootstrap SHA-256: `d8090eedd3f0ffe0fae5f7f4bf13f83d0546fc5778e2f5885ac7547da5b0f769`. The page is updated only after public installation evidence is verified.
 
 Final live page SHA-256: `89ac1380ddbd64652e812b969c88a51e58c2c78c694d1ef90a33e2347d160817`. Chromium verified actual clipboard contents, denial fallback, keyboard interaction and 375/768/1280 px layouts. Fifteen live URLs passed MIME/link/hash checks, including unchanged 0.1.0/0.2.0 packages and sources. Receipts cover all ten ordered publications/updates. Both disposable VMs were shut down after the tests.
+
+## 1.0.1 publication — 2026-11-02
+
+Creator-scoped `agent-sudo revoke all` is a distinct freshly authenticated administrative operation. Recipient `revoke --all` remains unchanged. Freeze and verify the new versioned package/source/checksum/guides before updating the pinned bootstrap, then test the literal public command in both VMs and update the page last. Preserve all earlier versioned files. Exact identities and sanitized receipts are stored under `docs/publication/1.0.1-*`. No Loom or development-host installation and no GitHub push/release. Installation/upgrades invalidate existing grants.

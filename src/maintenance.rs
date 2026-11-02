@@ -140,7 +140,10 @@ pub fn authorize_admin(actor: &s::Account, op: &str) -> Result<()> {
     if actor.uid == 0 {
         return Ok(());
     }
-    if !matches!(op, "grant" | "admin-list" | "admin-revoke") {
+    if !matches!(
+        op,
+        "grant" | "admin-list" | "admin-revoke" | "admin-revoke-created"
+    ) {
         return fail("invalid administrative operation");
     }
     let result = Command::new("/usr/bin/sudo")

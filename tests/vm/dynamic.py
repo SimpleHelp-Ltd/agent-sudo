@@ -33,7 +33,7 @@ def main():
    a=pwd.getpwnam(names[1]);env=os.environ.copy();env.update(SUDO_USER=a.pw_name,SUDO_UID=str(a.pw_uid),SUDO_GID=str(a.pw_gid))
    r=subprocess.run([HELP,'grant'],input=b'',capture_output=True,env=env)
    assert r.returncode!=0 and r.stdout[:1]!=b'R'
-   for op in ['grant','admin-list','admin-revoke','install','uninstall','cleanup','probe']:
+   for op in ['grant','admin-list','admin-revoke','admin-revoke-created','install','uninstall','cleanup','probe']:
     c=subprocess.run(['/usr/bin/sudo','-n','--',HELP,op],capture_output=True,**userargs(names[1]));assert c.returncode!=0 and c.stdout[:1]!=b'R'
   finally:
    pathlib.Path('/etc/sudoers.d/01-dynamic-admin').unlink(missing_ok=True);reinstall()
@@ -98,9 +98,17 @@ def main():
   subprocess.run(['tar','-xzf','/root/old-0.2.0.tar.gz','-C',str(old)],check=True)
   r=subprocess.run([str(old/'install.sh')],capture_output=True);assert r.returncode==0
   t,i=grant();assert run(t).returncode==0
-  reinstall();assert run(t).returncode!=0 and front(['--version']).stdout==b'agent-sudo 1.0.0\n'
+  reinstall();assert run(t).returncode!=0 and front(['--version']).stdout==b'agent-sudo 1.0.1\n'
   t,i=grant();assert run(t).returncode==0
  check('published-0.2.0-upgrade-invalidates-grants-and-issues-new',upgrade02)
+ def upgrade10():
+  old=pathlib.Path('/root/old10-payload');old.mkdir(exist_ok=True)
+  subprocess.run(['tar','-xzf','/root/old-1.0.0.tar.gz','-C',str(old)],check=True)
+  assert subprocess.run([str(old/'install.sh')],capture_output=True).returncode==0
+  t,i=grant();assert run(t).returncode==0
+  reinstall();assert run(t).returncode!=0 and front(['--version']).stdout==b'agent-sudo 1.0.1\n'
+  t,i=grant();r=front(['revoke','all']);assert r.returncode==0 and b'Revoked 1 grant(s)'in r.stdout and run(t).returncode!=0
+ check('published-1.0.0-upgrade-and-creator-revoke-command',upgrade10)
  def migration():
   old=pathlib.Path('/root/old-payload');old.mkdir(exist_ok=True)
   subprocess.run(['tar','-xzf','/root/old-0.1.0.tar.gz','-C',str(old)],check=True)

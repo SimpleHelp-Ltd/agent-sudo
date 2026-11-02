@@ -100,6 +100,26 @@ fn operation(op: &str, actor: &s::Account, input: &mut File, out: &mut File) -> 
                     &serde_json::json!({"kind":"exit","code":0,"signal":null}),
                 )?;
             }
+            "admin-revoke-created" => {
+                // Administrative authorization is checked at both readiness gates.
+                // Keep the same lock across selection and deletion, ordering the
+                // entire batch against issuance, admission and maintenance.
+                let mut count = 0;
+                for id in store::ids()? {
+                    let g = store::read_grant(&id)?;
+                    if g.creator == actor.uid {
+                        store::revoke(&id, actor, true)?;
+                        count += 1;
+                    }
+                }
+                drop(l);
+                p::file_json(out, b'J', &serde_json::json!({"revoked":count}))?;
+                p::file_json(
+                    out,
+                    b'X',
+                    &serde_json::json!({"kind":"exit","code":0,"signal":null}),
+                )?;
+            }
             "revoke-all" => {
                 for id in store::ids()? {
                     let g = store::read_grant(&id)?;
@@ -171,7 +191,14 @@ fn real() -> Result<()> {
     }
     if !matches!(
         op,
-        "run" | "status" | "revoke" | "revoke-all" | "grant" | "admin-list" | "admin-revoke"
+        "run"
+            | "status"
+            | "revoke"
+            | "revoke-all"
+            | "grant"
+            | "admin-list"
+            | "admin-revoke"
+            | "admin-revoke-created"
     ) {
         return fail("invalid helper operation");
     }

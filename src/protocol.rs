@@ -49,7 +49,7 @@ impl Request {
             "run" => (true, true, false, false, false),
             "grant" => (false, false, true, true, false),
             "revoke" | "admin-revoke" => (false, false, false, false, true),
-            "status" | "revoke-all" | "admin-list" | "cleanup" => {
+            "status" | "revoke-all" | "admin-list" | "admin-revoke-created" | "cleanup" => {
                 (false, false, false, false, false)
             }
             _ => return fail("invalid operation"),
@@ -244,6 +244,19 @@ mod tests {
             assert!(parse(b, "run").is_err());
         }
         assert!(parse(br#"{"v":1}"#, "status").is_ok());
+    }
+    #[test]
+    fn creator_revocation_has_no_caller_selected_fields() {
+        assert!(parse(br#"{"v":1}"#, "admin-revoke-created").is_ok());
+        for b in [
+            br#"{"v":1,"creator":0}"#.as_slice(),
+            br#"{"v":1,"user":"root"}"#,
+            br#"{"v":1,"id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}"#,
+            br#"{"v":1,"token":"x"}"#,
+            br#"{"v":1,"minutes":10}"#,
+        ] {
+            assert!(parse(b, "admin-revoke-created").is_err());
+        }
     }
     #[test]
     fn binary_frames() {

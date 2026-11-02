@@ -10,7 +10,7 @@ cargo audit
 python3 scripts/build-release.py
 ```
 
-The script sets source and Cargo path remapping, builds static release executables with LTO and stripped symbols, and writes `artifacts/agent-sudo-1.0.0-linux-amd64.tar.gz`, its `.sha256`, and unpacked binaries/scripts/docs/SHA256SUMS. Archive ownership, ordering and times are deterministic. Reproduction requires the same Rust/musl toolchain and locked dependency sources. Packaging accepts `--expected-frontend SHA256 --expected-helper SHA256` to enforce exact tested binaries. `--skip-build` packages already-built candidates; it is not evidence of a fresh build.
+The script sets source and Cargo path remapping, builds static release executables with LTO and stripped symbols, and writes `artifacts/agent-sudo-1.0.1-linux-amd64.tar.gz`, its `.sha256`, and unpacked binaries/scripts/docs/SHA256SUMS. Archive ownership, ordering and times are deterministic. Reproduction requires the same Rust/musl toolchain and locked dependency sources. Packaging accepts `--expected-frontend SHA256 --expected-helper SHA256` to enforce exact tested binaries. `--skip-build` packages already-built candidates; it is not evidence of a fresh build.
 
 VM tests require actual QEMU/KVM Ubuntu cloud images, genisoimage, ssh/scp and Python. They use two local loopback-only SSH forwarded ports 22451/22452, no host filesystem mounts, and test-only accounts/password/key. They never invoke host sudo. Images and checksums are under ignored `target/vm`; SHA256SUMS are downloaded from cloud-images.ubuntu.com. The test harness is privileged **inside the disposable VMs** and deliberately mutates their files, clock, policy and grant state.
 
@@ -25,6 +25,7 @@ python3 tests/vm/lab.py info
 python3 tests/vm/transport.py              # Run before final installation: temporary nonsecret probe
 python3 scripts/build-release.py
 python3 tests/vm/run.py                    # Install actual package, core suite
+python3 tests/vm/run_extra.py revoke_created # Creator scope/authentication/races
 python3 tests/vm/run_extra.py extended
 python3 tests/vm/run_extra.py dynamic   # Includes actual 0.1.0 migration fixture
 python3 tests/vm/run_extra.py lifecycle    # Two real one-minute expiry runs concurrently

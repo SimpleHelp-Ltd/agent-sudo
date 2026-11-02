@@ -33,6 +33,8 @@ if(await page.locator('#administrators').count()!==1||await page.locator('#agent
 if(!await page.evaluate(()=>document.fonts.check('400 16px "Noto Sans"')&&document.fonts.check('700 40px Ubuntu')))throw Error('brand fonts did not load');
 const brand=await page.evaluate(()=>({body:getComputedStyle(document.body).fontFamily,heading:getComputedStyle(document.querySelector('h1')).fontFamily,accent:getComputedStyle(document.querySelector('h1')).color,button:getComputedStyle(document.querySelector('button')).backgroundColor}));
 if(!brand.body.includes('Noto Sans')||!brand.heading.includes('Ubuntu')||brand.accent!=='rgb(126, 102, 204)'||brand.button!=='rgb(117, 71, 255)')throw Error('SimpleHelp brand styles');
+if(!(await page.locator('#administrators').innerText()).includes('agent-sudo revoke all'))throw Error('administrator creator revocation missing');
+if(!(await page.locator('#agents').innerText()).includes('issued to your account'))throw Error('recipient scope clarification missing');
 const links=await page.locator('a').evaluateAll(as=>as.map(a=>a.href));
 fs.writeFileSync('target/browser-check.json',JSON.stringify({url,widths:[375,768,1280],copySuccess:true,copyDeniedFallback:true,keyboardFocus:true,keyboardActivation:true,brand,errors,links},null,2));
 await browser.close();console.log('PASS responsive layout, copy success/denial fallback, command equality, browser errors');

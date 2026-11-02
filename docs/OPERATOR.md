@@ -11,8 +11,8 @@ Version 1.0 supports Ubuntu 24.04/26.04 amd64 with systemd and the exact sudo re
 Use only the offline versioned package from a trusted build. Verify its archive checksum through a trusted channel; a checksum delivered with untrusted code is not a signature. Start in disposable VMs and keep an independent administrator session open.
 
 ```sh
-sha256sum -c agent-sudo-1.0.0-linux-amd64.tar.gz.sha256
-tar -xzf agent-sudo-1.0.0-linux-amd64.tar.gz
+sha256sum -c agent-sudo-1.0.1-linux-amd64.tar.gz.sha256
+tar -xzf agent-sudo-1.0.1-linux-amd64.tar.gz
 sudo ./install.sh
 ```
 
@@ -44,6 +44,7 @@ agent-sudo revoke GRANT-ID
 agent-sudo revoke --all
 agent-sudo admin list
 agent-sudo admin revoke GRANT-ID
+agent-sudo revoke all  # Revoke grants issued by the calling administrator
 ```
 
 Run has no PTY or terminal emulation; redirect command stdin. Its hidden prompt uses `/dev/tty`. A nonsecret preflight checks active identity-bound grant/policy before asking for a token. The actual run checks again before receiving the token, avoiding a privileged helper waiting while a human types. `--key-fd N` reads one newline-terminated (or EOF-terminated) token, closes that descriptor before actual run sudo, and keeps command stdin independent. No positional key, token environment variable, automatic plaintext key file, fallback elevation, user-selected root environment or cwd.
@@ -94,3 +95,5 @@ Removal disables control and the recipient rule first, validates remaining sudoe
 If files were modified, normal removal/upgrade deliberately refuses to overwrite them. From an **independent administrator session**, remove `/etc/sudoers.d/agent-sudo` first, run the installed `visudo -c`, disable/stop `agent-sudo-cleanup.timer`, mark `/var/lib/agent-sudo/config` disabled (or remove config), remove `/run/agent-sudo`, then remove the managed binaries, units and tmpfiles config below and run `systemctl daemon-reload`. Preserve `/var/lib/agent-sudo/lock` and its directory until every old helper has exited. Do not delete unrelated sudoers policy or replace `/etc/sudoers`.
 
 Managed paths: `/usr/local/bin/agent-sudo`, `/usr/local/libexec/agent-sudo-helper`, `/etc/sudoers.d/agent-sudo`, `/etc/systemd/system/agent-sudo-cleanup.{service,timer}`, `/etc/tmpfiles.d/agent-sudo.conf`; control/manifest/lock under `/var/lib/agent-sudo`. If root work created persistence, removing this application does not revoke that independent access.
+
+`agent-sudo revoke all` requests fresh sudo authorization and revokes every stored grant whose creator UID matches the calling account, across all recipients. It works even if you have no grant yourself and succeeds if there are no matching grants. Grants issued by other administrators remain valid, including those issued to you. Use it without a leading `sudo` to retain your own issuer identity; `sudo agent-sudo revoke all` selects root-issued grants. Creator identity uses the recorded numeric UID; revoke before reusing administrator UIDs. The existing `agent-sudo revoke --all` retains its separate recipient meaning: relinquish grants issued **to** your account. Already admitted commands can continue. Upgrading invalidates existing grants.

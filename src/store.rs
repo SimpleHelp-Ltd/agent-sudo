@@ -145,7 +145,10 @@ pub fn gate(actor: &s::Account, op: &str) -> Result<Config> {
     {
         return fail("account has no active grant");
     }
-    if matches!(op, "grant" | "admin-list" | "admin-revoke") {
+    if matches!(
+        op,
+        "grant" | "admin-list" | "admin-revoke" | "admin-revoke-created"
+    ) {
         crate::maintenance::authorize_admin(actor, op)?;
     }
     let current = crate::maintenance::policy_snapshot()?;

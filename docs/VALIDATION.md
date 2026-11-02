@@ -1,6 +1,6 @@
-# Validation — agent-sudo 1.0.0
+# Validation — agent-sudo 1.0.1
 
-Date: 2026-11-02. Release 1.0.0. Loom 0.2.0 root-command smoke passed; user-requested expiry recheck pending. This 1.0.0 build is tested in disposable VMs. Privileged work occurs only in the two disposable QEMU/KVM VMs, with no host mounts, development-host installation or Loom changes. Public delivery is through SH Website; no GitHub push/release.
+Date: 2026-11-02. Release 1.0.1. Loom 0.2.0 root-command smoke passed; user-requested expiry recheck pending. This 1.0.1 build is tested in disposable VMs. Privileged work occurs only in the two disposable QEMU/KVM VMs, with no host mounts, development-host installation or Loom changes. Public delivery is through SH Website; no GitHub push/release.
 
 ## Exact tested systems
 
@@ -14,8 +14,8 @@ Systemd: 255.4-1ubuntu8.18 / 259.5-0ubuntu3.4 respectively. Cloud image SHA-256:
 ## Exact production binaries
 
 ```
-agent-sudo        5fb8a4c3b094851a9ad418d3a1512ed229056c32f1b7424ac32ad1b631f78a48
-agent-sudo-helper b72e264aa9fdf27fb4388dcca933a7d671bba08990c65e185787f17795932b3b
+agent-sudo        66920b0f70eacf2cc738de273d603b0a20594bc8a2a47ffd8cca75aa31acca85
+agent-sudo-helper 1bf7b252527b7cd551f2b55ac0f4ea2d405a79af4c24dd071ba5c44187977e9e
 ```
 
 Both binaries reproduced identically from a relocated source directory and independent Cargo target, using locked offline dependencies and Rust 1.97.1/musl. Package construction enforces these hashes. The package archive checksum is recorded alongside the package rather than inside its own contents.
@@ -26,12 +26,13 @@ Both binaries reproduced identically from a relocated source directory and indep
 |---|---:|---:|
 | Core | 64 pass | 64 pass |
 | Extended | 24 pass | 24 pass |
-| Dynamic workflow / migration | 14 pass | 14 pass |
+| Dynamic workflow / migration | 15 pass | 15 pass |
+| Creator-scoped revocation | 11 pass | 11 pass |
 | Real clock / expiry | 2 pass | 2 pass |
 | Actual ACPI suspend | 1 pass | 1 pass |
 | SSH / reboot / removal | 10 pass | 10 pass |
 
-**230 checks passed on the exact production binaries**, 115 per VM. The dynamic suite was rerun after adding an independent unauthorized-administrator check using root-injected consistent sudo metadata; the table counts it once. Raw root injection is identified as a fixture, not an escalation by a non-root process.
+**254 checks passed on the exact production binaries**, 127 per VM. The dynamic suite was rerun after adding an independent unauthorized-administrator check using root-injected consistent sudo metadata; the table counts it once. Raw root injection is identified as a fixture, not an escalation by a non-root process.
 
 Suites run sequentially per VM, concurrently across VMs. Runners discard old result files and compare installed hashes before/after extended, dynamic and lifecycle suites. SSH/suspend checks use those same installations. Early review builds and failed harness runs are excluded from final counts.
 
@@ -45,16 +46,18 @@ Lifecycle: real one-minute expiry with cleanup stopped, newly issued grants leav
 
 ## Native/build checks
 
-Six Rust tests, including 20,000 deterministic parser mutations; clippy with warnings denied; Rust 1.88 compatibility; shellcheck; Python compilation; Git whitespace checks. cargo audit: 1,402 advisories, 30 locked dependencies, no findings (2026-11-02). Musl emits libc's deprecated time_t alias notice; supported amd64 ABI remains 64-bit and UTC output is exercised in actual grants. This is bounded mutation testing, not an unlimited coverage-guided campaign.
+Seven Rust tests, including 20,000 deterministic parser mutations; clippy with warnings denied; Rust 1.88 compatibility; shellcheck; Python compilation; Git whitespace checks. cargo audit: 1,402 advisories, 30 locked dependencies, no findings (2026-11-02). Musl emits libc's deprecated time_t alias notice; supported amd64 ABI remains 64-bit and UTC output is exercised in actual grants. This is bounded mutation testing, not an unlimited coverage-guided campaign.
 
 ## Public installation and page checks
 
-The immutable release report records prepublication evidence. Public-URL installation, fault injection and live page checks are recorded separately in 1.0.0-PUBLIC_VALIDATION.md and sanitized docs/publication/1.0.0-* evidence after upload.
+The immutable release report records prepublication evidence. Public-URL installation, fault injection and live page checks are recorded separately in 1.0.1-PUBLIC_VALIDATION.md and sanitized docs/publication/1.0.1-* evidence after upload.
 
-The literal command is `curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh`. The bootstrap needs no recipient selection; sudo reads its normal password from the controlling terminal even while the script arrives through a pipe. Immutable 0.1.0 and 0.2.0 public bytes are preserved.
+The literal command is `curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh`. The bootstrap needs no recipient selection; sudo reads its normal password from the controlling terminal even while the script arrives through a pipe. Immutable 0.1.0, 0.2.0 and 1.0.0 public bytes are preserved.
 
 ## Real evidence versus injected faults
 
 Actual VM installations, PAM/authentication cache, encrypted SSH, public HTTPS downloads, real elapsed expiry, wall-clock changes, ACPI suspension and reboot are integration evidence. Malformed protocol inputs, root-altered state/ACL/link fixtures, forced systemd rollback, wrong schema and record/count limits are deliberate faults. Public download/checksum/truncation failures use VM-local PATH shims, not a claimed live hosting outage. The test executes every proper byte prefix of the bootstrap under command-marker shims, with the full script as a positive control; no truncated prefix may begin installation. Package truncation/download/checksum faults must preserve installed binary/config/policy hashes and never invoke sudo.
 
-No exhaustive power-cut recovery, independent audit, 1.0.0 production/Loom deployment, other CPU architectures or other sudo versions/policies are claimed. Name/UID/GID reuse between checks cannot be detected; revoke before account reuse. See SECURITY_REVIEW.md and OPERATOR.md for trust limits. Raw logs and VM fixtures remain ignored locally; only sanitized results/hashes are in docs/publication/.
+No exhaustive power-cut recovery, independent audit, 1.0.1 production/Loom deployment, other CPU architectures or other sudo versions/policies are claimed. Name/UID/GID reuse between checks cannot be detected; revoke before account reuse. See SECURITY_REVIEW.md and OPERATOR.md for trust limits. Raw logs and VM fixtures remain ignored locally; only sanitized results/hashes are in docs/publication/.
+
+Creator-scoped suite: issuer versus recipient scope across three recipients; preserves other creators including grants to the issuer; fresh password prompt even with cached sudo; no self-grant required; zero-match success; root issuer scope; nonadministrator sudo and independently checked helper denial; injected selection/extra-field/schema rejection; existing recipient --all behavior; expired stored record cleanup (root-injected deadline fixture); lock ordering versus new issuance; concurrent batches; maintenance generation changes; independently restricted grant-only sudo policy cannot authorize bulk revocation. Dynamic suite adds actual published 1.0.0 installation and upgrade with old-token invalidation and the new command. The initial targeted run exposed a test-only module-name shadowing error, fixed before all final evidence was collected.

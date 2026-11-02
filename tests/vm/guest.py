@@ -94,7 +94,7 @@ def main():
  check('wrong-uid-denied',lambda:assertok(run(TOKEN,who='other').returncode!=0))
  check('own-status-no-verifier-token',lambda:assertok(ID.encode() in front(['status'],'agent').stdout and TOKEN.encode() not in front(['status'],'agent').stdout and b'verifier' not in front(['status'],'agent').stdout))
  check('direct-nonroot-helper-denied',lambda:assertok(subprocess.run([HELP,'run'],capture_output=True,**userargs('agent')).returncode!=0))
- check('unauthorized-grant-admin-maintenance-denied',lambda:assertok(all(subprocess.run(['/usr/bin/sudo','-n','--',HELP,op],capture_output=True,**userargs('agent')).returncode!=0 for op in ['grant','admin-list','admin-revoke','install','uninstall','probe','cleanup'])))
+ check('unauthorized-grant-admin-maintenance-denied',lambda:assertok(all(subprocess.run(['/usr/bin/sudo','-n','--',HELP,op],capture_output=True,**userargs('agent')).returncode!=0 for op in ['grant','admin-list','admin-revoke','admin-revoke-created','install','uninstall','probe','cleanup'])))
  for op in ['run extra','status extra','revoke-all extra']:
   check('exact-operation-'+op,lambda op=op:assertok(subprocess.run(['/usr/bin/sudo','-n','--',HELP]+op.split(),capture_output=True,**userargs('agent')).returncode!=0))
  for name,raw in [('duplicate',b'{"v":1,"v":1}'),('unknown',b'{"v":1,"operation":"grant"}'),('wrong-type',b'{"v":"1"}'),('deep',b'['*200+b']'*200),('nul-argv',b'{"v":1,"token":"x","argv":["/bin/echo","\\u0000"]}'),('path-traversal',b'{"v":1,"id":"../../etc/shadow"}'),('bad-schema',b'{"v":2}'),('fields-for-other-op',b'{"v":1,"user":"agent","minutes":60}')]:check('hostile-header-'+name,lambda raw=raw:rejected('run',raw))

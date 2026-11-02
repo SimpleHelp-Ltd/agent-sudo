@@ -153,7 +153,7 @@ fn local_expiry(utc: &str) -> String {
 }
 fn help() {
     println!(
-        "agent-sudo {}\n\nTemporary arbitrary root commands for an authorized local account.\n\nagent-sudo [USERNAME [MINUTES]]           Issue a grant (defaults: current user, 10 minutes)\nagent-sudo grant --user USER --minutes 1..1440\nagent-sudo run [--key-fd FD] [--result-fd FD] [--json-result] -- /absolute/program [args]\nagent-sudo status\nagent-sudo revoke GRANT-ID | revoke --all\nagent-sudo admin list | admin revoke GRANT-ID\nagent-sudo --help | --version\n\nRun supports piped binary streams, no PTY. Redirect stdin (e.g. </dev/null).\nNo saved administrator passwords. Existing root work survives expiry/revoke.",
+        "agent-sudo {}\n\nTemporary arbitrary root commands for an authorized local account.\n\nagent-sudo [USERNAME [MINUTES]]           Issue a grant (defaults: current user, 10 minutes)\nagent-sudo grant --user USER --minutes 1..1440\nagent-sudo run [--key-fd FD] [--result-fd FD] [--json-result] -- /absolute/program [args]\nagent-sudo status\nagent-sudo revoke all                    Revoke grants you issued (sudo authentication)\nagent-sudo revoke GRANT-ID | revoke --all  Revoke grants received by your account\nagent-sudo admin list | admin revoke GRANT-ID\nagent-sudo --help | --version\n\nRun supports piped binary streams, no PTY. Redirect stdin (e.g. </dev/null).\nNo saved administrator passwords. Existing root work survives expiry/revoke.",
         agent_sudo::VERSION
     );
 }
@@ -171,7 +171,10 @@ fn call(op: &str, mut request: p::Request, key_fd: Option<i32>, json_result: boo
         agent_sudo::store::token(&t)?;
         request.token = Some(std::mem::take(&mut *t));
     }
-    let administrative = matches!(op, "grant" | "admin-list" | "admin-revoke");
+    let administrative = matches!(
+        op,
+        "grant" | "admin-list" | "admin-revoke" | "admin-revoke-created"
+    );
     let mut child = Command::new("/usr/bin/sudo")
         .args([
             if administrative { "-k" } else { "-n" },
@@ -270,6 +273,13 @@ fn call(op: &str, mut request: p::Request, key_fd: Option<i32>, json_result: boo
                             .lock()
                             .map_err(|_| "transport lock failed")?
                             .write_all(&[6])?;
+                    } else if op == "admin-revoke-created" {
+                        let v: serde_json::Value = serde_json::from_slice(&data)?;
+                        let count = v["revoked"].as_u64().ok_or("missing revocation count")?;
+                        writeln!(
+                            stdout,
+                            "Revoked {count} grant(s) issued by your account.\nAlready running commands can continue."
+                        )?;
                     } else if op != "preflight" {
                         stdout.write_all(&data)?;
                         stdout.write_all(b"\n")?;
@@ -442,7 +452,9 @@ fn real() -> Result<i32> {
             }
             "status" if args.len() == 1 => "status",
             "revoke" if args.len() == 2 => {
-                if args[1] == "--all" {
+                if args[1] == "all" {
+                    "admin-revoke-created"
+                } else if args[1] == "--all" {
                     "revoke-all"
                 } else {
                     r.id = Some(args[1].clone());

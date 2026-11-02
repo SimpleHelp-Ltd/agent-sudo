@@ -2,7 +2,7 @@
 
 A local Linux tool for a human administrator to delegate **temporary arbitrary root commands** to an authorized account, without sharing an administrator password.
 
-**1.0.0 release. Tested in disposable VMs; Loom 0.2.0 root-command smoke test passed; expiry test pending.**
+**1.0.1 release. Tested in disposable VMs; Loom 0.2.0 root-command smoke test passed; expiry test pending.**
 
 ```sh
 curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh
@@ -14,7 +14,7 @@ curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh
 # Build locally (Rust toolchain, musl-tools, Python 3)
 python3 scripts/build-release.py
 # Only inside a disposable test VM, after inspecting/verifying the package:
-tar -xzf agent-sudo-1.0.0-linux-amd64.tar.gz
+tar -xzf agent-sudo-1.0.1-linux-amd64.tar.gz
 sudo ./install.sh
 agent-sudo agent 60
 # As recipient: hidden token prompt; command stdin stays separate.
@@ -34,6 +34,7 @@ agent-sudo revoke GRANT-ID
 agent-sudo revoke --all
 agent-sudo admin list
 agent-sudo admin revoke GRANT-ID
+agent-sudo revoke all  # Revoke grants issued by the calling administrator
 agent-sudo --help | --version
 ```
 
@@ -42,3 +43,5 @@ Redirected grant stdout contains only one token line; a readable account, local 
 This is **delegated root authority**, not a sandbox. Tokens are bound to a local account, host and boot. Expiry/revocation/reboot stop future admissions. Already admitted processes survive expiry/revocation, and root can establish persistence. Processes sharing a Linux UID are not strongly isolated. Preserve an independent administrator session. No listener, setuid application, daemon command server, saved administrator password or change to unrelated sudo permissions. The existing `ops/grant-agent-sudo.sh` mechanism is separate and untouched.
 
 Supported platforms: Linux amd64, Ubuntu 24.04/26.04 with systemd; traditional sudo 1.9.15p5 or sudo-rs 0.2.13. Policies outside the validated local-file model fail closed. Any sealed sudo-policy change requires administrator reinstallation/revalidation and invalidates all tokens. [Build and reproduce artifacts](docs/BUILD.md). Not an independent security audit.
+
+`agent-sudo revoke all` requests fresh sudo authorization and revokes every stored grant whose creator UID matches the calling account, across all recipients. It works even if you have no grant yourself and succeeds if there are no matching grants. Grants issued by other administrators remain valid, including those issued to you. Use it without a leading `sudo` to retain your own issuer identity; `sudo agent-sudo revoke all` selects root-issued grants. Creator identity uses the recorded numeric UID; revoke before reusing administrator UIDs. The existing `agent-sudo revoke --all` retains its separate recipient meaning: relinquish grants issued **to** your account. Already admitted commands can continue. Upgrading invalidates existing grants.
