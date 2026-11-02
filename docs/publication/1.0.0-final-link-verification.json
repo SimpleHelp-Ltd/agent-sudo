@@ -1,0 +1,107 @@
+[
+  {
+    "url": "https://simple-help.com/",
+    "bytes": 137346,
+    "sha256": "eaff6d604e29a96cab8befb985a210754bb9e00a7f7f961ffd3728c3cc88d9a4",
+    "headers": "HTTP/2 200 \ndate: Mon, 02 Nov 2026 20:17:12 GMT\ncontent-type: text/html; charset=utf-8\ncf-ray: a545d245bae90019-LHR\ncf-cache-status: DYNAMIC\ncache-control: public, max-age=600\nlast-modified: Thu, 29 Oct 2026 14:04:50 GMT\nserver: cloudflare\nvary: Accept-Encoding\nreferrer-policy: strict-origin-when-cross-origin\nx-content-type-options: nosniff\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=rHX4zFaiVO7tSffQwFUVOqZpHOT%2BXZF9qoCRZCbdo93gXhCOGtKYDCpCU%2Br2qNtKiC3CXzkAwtK06QxLGmwzuDu%2BrTAJIntMRMvxyVacUiavKGdOCm2Bp4Yb%2B51Ber79Uw%3D%3D\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\n\n",
+    "expected_bytes_match": false
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo.html",
+    "bytes": 17499,
+    "sha256": "89ac1380ddbd64652e812b969c88a51e58c2c78c694d1ef90a33e2347d160817",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-type: text/html; charset=utf-8\netag: \"dml02szoybxs-di3\"\nlast-modified: Mon, 02 Nov 2026 20:16:54 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 17499\ndate: Mon, 02 Nov 2026 20:17:12 GMT\n\n",
+    "expected_bytes_match": true
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/1.0.0-OPERATOR.md",
+    "bytes": 11965,
+    "sha256": "f901bf337b46fa6b14cabb6ea9b8ba25ee9593442915bb340f22c93cbd4fdc4a",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: text/markdown; charset=utf-8\netag: \"dmkzxkbqa7g6-98d\"\nlast-modified: Mon, 02 Nov 2026 20:10:03 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 11965\ndate: Mon, 02 Nov 2026 20:17:12 GMT\n\n",
+    "expected_bytes_match": true
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/1.0.0-PUBLIC_VALIDATION.md",
+    "bytes": 4384,
+    "sha256": "29e6a21b5a397075fb3734c37761fd563a9fdcdf17dbeb62ef3a0099474d8c6f",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: text/markdown; charset=utf-8\netag: \"dml01ed05n0z-3ds\"\nlast-modified: Mon, 02 Nov 2026 20:15:04 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 4384\ndate: Mon, 02 Nov 2026 20:17:12 GMT\n\n",
+    "expected_bytes_match": true
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/1.0.0-SECURITY_REVIEW.md",
+    "bytes": 11167,
+    "sha256": "433fea1127d192a5fd48c2814300cdc079cc36b00229af7a53cdab946009cb57",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: text/markdown; charset=utf-8\netag: \"dmkzvybspts3-8m7\"\nlast-modified: Mon, 02 Nov 2026 20:07:57 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 11167\ndate: Mon, 02 Nov 2026 20:17:12 GMT\n\n",
+    "expected_bytes_match": true
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/1.0.0-SHA256SUMS",
+    "bytes": 569,
+    "sha256": "28e4c2c52b0909c6b770ee7155e8568f0c15bd79f61c68e024c947f62c6a9143",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\netag: \"dmkzy6hl2sif-ft\"\nlast-modified: Mon, 02 Nov 2026 20:10:52 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 569\ndate: Mon, 02 Nov 2026 20:17:12 GMT\n\n",
+    "expected_bytes_match": true
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/1.0.0-VALIDATION.md",
+    "bytes": 7134,
+    "sha256": "f6094d99b3e90259a2e9963207b7697d9fa6d79d5fbb3f5673b5612fc5c2c3cf",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: text/markdown; charset=utf-8\netag: \"dmkzv4w7oxhx-5i6\"\nlast-modified: Mon, 02 Nov 2026 20:06:53 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 7134\ndate: Mon, 02 Nov 2026 20:17:12 GMT\n\n",
+    "expected_bytes_match": true
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-0.1.0-linux-amd64.tar.gz",
+    "bytes": 732518,
+    "sha256": "6738d229c29ecf033698eadcb3233baac71aac69b5e26f9570eb024ece3f0946",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: application/gzip\netag: \"dmkrzng0hisl-fp7q\"\nlast-modified: Mon, 02 Nov 2026 13:56:38 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 732518\ndate: Mon, 02 Nov 2026 20:17:12 GMT\n\n",
+    "expected_bytes_match": true
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-0.1.0-source.tar.gz",
+    "bytes": 64924,
+    "sha256": "1905d8afb409d432bd57d300262e3a6b4eb1a75c4e6d1d872b743098d3925a22",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: application/gzip\netag: \"dmkrx994wg6o-1e3g\"\nlast-modified: Mon, 02 Nov 2026 13:53:30 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 64924\ndate: Mon, 02 Nov 2026 20:17:13 GMT\n\n",
+    "expected_bytes_match": true
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-0.2.0-linux-amd64.tar.gz",
+    "bytes": 739565,
+    "sha256": "1bb0b9626aca32e8f4d07f61ea9a88791c27b20e0b10fb417495f4b8bce36329",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: application/gzip\netag: \"dmkypa21jbmo-funh\"\nlast-modified: Mon, 02 Nov 2026 19:12:13 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 739565\ndate: Mon, 02 Nov 2026 20:17:13 GMT\n\n",
+    "expected_bytes_match": true
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-0.2.0-source.tar.gz",
+    "bytes": 91011,
+    "sha256": "aa026b165bfe54928bdbb93203d54d94d1aa42154d7419dc8392b32c06252460",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: application/gzip\netag: \"dmkyqclv8qs4-1y83\"\nlast-modified: Mon, 02 Nov 2026 19:13:37 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 91011\ndate: Mon, 02 Nov 2026 20:17:13 GMT\n\n",
+    "expected_bytes_match": true
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.0-linux-amd64.tar.gz",
+    "bytes": 751436,
+    "sha256": "8ef93794557f6dfe591622ecc95a391c1b6a5b49d9afd94ec6e1d946154e1f33",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: application/gzip\netag: \"dmkzt1obnxf6-g3t8\"\nlast-modified: Mon, 02 Nov 2026 20:04:09 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 751436\ndate: Mon, 02 Nov 2026 20:17:13 GMT\n\n",
+    "expected_bytes_match": true
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.0-linux-amd64.tar.gz.sha256",
+    "bytes": 102,
+    "sha256": "edf9c0269a177c6b90809a5f0ef3d9e5a2976c14ad370c336cd0c9c36b009a8a",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\netag: \"dmkzu93wnv4r-2u\"\nlast-modified: Mon, 02 Nov 2026 20:05:44 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 102\ndate: Mon, 02 Nov 2026 20:17:13 GMT\n\n",
+    "expected_bytes_match": true
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.0-source.tar.gz",
+    "bytes": 105472,
+    "sha256": "5727fdc6ae99dab5bc8692a482db713dcdf9ccaca7f605c1fbb8b271881c312c",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: application/gzip\netag: \"dmkztjndpw26-29ds\"\nlast-modified: Mon, 02 Nov 2026 20:04:48 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 105472\ndate: Mon, 02 Nov 2026 20:17:13 GMT\n\n",
+    "expected_bytes_match": true
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/install.sh",
+    "bytes": 2564,
+    "sha256": "d8090eedd3f0ffe0fae5f7f4bf13f83d0546fc5778e2f5885ac7547da5b0f769",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: application/x-shellscript\netag: \"dmkzze48d0n7-1z8\"\nlast-modified: Mon, 02 Nov 2026 20:12:27 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 2564\ndate: Mon, 02 Nov 2026 20:17:13 GMT\n\n",
+    "expected_bytes_match": true
+  }
+]

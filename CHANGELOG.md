@@ -6,6 +6,7 @@
 - Replace dense grant output with readable account, local expiry/timezone, private token and administrative revocation instructions. Preserve token-only stdout when redirected.
 - Clarify hidden token input and actionable access-denial messages; keep authorization and grant lifetime rules unchanged.
 - Release validation and tools.simplehelp.io publication recorded in docs/publication/1.0.0-*; previous versioned assets remain immutable.
+- Passed 230 installed-binary VM checks, 36 public installation checks, native/parser tests, lint/MSRV/dependency checks and identical relocated-source reproduction. Public failures/truncation preserve existing installations.
 
 
 ## 0.1.0 — 2026-11-02 (local development build)

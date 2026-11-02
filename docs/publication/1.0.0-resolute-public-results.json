@@ -1,0 +1,33 @@
+{
+  "checks": [
+    "actual-public-bootstrap-hash",
+    "exact-public-pipe-command-normal-sudo-no-recipient-prompt",
+    "machine-wide-schema-no-recipient-list",
+    "public-installed-grant-run-status-revoke",
+    "exact-public-command-reinstallation-with-sudo",
+    "reinstalled-new-recipient-grant-run-revoke",
+    "exact-tested-binary-hashes",
+    "actual-public-package-hash-for-truncation-fixture",
+    "every-truncated-bootstrap-prefix-blocked-with-positive-control",
+    "injected-bootstrap-download-failure-preserves-install-before-sudo",
+    "injected-bootstrap-truncated-failure-preserves-install-before-sudo",
+    "injected-download-failure-preserves-install-before-sudo",
+    "injected-package-truncated-failure-preserves-install-before-sudo",
+    "injected-checksum-failure-preserves-install-before-sudo",
+    "injected-platform-failure-preserves-install-before-sudo",
+    "old-installer-recipient-option-refused-before-modification",
+    "injected-unsupported-os-denied-without-modification",
+    "clean-removal-after-public-install"
+  ],
+  "count": 18,
+  "bootstrap_sha256": "d8090eedd3f0ffe0fae5f7f4bf13f83d0546fc5778e2f5885ac7547da5b0f769",
+  "binary_hashes": {
+    "/usr/local/bin/agent-sudo": "5fb8a4c3b094851a9ad418d3a1512ed229056c32f1b7424ac32ad1b631f78a48",
+    "/usr/local/libexec/agent-sudo-helper": "b72e264aa9fdf27fb4388dcca933a7d671bba08990c65e185787f17795932b3b"
+  },
+  "package_sha256": "8ef93794557f6dfe591622ecc95a391c1b6a5b49d9afd94ec6e1d946154e1f33",
+  "command": "curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh",
+  "truncated_prefixes": 2564,
+  "os": "PRETTY_NAME=\"Ubuntu 26.04.1 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"26.04\"\nVERSION=\"26.04.1 LTS (Resolute Raccoon)\"\nVERSION_CODENAME=resolute\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=resolute\nLOGO=ubuntu-logo\n",
+  "sudo_version": "sudo-rs 0.2.13-0ubuntu1.2"
+}

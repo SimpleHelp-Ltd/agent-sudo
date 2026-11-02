@@ -1,0 +1,36 @@
+{
+  "url": "https://tools.simplehelp.io/agent-sudo.html",
+  "widths": [
+    375,
+    768,
+    1280
+  ],
+  "copySuccess": true,
+  "copyDeniedFallback": true,
+  "keyboardFocus": true,
+  "keyboardActivation": true,
+  "brand": {
+    "body": "\"Noto Sans\", sans-serif",
+    "heading": "Ubuntu, Helvetica, sans-serif",
+    "accent": "rgb(126, 102, 204)",
+    "button": "rgb(117, 71, 255)"
+  },
+  "errors": [],
+  "links": [
+    "https://tools.simplehelp.io/agent-sudo.html#administrators",
+    "https://simple-help.com/",
+    "https://tools.simplehelp.io/agent-sudo.html#administrators",
+    "https://tools.simplehelp.io/agent-sudo.html#agents",
+    "https://tools.simplehelp.io/agent-sudo.html#downloads",
+    "https://tools.simplehelp.io/agent-sudo/1.0.0-OPERATOR.md",
+    "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.0-linux-amd64.tar.gz",
+    "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.0-linux-amd64.tar.gz.sha256",
+    "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.0-source.tar.gz",
+    "https://tools.simplehelp.io/agent-sudo/1.0.0-SHA256SUMS",
+    "https://tools.simplehelp.io/agent-sudo/1.0.0-OPERATOR.md",
+    "https://tools.simplehelp.io/agent-sudo/1.0.0-VALIDATION.md",
+    "https://tools.simplehelp.io/agent-sudo/1.0.0-PUBLIC_VALIDATION.md",
+    "https://tools.simplehelp.io/agent-sudo/1.0.0-SECURITY_REVIEW.md",
+    "https://simple-help.com/"
+  ]
+}

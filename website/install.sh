@@ -4,24 +4,24 @@
 {
 # HTTPS download bootstrap; only the existing offline installer runs as root.
 set -eu
-agent_sudo_version=0.2.0
-agent_sudo_archive=agent-sudo-0.2.0-linux-amd64.tar.gz
-agent_sudo_sha256=1bb0b9626aca32e8f4d07f61ea9a88791c27b20e0b10fb417495f4b8bce36329
+agent_sudo_version=1.0.0
+agent_sudo_archive=agent-sudo-1.0.0-linux-amd64.tar.gz
+agent_sudo_sha256=8ef93794557f6dfe591622ecc95a391c1b6a5b49d9afd94ec6e1d946154e1f33
 agent_sudo_base=https://tools.simplehelp.io/agent-sudo
 fail() { printf 'agent-sudo installer: %s\n' "$*" >&2; exit 1; }
-if [ "$(uname -s)" != Linux ] || [ "$(uname -m)" != x86_64 ]; then fail 'This preview supports Linux amd64 only.'; fi
+if [ "$(uname -s)" != Linux ] || [ "$(uname -m)" != x86_64 ]; then fail 'This release supports Linux amd64 only.'; fi
 [ -r /etc/os-release ] || fail 'Cannot identify this OS.'
 # OS metadata is supplied by the local operating system.
 # shellcheck disable=SC1091
 . /etc/os-release
-[ "${ID:-}" = ubuntu ] || fail 'This preview supports Ubuntu only.'
-case ${VERSION_ID:-} in 24.04|26.04) ;; *) fail 'This preview supports Ubuntu 24.04 and 26.04 only.';; esac
+[ "${ID:-}" = ubuntu ] || fail 'This release supports Ubuntu only.'
+case ${VERSION_ID:-} in 24.04|26.04) ;; *) fail 'This release supports Ubuntu 24.04 and 26.04 only.';; esac
 for agent_sudo_command in curl sha256sum tar mktemp; do
     command -v "$agent_sudo_command" >/dev/null 2>&1 || fail "Missing dependency: $agent_sudo_command"
 done
 if [ "$(id -u)" -ne 0 ]; then command -v sudo >/dev/null 2>&1 || fail 'Install sudo first.'; fi
 [ "$#" -eq 0 ] || fail 'Usage: sh install.sh (no recipient options).'
-printf 'Installing agent-sudo %s development preview. Loom testing pending.\n' "$agent_sudo_version"
+printf 'Installing agent-sudo %s release.\n' "$agent_sudo_version"
 printf 'Installation is machine-wide. Reinstallation invalidates existing grants.\n'
 umask 077
 agent_sudo_tmp=$(mktemp -d) || fail 'Cannot create temporary directory.'
