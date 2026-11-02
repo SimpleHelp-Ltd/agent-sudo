@@ -1,6 +1,6 @@
-# Implementation security review — 0.2.0
+# Implementation security review — 1.0.0
 
-Reviewed locally on 2026-11-02. This is an implementation review and adversarial testing by the implementer, **not an independent audit**. Privileged testing is limited to disposable VMs; public preview assets/page are authorized through SH Website. No Loom/development-host installation, GitHub push or GitHub release.
+Reviewed locally on 2026-11-02. This is an implementation review and adversarial testing by the implementer, **not an independent audit**. Privileged testing is limited to disposable VMs; public release assets/page are authorized through SH Website. No Loom/development-host installation during this release task, GitHub push or GitHub release.
 
 ## Scope and conclusion
 
@@ -39,7 +39,7 @@ A grant intentionally permits arbitrary root code. Once admitted, root can alter
 
 ## Remaining limits and untested scope
 
-- Supported preview is deliberately narrow: Ubuntu amd64/systemd, traditional sudo 1.9.15p5 and sudo-rs 0.2.13 release families. Arbitrary sudo plugins, central policy, command-scoped custom Defaults and other versions are not validated; installation fails closed rather than modifying unrelated policy.
+- Supported platforms remain deliberately narrow: Ubuntu amd64/systemd, traditional sudo 1.9.15p5 and sudo-rs 0.2.13 release families. Arbitrary sudo plugins, central policy, command-scoped custom Defaults and other versions are not validated; installation fails closed rather than modifying unrelated policy.
 - No guarantee of secrecy from a compromised root, existing host tracing/audit/eBPF/terminal recording, same-UID process inspection, swap or malicious authorized root code. Static musl account lookup is for local accounts, not general NSS/LDAP integration.
 - Same-name/same-UID/GID account recreation is not reliably detectable; revoke before changing accounts. Machine-id clones are not an independent hardware identity; boot binding and volatile records add separate checks.
 - A killed/crashed frontend after acknowledgment may leave a live grant. Lost secrets cannot be recovered; list/revoke or reboot. Revocation/deletion is not secure erasure.
@@ -51,3 +51,7 @@ A grant intentionally permits arbitrary root code. Once admitted, root can alter
 ## References
 
 Policy assumptions are checked against the installed VM tools and [sudo's primary manual](https://github.com/sudo-project/sudo/blob/main/docs/sudoers.man.in), especially command matching, Defaults ordering and I/O tags. [sudo-rs upstream](https://github.com/trifectatechfoundation/sudo-rs) documents the Ubuntu 26.04 base as 0.2.13. Expiry uses [Linux CLOCK_BOOTTIME](https://man7.org/linux/man-pages/man2/clock_gettime.2.html), including time spent suspended. These sources explain the design; actual compatibility evidence is the VM test record.
+
+## 1.0 presentation review
+
+Changed only the frontend UI/defaults and package version. Real-UID lookup prevents USER/LOGNAME from selecting a misleading default recipient; helper identity/duration checks remain authoritative. Displayed local expiry is advisory: admission continues to use boot-relative deadlines. Generic denial guidance deliberately avoids claiming an exact expiry/revocation cause, or exposing token/state diagnostics. Redirected token output, secret wiping and delivery acknowledgment ordering remain intact. Loom's 0.2.0 root `/usr/bin/id` smoke test succeeded on 2026-11-02; the user-requested expiry recheck remains pending. 1.0 is validated in disposable VMs; it has not been installed on Loom by this release task. No independent security audit is claimed.

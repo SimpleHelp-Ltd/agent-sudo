@@ -51,10 +51,10 @@ def reinstall(users=['agent','other','humanadmin'],success=True):
  c=subprocess.run(['/root/payload/agent-sudo-helper','install','--from','/root/payload'],capture_output=True,timeout=30)
  assert (c.returncode==0)==success,('install failed',c.stderr[:200]);return c
 
-def pty_call(args,inputs,who='humanadmin'):
+def pty_call(args,inputs,who='humanadmin',env_updates=None):
  pid,fd=pty.fork()
  if pid==0:
-  a=pwd.getpwnam(who);os.setgroups([27] if who=='humanadmin' else []);os.setgid(a.pw_gid);os.setuid(a.pw_uid);os.environ['USER']=who;os.environ['HOME']=a.pw_dir;os.execv(FRONT,[FRONT]+args)
+  a=pwd.getpwnam(who);os.setgroups([27] if who=='humanadmin' else []);os.setgid(a.pw_gid);os.setuid(a.pw_uid);os.environ['USER']=who;os.environ['HOME']=a.pw_dir;os.environ.update(env_updates or {});os.execv(FRONT,[FRONT]+args)
  buf=b'';index=0;end=time.monotonic()+20
  while time.monotonic()<end:
   if select.select([fd],[],[],.1)[0]:
@@ -168,10 +168,10 @@ def main():
   code,output,used=pty_call(['grant','--user','agent','--minutes','60'],[(b'password for',b'VmOnly-TestPassword-9274')]);assert code==0 and used==1
  check('real-pam-sudo-fresh-auth-no-app-password',fresh_auth)
  def noarg():
-  code,output,used=pty_call([],[(b'Recipient username:',b'agent'),(b'Minutes [',b'1'),(b'password for',b'VmOnly-TestPassword-9274')]);assert code==0 and used==3
+  code,output,used=pty_call([],[(b'Username [',b'agent'),(b'Minutes [',b'1'),(b'password for',b'VmOnly-TestPassword-9274')]);assert code==0 and used==3
  check('no-argument-interactive-grant-prompts',noarg)
  def noarg_invalid():
-  code,output,used=pty_call([],[(b'Recipient username:',b'agent'),(b'Minutes [',b'1441')]);assert code!=0 and b'password for' not in output
+  code,output,used=pty_call([],[(b'Username [',b'agent'),(b'Minutes [',b'1441')]);assert code!=0 and b'password for' not in output
  check('interactive-invalid-duration-before-auth',noarg_invalid)
  def interrupted():
   rd,wr=os.pipe();os.write(wr,(TOKEN+'\n').encode());os.close(wr)

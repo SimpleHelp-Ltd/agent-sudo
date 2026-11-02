@@ -4,15 +4,15 @@
 
 This grants full root authority to a trusted operator. No saved administrator password. Tokens are bearer credentials bound to a Linux account, host and current boot. Other processes using that UID may inspect token input/memory; separate accounts improve operational separation. Future command admissions stop at expiry, revocation and reboot. Existing root commands, descendants and root shells continue, and root can establish permanent access. Existing sudo permissions/caches are independent. There is no network service or command allowlist.
 
-The preview supports Ubuntu 24.04/26.04 amd64 with systemd and the exact sudo release families in VALIDATION.md. It rejects custom sudo.conf settings/plugins, remote includes, continued policy lines, external command-scoped Defaults, explicit recording command tags and unsupported subcommand/remote recording. Traditional sudo uses a command-scoped I/O logging exemption for the helper; all other audit and sudo permissions are retained. sudo-rs 0.2.13 has no I/O logger and rejects its configuration options. Host tracing, PAM customizations, eBPF/audit capture and privileged debugging remain outside the tool's secrecy guarantee. Root-only policy edits require revalidation, not an automatic exemption or silent change to other rules.
+Version 1.0 supports Ubuntu 24.04/26.04 amd64 with systemd and the exact sudo release families in VALIDATION.md. It rejects custom sudo.conf settings/plugins, remote includes, continued policy lines, external command-scoped Defaults, explicit recording command tags and unsupported subcommand/remote recording. Traditional sudo uses a command-scoped I/O logging exemption for the helper; all other audit and sudo permissions are retained. sudo-rs 0.2.13 has no I/O logger and rejects its configuration options. Host tracing, PAM customizations, eBPF/audit capture and privileged debugging remain outside the tool's secrecy guarantee. Root-only policy edits require revalidation, not an automatic exemption or silent change to other rules.
 
 ## For administrators: install and grant
 
 Use only the offline versioned package from a trusted build. Verify its archive checksum through a trusted channel; a checksum delivered with untrusted code is not a signature. Start in disposable VMs and keep an independent administrator session open.
 
 ```sh
-sha256sum -c agent-sudo-0.2.0-linux-amd64.tar.gz.sha256
-tar -xzf agent-sudo-0.2.0-linux-amd64.tar.gz
+sha256sum -c agent-sudo-1.0.0-linux-amd64.tar.gz.sha256
+tar -xzf agent-sudo-1.0.0-linux-amd64.tar.gz
 sudo ./install.sh
 ```
 
@@ -24,12 +24,12 @@ The helper is a root-owned compiled executable, never a script loaded from a che
 
 ```sh
 agent-sudo agent 60                   # Existing recipient, 1–1440 minutes
-agent-sudo agent                      # Prompts for minutes (default 60)
-agent-sudo                            # Prompts for username and minutes
+agent-sudo agent                      # Prompts for minutes (default 10)
+agent-sudo                            # Prompts; Enter accepts current account and 10 minutes
 agent-sudo grant --user agent --minutes 60  # Compatible explicit syntax
 ```
 
-The grant requests fresh sudo authentication using `sudo -k` with a command; the app does not prompt for, handle or save an administrator password. Passwordless administrator policy may not challenge. Token stdout is intentionally secret; do not redirect to logs, paste into shell commands, or capture terminal output in a recording session. Metadata/revocation instructions go to stderr. The displayed host is the machine-id, not DNS identity.
+The grant requests fresh sudo authentication using `sudo -k` with a command; the app does not prompt for, handle or save an administrator password. Passwordless administrator policy may not challenge. Token stdout is intentionally secret; do not redirect to logs, paste into shell commands, or capture terminal output in a recording session. Metadata/revocation instructions go to stderr. The grant output shows the account, local expiry time with timezone, private token and administrative revocation command. The internal machine-id is available in status metadata. When stdout is redirected, it contains only the token plus a newline; explanations go to stderr. Blank prompted values select the calling account (resolved from the real UID) and 10 minutes. The hidden run prompt is `Access token (hidden):`.
 
 ## For agents: use granted access
 

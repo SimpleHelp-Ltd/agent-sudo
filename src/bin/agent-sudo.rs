@@ -90,9 +90,70 @@ fn read_line(file: &mut impl Read, limit: usize) -> Result<Zeroizing<String>> {
             .to_owned(),
     ))
 }
+// Use the real calling UID, never USER/LOGNAME or sudo environment metadata.
+fn current_username() -> Result<String> {
+    let mut pw = std::mem::MaybeUninit::<libc::passwd>::uninit();
+    let mut found = std::ptr::null_mut();
+    let mut buffer = vec![0u8; 65536];
+    if unsafe {
+        libc::getpwuid_r(
+            libc::getuid(),
+            pw.as_mut_ptr(),
+            buffer.as_mut_ptr().cast(),
+            buffer.len(),
+            &mut found,
+        )
+    } != 0
+        || found.is_null()
+    {
+        return fail("Cannot find your account. Specify a recipient username explicitly.");
+    }
+    let name = unsafe { std::ffi::CStr::from_ptr(pw.assume_init().pw_name) }
+        .to_str()?
+        .to_owned();
+    s::valid_user(&name)?;
+    Ok(name)
+}
+fn local_expiry(utc: &str) -> String {
+    // The helper sends canonical UTC; retain it if parsing/local formatting fails.
+    let formatted = (|| -> Option<String> {
+        if utc.len() != 20 || !utc.is_ascii() {
+            return None;
+        }
+        let mut tm: libc::tm = unsafe { std::mem::zeroed() };
+        tm.tm_year = utc[0..4].parse::<i32>().ok()? - 1900;
+        tm.tm_mon = utc[5..7].parse::<i32>().ok()? - 1;
+        tm.tm_mday = utc[8..10].parse().ok()?;
+        tm.tm_hour = utc[11..13].parse().ok()?;
+        tm.tm_min = utc[14..16].parse().ok()?;
+        tm.tm_sec = utc[17..19].parse().ok()?;
+        let timestamp = unsafe { libc::timegm(&mut tm) };
+        if timestamp < 0 || agent_sudo::store::utc(timestamp as u64) != utc {
+            return None;
+        }
+        let mut local = std::mem::MaybeUninit::<libc::tm>::uninit();
+        if unsafe { libc::localtime_r(&timestamp, local.as_mut_ptr()) }.is_null() {
+            return None;
+        }
+        let mut output = [0u8; 128];
+        let n = unsafe {
+            libc::strftime(
+                output.as_mut_ptr().cast(),
+                output.len(),
+                c"%Y-%m-%d %H:%M %Z (%z)".as_ptr(),
+                local.as_ptr(),
+            )
+        };
+        if n == 0 {
+            return None;
+        }
+        Some(std::str::from_utf8(&output[..n]).ok()?.to_owned())
+    })();
+    formatted.unwrap_or_else(|| utc.to_owned())
+}
 fn help() {
     println!(
-        "agent-sudo {}\n\nTemporary arbitrary root commands for an authorized local account.\n\nagent-sudo [USERNAME [MINUTES]]           Issue a grant (missing values prompt)\nagent-sudo grant --user USER --minutes 1..1440\nagent-sudo run [--key-fd FD] [--result-fd FD] [--json-result] -- /absolute/program [args]\nagent-sudo status\nagent-sudo revoke GRANT-ID | revoke --all\nagent-sudo admin list | admin revoke GRANT-ID\nagent-sudo --help | --version\n\nRun supports piped binary streams, no PTY. Redirect stdin (e.g. </dev/null).\nNo saved administrator passwords. Existing root work survives expiry/revoke.",
+        "agent-sudo {}\n\nTemporary arbitrary root commands for an authorized local account.\n\nagent-sudo [USERNAME [MINUTES]]           Issue a grant (defaults: current user, 10 minutes)\nagent-sudo grant --user USER --minutes 1..1440\nagent-sudo run [--key-fd FD] [--result-fd FD] [--json-result] -- /absolute/program [args]\nagent-sudo status\nagent-sudo revoke GRANT-ID | revoke --all\nagent-sudo admin list | admin revoke GRANT-ID\nagent-sudo --help | --version\n\nRun supports piped binary streams, no PTY. Redirect stdin (e.g. </dev/null).\nNo saved administrator passwords. Existing root work survives expiry/revoke.",
         agent_sudo::VERSION
     );
 }
@@ -105,7 +166,7 @@ fn call(op: &str, mut request: p::Request, key_fd: Option<i32>, json_result: boo
             let mut f = unsafe { File::from_raw_fd(fd) };
             read_line(&mut f, 110)?
         } else {
-            tty_line("Access token: ", true)?
+            tty_line("Access token (hidden): ", true)?
         };
         agent_sudo::store::token(&t)?;
         request.token = Some(std::mem::take(&mut *t));
@@ -129,7 +190,9 @@ fn call(op: &str, mut request: p::Request, key_fd: Option<i32>, json_result: boo
     if !matches!(&ready,Ok((b'R',b))if b.is_empty()) {
         SUDO_PID.store(0, Ordering::SeqCst);
         let _ = child.wait();
-        return fail("helper unavailable: check active grant and validated sudo policy");
+        return fail(
+            "Access is unavailable. Your grant may have expired or been revoked. Ask an administrator to check your grant and the installation policy.",
+        );
     }
     p::write_request(&mut w, &request)?;
     request.token.zeroize();
@@ -139,7 +202,9 @@ fn call(op: &str, mut request: p::Request, key_fd: Option<i32>, json_result: boo
         if k != b'A' || !b.is_empty() {
             SUDO_PID.store(0, Ordering::SeqCst);
             let _ = child.wait();
-            return fail("command was not authorized");
+            return fail(
+                "Access was not authorized. Check your token or ask an administrator for a new grant.",
+            );
         }
         let wt = transport.clone();
         std::thread::spawn(move || {
@@ -184,12 +249,22 @@ fn call(op: &str, mut request: p::Request, key_fd: Option<i32>, json_result: boo
                         if let Some(serde_json::Value::String(t)) = v.get_mut("token") {
                             t.zeroize();
                         }
+                        let recipient = v["recipient"].as_str().ok_or("missing recipient")?;
+                        let expires = v["expires_utc"].as_str().ok_or("missing expiry")?;
+                        let minutes = request.minutes.ok_or("missing duration")?;
                         eprintln!(
-                            "Grant {id}: host {}, recipient {}, expires {}. Revoke: agent-sudo revoke {id}",
-                            v["host"], v["recipient"], v["expires_utc"]
+                            "\nAccess granted\n  Account: {recipient}\n  Expires: {} (in {minutes} minutes)\n\nGive this token privately to the agent:",
+                            local_expiry(expires)
                         );
-                        writeln!(stdout, "{}", *token)?;
+                        if stdout.is_terminal() {
+                            writeln!(stdout, "  {}", *token)?;
+                        } else {
+                            writeln!(stdout, "{}", *token)?;
+                        }
                         stdout.flush()?;
+                        eprintln!(
+                            "\nRevoke this grant:\n  agent-sudo admin revoke {id}\n\nExpiry stops new commands. Already running commands can continue."
+                        );
                         data.zeroize();
                         transport
                             .lock()
@@ -272,13 +347,17 @@ fn real() -> Result<i32> {
     let op = if args.is_empty()
         || (!reserved.contains(&args[0].as_str()) && !args[0].starts_with('-') && args.len() <= 2)
     {
-        eprintln!(
-            "Arbitrary root access; admitted work survives expiry. Normal fresh sudo authentication follows; passwordless policy may not challenge."
-        );
+        eprintln!("\nGrant temporary root access\n");
         let user = if let Some(u) = args.first() {
             u.clone()
         } else {
-            tty_line("Recipient username: ", false)?.to_string()
+            let current = current_username()?;
+            let entered = tty_line(&format!("Username [{current}]: "), false)?;
+            if entered.is_empty() {
+                current
+            } else {
+                entered.to_string()
+            }
         };
         let a = s::account(&user)?;
         if a.uid == 0 {
@@ -288,8 +367,8 @@ fn real() -> Result<i32> {
         r.minutes = Some(if let Some(m) = args.get(1) {
             m.parse()?
         } else {
-            let m = tty_line("Minutes [60]: ", false)?;
-            if m.is_empty() { 60 } else { m.parse()? }
+            let m = tty_line("Minutes [10]: ", false)?;
+            if m.is_empty() { 10 } else { m.parse()? }
         });
         "grant"
     } else {
@@ -305,9 +384,6 @@ fn real() -> Result<i32> {
                     };
                     i += 2;
                 }
-                eprintln!(
-                    "Arbitrary root access; admitted work survives expiry. Normal sudo authentication requested; passwordless policy may not challenge."
-                );
                 "grant"
             }
             "run" => {
@@ -390,6 +466,11 @@ fn real() -> Result<i32> {
         if a.uid == 0 {
             return fail("recipient must be non-root");
         }
+        eprintln!(
+            "\nGrant {} full root access for {} minutes.\nSudo handles administrator authentication; passwordless policy may not prompt.",
+            a.name,
+            r.minutes.ok_or("missing duration")?
+        );
     }
     call(op, r, key, json)
 }

@@ -29,7 +29,7 @@ def main():
      try:b=os.read(fd,4096)
      except OSError:break
      buf+=b
-     if not sent and b'Access token:' in buf:time.sleep(6);os.write(fd,t.encode()+b'\n');sent=True
+     if not sent and b'Access token (hidden):' in buf:time.sleep(6);os.write(fd,t.encode()+b'\n');sent=True
     p,s=os.waitpid(pid,os.WNOHANG)
     if p:status=s;break
    if status is None:_,status=os.waitpid(pid,0)
@@ -43,9 +43,9 @@ def main():
   import termios
   buf=b'';deadline=time.monotonic()+10
   try:
-   while b'Access token:' not in buf and time.monotonic()<deadline:
+   while b'Access token (hidden):' not in buf and time.monotonic()<deadline:
     if select.select([fd],[],[],.1)[0]:buf+=os.read(fd,4096)
-   assert b'Access token:'in buf
+   assert b'Access token (hidden):'in buf
    assert not termios.tcgetattr(fd)[3]&termios.ECHO
    os.write(fd,b'\x03');_,status=os.waitpid(pid,0);assert os.waitstatus_to_exitcode(status)!=0;assert termios.tcgetattr(fd)[3]&termios.ECHO
   finally:os.close(fd)

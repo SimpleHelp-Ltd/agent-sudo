@@ -12,6 +12,7 @@ def one(n):
   return values
  expected=hashes()
  if suite=='dynamic':
+  subprocess.run(['scp','-q','-i',str(LAB/'key'),'-P',str(PEERS[n]),'-o','StrictHostKeyChecking=no','-o','UserKnownHostsFile='+str(LAB/'known_hosts'),str(ROOT/'artifacts/agent-sudo-0.2.0-linux-amd64.tar.gz'),'root@127.0.0.1:/root/old-0.2.0.tar.gz'],check=True)
   subprocess.run(['scp','-q','-i',str(LAB/'key'),'-P',str(PEERS[n]),'-o','StrictHostKeyChecking=no','-o','UserKnownHostsFile='+str(LAB/'known_hosts'),str(ROOT/'artifacts/agent-sudo-0.1.0-linux-amd64.tar.gz'),'root@127.0.0.1:/root/old-0.1.0.tar.gz'],check=True)
  for f in ['guest.py',suite+'.py']:
   subprocess.run(['scp','-q','-i',str(LAB/'key'),'-P',str(PEERS[n]),'-o','StrictHostKeyChecking=no','-o','UserKnownHostsFile='+str(LAB/'known_hosts'),str(ROOT/'tests/vm'/f),'root@127.0.0.1:/root/'+f],check=True)
