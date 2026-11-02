@@ -1,0 +1,662 @@
+{
+  "noble": {
+    "help_and_shortcut_pass": true,
+    "core": {
+      "results": [
+        {
+          "check": "public-help-version-no-elevation",
+          "pass": true,
+          "seconds": 0.003
+        },
+        {
+          "check": "root-id-gid",
+          "pass": true,
+          "seconds": 0.073
+        },
+        {
+          "check": "exact-argv-no-shell",
+          "pass": true,
+          "seconds": 0.047
+        },
+        {
+          "check": "binary-4MiB-stdin-stdout-stderr-backpressure",
+          "pass": true,
+          "seconds": 0.133
+        },
+        {
+          "check": "child-exit-0",
+          "pass": true,
+          "seconds": 0.034
+        },
+        {
+          "check": "child-exit-1",
+          "pass": true,
+          "seconds": 0.032
+        },
+        {
+          "check": "child-exit-125",
+          "pass": true,
+          "seconds": 0.032
+        },
+        {
+          "check": "child-exit-126",
+          "pass": true,
+          "seconds": 0.025
+        },
+        {
+          "check": "child-exit-127",
+          "pass": true,
+          "seconds": 0.026
+        },
+        {
+          "check": "child-exit-255",
+          "pass": true,
+          "seconds": 0.026
+        },
+        {
+          "check": "child-signal-distinct",
+          "pass": true,
+          "seconds": 0.026
+        },
+        {
+          "check": "missing-executable-tool-error",
+          "pass": true,
+          "seconds": 0.051
+        },
+        {
+          "check": "root-context-env-groups-umask-core-fd-hygiene",
+          "pass": true,
+          "seconds": 0.048
+        },
+        {
+          "check": "malformed-token-denied",
+          "pass": true,
+          "seconds": 0.018
+        },
+        {
+          "check": "modified-token-denied",
+          "pass": true,
+          "seconds": 0.031
+        },
+        {
+          "check": "random-token-denied",
+          "pass": true,
+          "seconds": 0.025
+        },
+        {
+          "check": "wrong-uid-denied",
+          "pass": true,
+          "seconds": 0.007
+        },
+        {
+          "check": "own-status-no-verifier-token",
+          "pass": true,
+          "seconds": 0.04
+        },
+        {
+          "check": "direct-nonroot-helper-denied",
+          "pass": true,
+          "seconds": 0.001
+        },
+        {
+          "check": "unauthorized-grant-admin-maintenance-denied",
+          "pass": true,
+          "seconds": 0.034
+        },
+        {
+          "check": "exact-operation-run extra",
+          "pass": true,
+          "seconds": 0.004
+        },
+        {
+          "check": "exact-operation-status extra",
+          "pass": true,
+          "seconds": 0.004
+        },
+        {
+          "check": "exact-operation-revoke-all extra",
+          "pass": true,
+          "seconds": 0.004
+        },
+        {
+          "check": "hostile-header-duplicate",
+          "pass": true,
+          "seconds": 0.01
+        },
+        {
+          "check": "hostile-header-unknown",
+          "pass": true,
+          "seconds": 0.01
+        },
+        {
+          "check": "hostile-header-wrong-type",
+          "pass": true,
+          "seconds": 0.01
+        },
+        {
+          "check": "hostile-header-deep",
+          "pass": true,
+          "seconds": 0.01
+        },
+        {
+          "check": "hostile-header-nul-argv",
+          "pass": true,
+          "seconds": 0.01
+        },
+        {
+          "check": "hostile-header-path-traversal",
+          "pass": true,
+          "seconds": 0.01
+        },
+        {
+          "check": "hostile-header-bad-schema",
+          "pass": true,
+          "seconds": 0.01
+        },
+        {
+          "check": "hostile-header-fields-for-other-op",
+          "pass": true,
+          "seconds": 0.01
+        },
+        {
+          "check": "oversized-zero-length-header",
+          "pass": true,
+          "seconds": 0.029
+        },
+        {
+          "check": "pending-input-5second-deadline",
+          "pass": true,
+          "seconds": 5.016
+        },
+        {
+          "check": "per-uid-pending-limit",
+          "pass": true,
+          "seconds": 0.102
+        },
+        {
+          "check": "state-mode",
+          "pass": true,
+          "seconds": 0.014
+        },
+        {
+          "check": "state-owner",
+          "pass": true,
+          "seconds": 0.014
+        },
+        {
+          "check": "state-truncated",
+          "pass": true,
+          "seconds": 0.013
+        },
+        {
+          "check": "state-symlink",
+          "pass": true,
+          "seconds": 0.015
+        },
+        {
+          "check": "state-hardlink",
+          "pass": true,
+          "seconds": 0.011
+        },
+        {
+          "check": "state-acl",
+          "pass": true,
+          "seconds": 0.013
+        },
+        {
+          "check": "state-wrong-boot",
+          "pass": true,
+          "seconds": 0.01
+        },
+        {
+          "check": "state-wrong-host",
+          "pass": true,
+          "seconds": 0.008
+        },
+        {
+          "check": "state-uid-name-mismatch",
+          "pass": true,
+          "seconds": 0.008
+        },
+        {
+          "check": "state-exact-deadline-injected",
+          "pass": true,
+          "seconds": 0.008
+        },
+        {
+          "check": "state-old-generation",
+          "pass": true,
+          "seconds": 0.007
+        },
+        {
+          "check": "state-directory-mode-and-symlink-substitution",
+          "pass": true,
+          "seconds": 0.014
+        },
+        {
+          "check": "independent-root-disabled-state-gate",
+          "pass": true,
+          "seconds": 0.008
+        },
+        {
+          "check": "policy-change-denies-before-token-read",
+          "pass": true,
+          "seconds": 0.014
+        },
+        {
+          "check": "own-other-idempotent-revocation",
+          "pass": true,
+          "seconds": 0.122
+        },
+        {
+          "check": "admin-list-and-revoke",
+          "pass": true,
+          "seconds": 0.061
+        },
+        {
+          "check": "failed-grant-delivery-revokes",
+          "pass": true,
+          "seconds": 0.013
+        },
+        {
+          "check": "duration-invalid-0",
+          "pass": true,
+          "seconds": 0.001
+        },
+        {
+          "check": "duration-invalid-1441",
+          "pass": true,
+          "seconds": 0.001
+        },
+        {
+          "check": "duration-invalid--1",
+          "pass": true,
+          "seconds": 0.001
+        },
+        {
+          "check": "unknown-and-root-recipient",
+          "pass": true,
+          "seconds": 0.002
+        },
+        {
+          "check": "real-pam-sudo-fresh-auth-no-app-password",
+          "pass": true,
+          "seconds": 0.127
+        },
+        {
+          "check": "no-argument-interactive-grant-prompts",
+          "pass": true,
+          "seconds": 0.066
+        },
+        {
+          "check": "interactive-invalid-duration-before-auth",
+          "pass": true,
+          "seconds": 0.003
+        },
+        {
+          "check": "interrupt-frontend-forwards-to-command",
+          "pass": true,
+          "seconds": 0.504
+        },
+        {
+          "check": "concurrent-admission-revoke-ordering",
+          "pass": true,
+          "seconds": 0.245
+        },
+        {
+          "check": "upgrade-invalidates-and-stale-pending-grant-denied",
+          "pass": true,
+          "seconds": 0.687
+        },
+        {
+          "check": "mid-install-rollback-preserves-managed-files-invalidates-grants",
+          "pass": true,
+          "seconds": 1.994
+        },
+        {
+          "check": "real-logging-policy-secrecy-and-unrelated-auditing",
+          "pass": true,
+          "seconds": 4.468
+        },
+        {
+          "check": "secrets-never-in-state-files",
+          "pass": true,
+          "seconds": 0.0
+        }
+      ],
+      "versions": "PRETTY_NAME=\"Ubuntu 24.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.5 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo\n6.8.0-147-generic\nSudo version 1.9.15p5\nvisudo version 1.9.15p5\nvisudo grammar version 50\n",
+      "helper_sha256": "f59b6a8d0713ca01e1d99b02bcf5fb21f59ecfef91a865367674030a5be45224",
+      "frontend_sha256": "21c2e228e6d6bf8e289c753817223aa2b8e8bcfa2f8abbe5d68aa9f1875d05e5"
+    }
+  },
+  "resolute": {
+    "help_and_shortcut_pass": true,
+    "core": {
+      "results": [
+        {
+          "check": "public-help-version-no-elevation",
+          "pass": true,
+          "seconds": 0.004
+        },
+        {
+          "check": "root-id-gid",
+          "pass": true,
+          "seconds": 0.077
+        },
+        {
+          "check": "exact-argv-no-shell",
+          "pass": true,
+          "seconds": 0.051
+        },
+        {
+          "check": "binary-4MiB-stdin-stdout-stderr-backpressure",
+          "pass": true,
+          "seconds": 0.144
+        },
+        {
+          "check": "child-exit-0",
+          "pass": true,
+          "seconds": 0.037
+        },
+        {
+          "check": "child-exit-1",
+          "pass": true,
+          "seconds": 0.035
+        },
+        {
+          "check": "child-exit-125",
+          "pass": true,
+          "seconds": 0.035
+        },
+        {
+          "check": "child-exit-126",
+          "pass": true,
+          "seconds": 0.035
+        },
+        {
+          "check": "child-exit-127",
+          "pass": true,
+          "seconds": 0.037
+        },
+        {
+          "check": "child-exit-255",
+          "pass": true,
+          "seconds": 0.032
+        },
+        {
+          "check": "child-signal-distinct",
+          "pass": true,
+          "seconds": 0.033
+        },
+        {
+          "check": "missing-executable-tool-error",
+          "pass": true,
+          "seconds": 0.067
+        },
+        {
+          "check": "root-context-env-groups-umask-core-fd-hygiene",
+          "pass": true,
+          "seconds": 0.053
+        },
+        {
+          "check": "malformed-token-denied",
+          "pass": true,
+          "seconds": 0.018
+        },
+        {
+          "check": "modified-token-denied",
+          "pass": true,
+          "seconds": 0.032
+        },
+        {
+          "check": "random-token-denied",
+          "pass": true,
+          "seconds": 0.036
+        },
+        {
+          "check": "wrong-uid-denied",
+          "pass": true,
+          "seconds": 0.01
+        },
+        {
+          "check": "own-status-no-verifier-token",
+          "pass": true,
+          "seconds": 0.064
+        },
+        {
+          "check": "direct-nonroot-helper-denied",
+          "pass": true,
+          "seconds": 0.002
+        },
+        {
+          "check": "unauthorized-grant-admin-maintenance-denied",
+          "pass": true,
+          "seconds": 0.031
+        },
+        {
+          "check": "exact-operation-run extra",
+          "pass": true,
+          "seconds": 0.003
+        },
+        {
+          "check": "exact-operation-status extra",
+          "pass": true,
+          "seconds": 0.003
+        },
+        {
+          "check": "exact-operation-revoke-all extra",
+          "pass": true,
+          "seconds": 0.003
+        },
+        {
+          "check": "hostile-header-duplicate",
+          "pass": true,
+          "seconds": 0.012
+        },
+        {
+          "check": "hostile-header-unknown",
+          "pass": true,
+          "seconds": 0.011
+        },
+        {
+          "check": "hostile-header-wrong-type",
+          "pass": true,
+          "seconds": 0.012
+        },
+        {
+          "check": "hostile-header-deep",
+          "pass": true,
+          "seconds": 0.011
+        },
+        {
+          "check": "hostile-header-nul-argv",
+          "pass": true,
+          "seconds": 0.011
+        },
+        {
+          "check": "hostile-header-path-traversal",
+          "pass": true,
+          "seconds": 0.011
+        },
+        {
+          "check": "hostile-header-bad-schema",
+          "pass": true,
+          "seconds": 0.011
+        },
+        {
+          "check": "hostile-header-fields-for-other-op",
+          "pass": true,
+          "seconds": 0.011
+        },
+        {
+          "check": "oversized-zero-length-header",
+          "pass": true,
+          "seconds": 0.032
+        },
+        {
+          "check": "pending-input-5second-deadline",
+          "pass": true,
+          "seconds": 5.018
+        },
+        {
+          "check": "per-uid-pending-limit",
+          "pass": true,
+          "seconds": 0.093
+        },
+        {
+          "check": "state-mode",
+          "pass": true,
+          "seconds": 0.014
+        },
+        {
+          "check": "state-owner",
+          "pass": true,
+          "seconds": 0.013
+        },
+        {
+          "check": "state-truncated",
+          "pass": true,
+          "seconds": 0.012
+        },
+        {
+          "check": "state-symlink",
+          "pass": true,
+          "seconds": 0.011
+        },
+        {
+          "check": "state-hardlink",
+          "pass": true,
+          "seconds": 0.01
+        },
+        {
+          "check": "state-acl",
+          "pass": true,
+          "seconds": 0.013
+        },
+        {
+          "check": "state-wrong-boot",
+          "pass": true,
+          "seconds": 0.011
+        },
+        {
+          "check": "state-wrong-host",
+          "pass": true,
+          "seconds": 0.009
+        },
+        {
+          "check": "state-uid-name-mismatch",
+          "pass": true,
+          "seconds": 0.007
+        },
+        {
+          "check": "state-exact-deadline-injected",
+          "pass": true,
+          "seconds": 0.008
+        },
+        {
+          "check": "state-old-generation",
+          "pass": true,
+          "seconds": 0.007
+        },
+        {
+          "check": "state-directory-mode-and-symlink-substitution",
+          "pass": true,
+          "seconds": 0.014
+        },
+        {
+          "check": "independent-root-disabled-state-gate",
+          "pass": true,
+          "seconds": 0.008
+        },
+        {
+          "check": "policy-change-denies-before-token-read",
+          "pass": true,
+          "seconds": 0.011
+        },
+        {
+          "check": "own-other-idempotent-revocation",
+          "pass": true,
+          "seconds": 0.115
+        },
+        {
+          "check": "admin-list-and-revoke",
+          "pass": true,
+          "seconds": 0.074
+        },
+        {
+          "check": "failed-grant-delivery-revokes",
+          "pass": true,
+          "seconds": 0.018
+        },
+        {
+          "check": "duration-invalid-0",
+          "pass": true,
+          "seconds": 0.002
+        },
+        {
+          "check": "duration-invalid-1441",
+          "pass": true,
+          "seconds": 0.001
+        },
+        {
+          "check": "duration-invalid--1",
+          "pass": true,
+          "seconds": 0.001
+        },
+        {
+          "check": "unknown-and-root-recipient",
+          "pass": true,
+          "seconds": 0.003
+        },
+        {
+          "check": "real-pam-sudo-fresh-auth-no-app-password",
+          "pass": true,
+          "seconds": 0.131
+        },
+        {
+          "check": "no-argument-interactive-grant-prompts",
+          "pass": true,
+          "seconds": 0.072
+        },
+        {
+          "check": "interactive-invalid-duration-before-auth",
+          "pass": true,
+          "seconds": 0.003
+        },
+        {
+          "check": "interrupt-frontend-forwards-to-command",
+          "pass": true,
+          "seconds": 0.504
+        },
+        {
+          "check": "concurrent-admission-revoke-ordering",
+          "pass": true,
+          "seconds": 0.247
+        },
+        {
+          "check": "upgrade-invalidates-and-stale-pending-grant-denied",
+          "pass": true,
+          "seconds": 0.728
+        },
+        {
+          "check": "mid-install-rollback-preserves-managed-files-invalidates-grants",
+          "pass": true,
+          "seconds": 2.101
+        },
+        {
+          "check": "real-logging-policy-secrecy-and-unrelated-auditing",
+          "pass": true,
+          "seconds": 0.206
+        },
+        {
+          "check": "secrets-never-in-state-files",
+          "pass": true,
+          "seconds": 0.0
+        }
+      ],
+      "versions": "PRETTY_NAME=\"Ubuntu 26.04.1 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"26.04\"\nVERSION=\"26.04.1 LTS (Resolute Raccoon)\"\nVERSION_CODENAME=resolute\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=resolute\nLOGO=ubuntu-logo\n7.0.0-38-generic\nsudo-rs 0.2.13-0ubuntu1.2\nvisudo-rs 0.2.13\n",
+      "helper_sha256": "f59b6a8d0713ca01e1d99b02bcf5fb21f59ecfef91a865367674030a5be45224",
+      "frontend_sha256": "21c2e228e6d6bf8e289c753817223aa2b8e8bcfa2f8abbe5d68aa9f1875d05e5"
+    }
+  }
+}

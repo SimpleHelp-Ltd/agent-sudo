@@ -1,0 +1,10 @@
+{
+  "version": "1.0.2",
+  "source_commit": "27886bc5d39006e40c910bb3c899ef4a96f4ac7e",
+  "binary_hashes": {
+    "agent-sudo": "21c2e228e6d6bf8e289c753817223aa2b8e8bcfa2f8abbe5d68aa9f1875d05e5",
+    "agent-sudo-helper": "f59b6a8d0713ca01e1d99b02bcf5fb21f59ecfef91a865367674030a5be45224"
+  },
+  "package_sha256": "cd1e485336a43859bcc8559d21a11f519525649b86740d0b1416182781d61be0",
+  "source_sha256": "50caba497bbc95dd57b0178224732247ab971cab57834fa440666cf27573b9b0"
+}

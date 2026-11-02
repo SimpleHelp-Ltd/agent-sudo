@@ -1,8 +1,8 @@
 # Changelog
 
-## 1.0.2 — 2026-11-02
+## 1.0.2 — publication incomplete
 
-- Expand command-line help with agent and administrator instructions, safe token input, examples and automation options; add the `-h` shortcut.
+- Expand command-line help with agent and administrator instructions, safe token input, examples and automation options; add the `-h` shortcut. Passed 128 core VM checks and installed help checks. Publication is incomplete; the live installer remains at 1.0.1. See docs/PUBLISHING.md.
 
 ## 1.0.1 — 2026-11-02
 
