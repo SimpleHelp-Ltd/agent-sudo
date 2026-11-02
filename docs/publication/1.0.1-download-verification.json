@@ -1,0 +1,44 @@
+[
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.1-linux-amd64.tar.gz",
+    "bytes": 755142,
+    "sha256": "beefb7afd69d4dd59c67c704518388c364e2384177edf527697e0878d48e2b02",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: application/gzip\netag: \"dml2gvfcdyi5-g6o6\"\nlast-modified: Mon, 02 Nov 2026 22:09:19 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 755142\ndate: Mon, 02 Nov 2026 22:16:58 GMT\n\n"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.1-source.tar.gz",
+    "bytes": 120197,
+    "sha256": "a9920651faa0cc96c200fe3647f4c7fb0f02d0271e0b73fa82a797b5377c078f",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: application/gzip\netag: \"dml2hieoj0ge-2kqt\"\nlast-modified: Mon, 02 Nov 2026 22:10:09 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 120197\ndate: Mon, 02 Nov 2026 22:16:58 GMT\n\n"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.1-linux-amd64.tar.gz.sha256",
+    "bytes": 102,
+    "sha256": "92fc540b89d7c4ddfa2d0d185b166c2ca1061aa8bfe5efd53600acbab4c3981b",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\netag: \"dml2i8ff3h2t-2u\"\nlast-modified: Mon, 02 Nov 2026 22:11:05 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 102\ndate: Mon, 02 Nov 2026 22:16:58 GMT\n\n"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/1.0.1-VALIDATION.md",
+    "bytes": 8053,
+    "sha256": "f9775bc5fd3767b19245cee191b50dca1020074718e683e4d75b3a2c1fa3d6ba",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: text/markdown; charset=utf-8\netag: \"dml2k5key3k8-67p\"\nlast-modified: Mon, 02 Nov 2026 22:13:36 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 8053\ndate: Mon, 02 Nov 2026 22:16:58 GMT\n\n"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/1.0.1-SECURITY_REVIEW.md",
+    "bytes": 11920,
+    "sha256": "35eb04a2c10fb2a4b02a5ef3fd0f29290fb5ad7bc4efc9ea7d061a4792c9f360",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: text/markdown; charset=utf-8\netag: \"dml2l2j0wcpe-974\"\nlast-modified: Mon, 02 Nov 2026 22:14:48 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 11920\ndate: Mon, 02 Nov 2026 22:16:58 GMT\n\n"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/1.0.1-OPERATOR.md",
+    "bytes": 12792,
+    "sha256": "7746c9c5643591bdceb8df8a8a285728d18cd96e155747b45c98e5b5ff97702b",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\ncontent-type: text/markdown; charset=utf-8\netag: \"dml2lo8k0pry-9vc\"\nlast-modified: Mon, 02 Nov 2026 22:15:35 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 12792\ndate: Mon, 02 Nov 2026 22:16:58 GMT\n\n"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/1.0.1-SHA256SUMS",
+    "bytes": 569,
+    "sha256": "bc0e71c6b7e5daf26a5b2abeb47bf33dc34ed2919c26c41ef175a5ff3a8fa723",
+    "headers": "HTTP/2 200 \naccept-ranges: bytes\nalt-svc: h3=\":443\"; ma=2592000\ncontent-disposition: attachment\netag: \"dml2mev47ro8-ft\"\nlast-modified: Mon, 02 Nov 2026 22:16:33 GMT\nreferrer-policy: no-referrer\nserver: Caddy\nvary: Accept-Encoding\nx-content-type-options: nosniff\nx-robots-tag: noindex, nofollow, noarchive\ncontent-length: 569\ndate: Mon, 02 Nov 2026 22:16:59 GMT\n\n"
+  }
+]
