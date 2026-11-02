@@ -23,6 +23,8 @@ agent-sudo status
 agent-sudo revoke GRANT-ID
 ```
 
+Run `agent-sudo --help` (or `agent-sudo -h`) for an agent-oriented guide available directly in the terminal.
+
 `agent-sudo USERNAME` prompts for minutes; bare `agent-sudo` prompts for username and minutes. Enter accepts the calling account and 10 minutes. Give the resulting token privately to the intended agent. Durations are 1–1440 minutes (default 10). The recipient must already exist and be non-root. A successful administrative grant immediately enables that account; installation requires no recipient selection. Grant issuance and administrative commands use normal, freshly requested sudo authentication; passwordless administrator policy may not ask for a password. The application never receives that password.
 
 ```text
@@ -35,7 +37,7 @@ agent-sudo revoke --all
 agent-sudo admin list
 agent-sudo admin revoke GRANT-ID
 agent-sudo revoke all  # Revoke grants issued by the calling administrator
-agent-sudo --help | --version
+agent-sudo --help | -h | --version
 ```
 
 Redirected grant stdout contains only one token line; a readable account, local expiry/timezone and administrator revocation command go to stderr. Terminal output labels the private token. Detailed machine identity stays in status metadata. Status/list output is JSON metadata without tokens/verifiers. `--key-fd` consumes a token line from a descriptor >=3. Tokens in argv/environment and automatic token files are unsupported. Commands receive binary stdin/stdout/stderr and their actual exit status (signals map to 128+signal). For reliable automation, supply a separate writable `--result-fd`: it receives one JSON final result, distinguishing child code 125 from tool failure. `--json-result` is a convenience on stderr, which remains mixed with arbitrary child stderr; use the separate result descriptor for unambiguous results.

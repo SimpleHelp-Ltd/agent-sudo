@@ -1,5 +1,7 @@
 # Operator guide
 
+Run `agent-sudo --help` or `agent-sudo -h` for a terminal guide for agents and administrators.
+
 ## Trust and support
 
 This grants full root authority to a trusted operator. No saved administrator password. Tokens are bearer credentials bound to a Linux account, host and current boot. Other processes using that UID may inspect token input/memory; separate accounts improve operational separation. Future command admissions stop at expiry, revocation and reboot. Existing root commands, descendants and root shells continue, and root can establish permanent access. Existing sudo permissions/caches are independent. There is no network service or command allowlist.

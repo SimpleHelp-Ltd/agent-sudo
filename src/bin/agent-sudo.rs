@@ -153,7 +153,53 @@ fn local_expiry(utc: &str) -> String {
 }
 fn help() {
     println!(
-        "agent-sudo {}\n\nTemporary arbitrary root commands for an authorized local account.\n\nagent-sudo [USERNAME [MINUTES]]           Issue a grant (defaults: current user, 10 minutes)\nagent-sudo grant --user USER --minutes 1..1440\nagent-sudo run [--key-fd FD] [--result-fd FD] [--json-result] -- /absolute/program [args]\nagent-sudo status\nagent-sudo revoke all                    Revoke grants you issued (sudo authentication)\nagent-sudo revoke GRANT-ID | revoke --all  Revoke grants received by your account\nagent-sudo admin list | admin revoke GRANT-ID\nagent-sudo --help | --version\n\nRun supports piped binary streams, no PTY. Redirect stdin (e.g. </dev/null).\nNo saved administrator passwords. Existing root work survives expiry/revoke.",
+        r#"agent-sudo {}
+
+Run commands as root using a temporary grant from an administrator.
+
+FOR AGENTS
+  1. Receive a token privately from an administrator for your Linux account.
+     You do not need the administrator's password.
+  2. Run a command using its absolute path, for example:
+
+       agent-sudo run -- /usr/bin/id </dev/null
+
+     Enter the token at the hidden prompt. Command stdin must be redirected
+     or piped; interactive terminal programs are not supported.
+  3. For automation, supply the token through an already-open private file
+     descriptor: --key-fd FD (FD must be at least 3). It reads one token
+     line and keeps command stdin separate. Never put tokens in command
+     arguments, environment variables, shell history or logs.
+
+  agent-sudo status                 Show your grants (JSON, no tokens)
+  agent-sudo revoke GRANT-ID        Revoke one grant received by you
+  agent-sudo revoke --all           Revoke all grants received by you
+
+  If a grant expires or is revoked, ask an administrator for a new token.
+  Expiry and revocation stop new commands; admitted root work can continue.
+
+FOR ADMINISTRATORS
+  agent-sudo [USERNAME [MINUTES]]   Issue a grant; missing values prompt
+  agent-sudo grant --user USER --minutes MINUTES
+  agent-sudo admin list             List grants
+  agent-sudo admin revoke GRANT-ID  Revoke a grant
+  agent-sudo revoke all             Revoke grants you issued
+
+  Prompt defaults are the current account and 10 minutes; the recipient must
+  be an existing non-root account and duration must be 1-1440 minutes. Sudo
+  handles administrator authentication. Give the token to the agent privately.
+
+RUN OPTIONS
+  agent-sudo run [--key-fd FD] [--result-fd FD] [--json-result] -- /absolute/program [args...]
+  --result-fd FD   Write a final JSON result to a separate descriptor >= 3;
+                   distinguishes command exit 125 from an agent-sudo error.
+  --json-result    Write a convenience JSON result to stderr (mixed with
+                   command stderr). Key and result descriptors must differ.
+
+  agent-sudo --help, -h            Show this help
+  agent-sudo --version             Show version
+
+Full guide: https://tools.simplehelp.io/agent-sudo.html"#,
         agent_sudo::VERSION
     );
 }
@@ -346,7 +392,7 @@ fn real() -> Result<i32> {
         println!("agent-sudo {}", agent_sudo::VERSION);
         return Ok(0);
     }
-    if args == ["--help"] {
+    if args == ["--help"] || args == ["-h"] {
         help();
         return Ok(0);
     }

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 — 2026-11-02
+
+- Expand command-line help with agent and administrator instructions, safe token input, examples and automation options; add the `-h` shortcut.
+
 ## 1.0.1 — 2026-11-02
 
 - Add `agent-sudo revoke all` to revoke grants issued by the calling administrator across all recipients, with fresh sudo authorization and a readable count. Preserve other administrators’ grants and existing recipient `revoke --all` behavior.

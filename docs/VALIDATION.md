@@ -1,3 +1,7 @@
+# Validation — agent-sudo 1.0.2
+
+Version 1.0.2 expands frontend help and adds `-h`; authorization behavior is unchanged. The 1.0.1 evidence below describes the preceding release, not the 1.0.2 binaries. See publication records for 1.0.2 checks. Loom smoke-tested 0.2.0 and a later token; the earlier grant was denied after its stated expiry, although the denial did not distinguish expiry from revocation.
+
 # Validation — agent-sudo 1.0.1
 
 Date: 2026-11-02. Release 1.0.1. Loom 0.2.0 root-command smoke passed; user-requested expiry recheck pending. This 1.0.1 build is tested in disposable VMs. Privileged work occurs only in the two disposable QEMU/KVM VMs, with no host mounts, development-host installation or Loom changes. Public delivery is through SH Website; no GitHub push/release.
