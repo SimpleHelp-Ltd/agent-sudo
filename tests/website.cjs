@@ -1,0 +1,30 @@
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const fs=require('fs');
+(async()=>{
+const browser=await chromium.launch({headless:true});
+const context=await browser.newContext({permissions:['clipboard-read','clipboard-write']});
+const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+const url=process.argv[2]||'file://'+process.cwd()+'/website/agent-sudo.html';
+const response=await page.goto(url);
+if(url.startsWith('https:')){
+ if(!response.ok() || !response.headers()['content-type']?.startsWith('text/html') || response.headers()['content-disposition']?.includes('attachment'))throw Error('HTML not served as a page');
+ await page.locator('#copy').click();if(await page.evaluate(()=>navigator.clipboard.readText())!==fs.readFileSync('website/install-command.txt','utf8').trim())throw Error('real clipboard');
+}
+const command=fs.readFileSync('website/install-command.txt','utf8').trim();
+if(await page.locator('#install-command').textContent()!==command)throw Error('command mismatch');
+for(const width of [375,768,1280]){
+ await page.setViewportSize({width,height:900});
+ if(!await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth))throw Error('horizontal overflow '+width);
+ await page.screenshot({path:'target/page-'+width+'.png',fullPage:true});
+}
+await page.evaluate(()=>{window.copied=null;Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async t=>{window.copied=t}}})});
+await page.locator('#copy').click();if(await page.evaluate(()=>window.copied)!==command)throw Error('copy value');
+if(await page.locator('#copy-status').textContent()!=='Command copied.')throw Error('copy status');
+await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{throw Error('denied')}}}));await page.locator('#copy').click();
+if(!(await page.locator('#copy-status').textContent()).includes('Copy was blocked'))throw Error('fallback');
+if(await page.evaluate(()=>getSelection().toString())!==command)throw Error('fallback selection');
+if(errors.length)throw Error(errors.join(','));
+const links=await page.locator('a').evaluateAll(as=>as.map(a=>a.href));
+fs.writeFileSync('target/browser-check.json',JSON.stringify({url,widths:[375,768,1280],copySuccess:true,copyDeniedFallback:true,errors,links},null,2));
+await browser.close();console.log('PASS responsive layout, copy success/denial fallback, command equality, browser errors');
+})().catch(e=>{console.error(e);process.exitCode=1});

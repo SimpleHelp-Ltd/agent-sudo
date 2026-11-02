@@ -1,0 +1,58 @@
+[
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-0.1.0-linux-amd64.tar.gz",
+    "bytes": 732518,
+    "sha256": "6738d229c29ecf033698eadcb3233baac71aac69b5e26f9570eb024ece3f0946",
+    "mime": "application/gzip",
+    "disposition": "attachment"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-0.1.0-linux-amd64.tar.gz.sha256",
+    "bytes": 102,
+    "sha256": "de8163dcf83b04e83fd7e4f5be11b4da8342865965fd7468d79659b23f7e8752",
+    "mime": null,
+    "disposition": "attachment"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-0.1.0-source.tar.gz",
+    "bytes": 64924,
+    "sha256": "1905d8afb409d432bd57d300262e3a6b4eb1a75c4e6d1d872b743098d3925a22",
+    "mime": "application/gzip",
+    "disposition": "attachment"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/0.1.0-VALIDATION.md",
+    "bytes": 6873,
+    "sha256": "d8b7cf1318fc6a1f7d43ab22aa50c9dbf1496a477f30aff43b064cbf8414677b",
+    "mime": "text/markdown; charset=utf-8",
+    "disposition": "attachment"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/0.1.0-SECURITY_REVIEW.md",
+    "bytes": 8115,
+    "sha256": "fd7ce6f89eba9e05d935daab44a136aaf10e7095ad6a7c3817f6339e9f1201f7",
+    "mime": "text/markdown; charset=utf-8",
+    "disposition": "attachment"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/0.1.0-OPERATOR.md",
+    "bytes": 10214,
+    "sha256": "a26649c1a0434de172eab7034048b6494280368eb1d0b29c0bae63c2f4888eb9",
+    "mime": "text/markdown; charset=utf-8",
+    "disposition": "attachment"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/0.1.0-SHA256SUMS",
+    "bytes": 569,
+    "sha256": "9bfcaa61cc431367edd70c375fc693e0bb9afaa02b4f54a58a4c820d02466a5b",
+    "mime": null,
+    "disposition": "attachment"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/install.sh",
+    "bytes": 3549,
+    "sha256": "9f4e8c35a4b40632cff305c6d8ef4caae5c0d20329c7339bad27cb4f3ae5e53c",
+    "mime": "application/x-shellscript",
+    "disposition": "attachment"
+  }
+]

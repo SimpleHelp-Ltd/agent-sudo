@@ -1,0 +1,21 @@
+{
+  "checks": [
+    "actual-public-bootstrap-hash",
+    "exact-page-command-interactive-recipient-and-normal-sudo",
+    "explicit-recipient-differs-from-admin",
+    "public-installed-grant-run-status-revoke",
+    "explicit-complete-multi-recipient-reinstall-with-sudo",
+    "multi-recipient-enrollment",
+    "reinstalled-grant-run-revoke",
+    "exact-tested-binary-hashes",
+    "injected-bootstrap-download-failure-preserves-install-before-sudo",
+    "injected-download-failure-preserves-install-before-sudo",
+    "injected-checksum-failure-preserves-install-before-sudo",
+    "injected-platform-failure-preserves-install-before-sudo",
+    "nonexistent-recipient-denied-without-modification",
+    "injected-unsupported-os-denied-without-modification",
+    "clean-removal-after-public-install"
+  ],
+  "count": 15,
+  "bootstrap_sha256": "9f4e8c35a4b40632cff305c6d8ef4caae5c0d20329c7339bad27cb4f3ae5e53c"
+}

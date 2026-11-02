@@ -2,7 +2,9 @@
 
 A local Linux tool for a human administrator to delegate **temporary arbitrary root commands** to an enrolled account, without sharing an administrator password.
 
-**0.1.0 local development preview. Not published or installed on the development host.** Separate Rust frontend and privileged helper; tested in disposable Ubuntu VMs. See [validation](docs/VALIDATION.md), [security review](docs/SECURITY_REVIEW.md), [operator guide](docs/OPERATOR.md) and [wire/security design](docs/DESIGN.md).
+**0.1.0 development preview. Tested in disposable VMs; Loom testing pending.**
+
+[Public download and installation guide](https://tools.simplehelp.io/agent-sudo.html). The bootstrap requires an explicit existing recipient and verifies the pinned package before normal sudo installation. [Website publication workflow](docs/PUBLISHING.md). Separate Rust frontend and privileged helper; tested in disposable Ubuntu VMs. See [validation](docs/VALIDATION.md), [security review](docs/SECURITY_REVIEW.md), [operator guide](docs/OPERATOR.md) and [wire/security design](docs/DESIGN.md).
 
 ```sh
 # Build locally (Rust toolchain, musl-tools, Python 3)

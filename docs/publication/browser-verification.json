@@ -1,0 +1,28 @@
+{
+  "url": "https://tools.simplehelp.io/agent-sudo.html",
+  "widths": [
+    375,
+    768,
+    1280
+  ],
+  "copySuccess": true,
+  "copyDeniedFallback": true,
+  "errors": [],
+  "links": [
+    "https://simple-help.com/",
+    "https://tools.simplehelp.io/agent-sudo/install.sh",
+    "https://tools.simplehelp.io/agent-sudo/0.1.0-OPERATOR.md",
+    "https://tools.simplehelp.io/agent-sudo/0.1.0-OPERATOR.md",
+    "https://tools.simplehelp.io/agent-sudo/agent-sudo-0.1.0-linux-amd64.tar.gz",
+    "https://tools.simplehelp.io/agent-sudo/agent-sudo-0.1.0-linux-amd64.tar.gz.sha256",
+    "https://tools.simplehelp.io/agent-sudo/agent-sudo-0.1.0-source.tar.gz",
+    "https://tools.simplehelp.io/agent-sudo/0.1.0-SHA256SUMS",
+    "https://tools.simplehelp.io/agent-sudo/0.1.0-VALIDATION.md",
+    "https://tools.simplehelp.io/agent-sudo/0.1.0-SECURITY_REVIEW.md",
+    "https://tools.simplehelp.io/agent-sudo/0.1.0-OPERATOR.md",
+    "https://simple-help.com/"
+  ],
+  "realClipboard": true,
+  "html_sha256": "2b30a54dfed0294b6348ceb62fc7617de661620db2ed448b7483ea0ab69f549c",
+  "all_download_links_match_verified_urls": true
+}

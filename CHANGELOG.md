@@ -17,3 +17,11 @@
 - Used verified directory descriptors for grant creation/removal and lock/slot/denial state access.
 - Completed 202 compiled-binary checks across actual Ubuntu 24.04.5/traditional sudo 1.9.15p5 and Ubuntu 26.04.1/sudo-rs 0.2.13 VMs, including ACPI suspend, PAM/cache, SSH, reboot and clean removal; four initial transport checks and native/parser/dependency checks also passed.
 - Documented final security review, exact artifact hashes, reproducible relocated-source build, operator recovery and remaining limits. No push, publication or host installation.
+
+## Public preview website — 2026-11-02
+
+- Added tools.simplehelp.io preview page and HTTPS bootstrap using the exact VM-tested 0.1.0 package and pinned SHA-256.
+- Require explicit existing recipient selection, preserve terminal sudo authentication, and verify downloads before invoking the offline installer.
+- Documented immutable release publication ordering and public VM bootstrap validation; Loom and GitHub releases remain untouched.
+- Verified all eight public downloads and exact hashes; 30 public bootstrap/installation/grant/removal VM checks passed across both supported sudo implementations.
+- Published the responsive HTML page through SH Website and verified live HTML MIME/rendering, desktop/tablet/mobile layouts, real clipboard copying and denied-copy fallback; recorded checksum-guarded metadata update and sanitized publication receipts.

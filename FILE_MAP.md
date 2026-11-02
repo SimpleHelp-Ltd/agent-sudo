@@ -24,3 +24,8 @@
 - `CHANGELOG.md`: Development change history.
 - `.gitignore`: Excludes raw debug/working logs, VM state, builds and local artifacts.
 - `tests/vm/suspend.py` / `reboot_ssh.py`: Actual ACPI S3/wakeup, SSH secret transport, reboot invalidation and removal checks.
+- `website/agent-sudo.html` / `website/install.sh` / `website/install-command.txt`: Public preview page, pinned download bootstrap and exact copyable command.
+- `docs/PUBLISHING.md` / `docs/publication/`: Immutable artifact/update workflow, public hashes, sanitized service receipts and website validation evidence.
+- `tests/vm/public_bootstrap.py`: Actual public download/bootstrap and failure-preservation VM checks.
+- `tests/website.cjs`: Playwright checks for page MIME/rendering, responsive widths, exact copy text and clipboard-denial fallback.
+- `website/0.1.0-SHA256SUMS`: Checksums using exact public artifact/document filenames.
