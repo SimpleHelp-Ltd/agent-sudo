@@ -48,7 +48,7 @@ def wire(op,obj,who='agent',raw=None,ack=True):
 def rejected(op,raw):
  o,c=wire(op,None,raw=raw);assert c!=0 and o[-1][0]==b'X' and json.loads(o[-1][1])['kind']=='error'
 def reinstall(users=['agent','other','humanadmin'],success=True):
- c=subprocess.run(['/root/payload/agent-sudo-helper','install','--from','/root/payload']+sum((['--user',u] for u in users),[]),capture_output=True,timeout=30)
+ c=subprocess.run(['/root/payload/agent-sudo-helper','install','--from','/root/payload'],capture_output=True,timeout=30)
  assert (c.returncode==0)==success,('install failed',c.stderr[:200]);return c
 
 def pty_call(args,inputs,who='humanadmin'):
@@ -141,10 +141,10 @@ def main():
   finally:STATE.unlink();pathlib.Path('/run/agent-sudo-saved').rename(STATE)
  check('state-directory-mode-and-symlink-substitution',state_directory)
  def enrollment():
-  path=CONTROL/'config';b=path.read_bytes();x=json.loads(b);x['accounts']=[a for a in x['accounts'] if a['name']!='agent'];path.write_text(json.dumps(x))
+  path=CONTROL/'config';b=path.read_bytes();x=json.loads(b);x['enabled']=False;path.write_text(json.dumps(x))
   try:assert run(TOKEN).returncode!=0
   finally:path.write_bytes(b)
- check('independent-root-enrollment-gate',enrollment)
+ check('independent-root-disabled-state-gate',enrollment)
  def policy_gate():
   f=pathlib.Path('/etc/sudoers.d/99-irrelevant-test');f.write_text('# changed policy\n');f.chmod(0o440)
   try:assert run(TOKEN).returncode!=0
@@ -161,17 +161,17 @@ def main():
   before=set(STATE.glob('g-*'));c=req('grant',None,who='root');assert frame(c.stdout)==(b'R',b'');send(c,b'{"v":1,"user":"agent","minutes":60}');assert frame(c.stdout)[0]==b'J';c.stdin.close();c.stdout.read();assert c.wait(timeout=8)!=0;assert set(STATE.glob('g-*'))==before
  check('failed-grant-delivery-revokes',receipt)
  for m in [0,1441,-1]:check('duration-invalid-'+str(m),lambda m=m:assertok(front(['grant','--user','agent','--minutes',str(m)]).returncode!=0))
- check('unknown-unenrolled-recipient',lambda:assertok(front(['grant','--user','nobody','--minutes','60']).returncode!=0 and front(['grant','--user','no-such-user','--minutes','60']).returncode!=0))
+ check('unknown-and-root-recipient',lambda:assertok(front(['grant','--user','root','--minutes','60']).returncode!=0 and front(['grant','--user','no-such-user','--minutes','60']).returncode!=0))
  def fresh_auth():
   code,output,used=pty_call(['grant','--user','agent','--minutes','60'],[(b'password for',b'VmOnly-TestPassword-9274')]);assert code==0 and used==1 and b'VmOnly-TestPassword-9274' not in output,('pty auth failure',code,used)
   # -k must force a second challenge even after a successful grant.
   code,output,used=pty_call(['grant','--user','agent','--minutes','60'],[(b'password for',b'VmOnly-TestPassword-9274')]);assert code==0 and used==1
  check('real-pam-sudo-fresh-auth-no-app-password',fresh_auth)
  def noarg():
-  code,output,used=pty_call([],[(b'Recipient [',b'agent'),(b'Minutes [',b'1'),(b'password for',b'VmOnly-TestPassword-9274')]);assert code==0 and used==3
+  code,output,used=pty_call([],[(b'Recipient username:',b'agent'),(b'Minutes [',b'1'),(b'password for',b'VmOnly-TestPassword-9274')]);assert code==0 and used==3
  check('no-argument-interactive-grant-prompts',noarg)
  def noarg_invalid():
-  code,output,used=pty_call([],[(b'Recipient [',b'agent'),(b'Minutes [',b'1441')]);assert code!=0 and b'password for' not in output
+  code,output,used=pty_call([],[(b'Recipient username:',b'agent'),(b'Minutes [',b'1441')]);assert code!=0 and b'password for' not in output
  check('interactive-invalid-duration-before-auth',noarg_invalid)
  def interrupted():
   rd,wr=os.pipe();os.write(wr,(TOKEN+'\n').encode());os.close(wr)
@@ -183,7 +183,13 @@ def main():
   t,i=grant();start=threading.Event()
   def use():start.wait();return run(t).returncode
   with concurrent.futures.ThreadPoolExecutor(max_workers=8)as pool:
-   jobs=[pool.submit(use) for _ in range(8)];start.set();assert front(['revoke',i],'agent').returncode==0
+   jobs=[pool.submit(use) for _ in range(8)];start.set()
+   # Admission cap can reject any contender before it reaches the lock. Retry
+   # revocation until admitted, then assert every subsequent use is denied.
+   for attempt in range(20):
+    if front(['revoke',i],'agent').returncode==0:break
+    time.sleep(.05)
+   else:raise AssertionError('revocation did not obtain a bounded pending slot')
    results=[f.result()for f in jobs];assert all(c in [0,125]for c in results)
   assert all(run(t).returncode!=0 for _ in range(3))
  check('concurrent-admission-revoke-ordering',race)

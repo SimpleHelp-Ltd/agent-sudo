@@ -6,28 +6,34 @@ This grants full root authority to a trusted operator. No saved administrator pa
 
 The preview supports Ubuntu 24.04/26.04 amd64 with systemd and the exact sudo release families in VALIDATION.md. It rejects custom sudo.conf settings/plugins, remote includes, continued policy lines, external command-scoped Defaults, explicit recording command tags and unsupported subcommand/remote recording. Traditional sudo uses a command-scoped I/O logging exemption for the helper; all other audit and sudo permissions are retained. sudo-rs 0.2.13 has no I/O logger and rejects its configuration options. Host tracing, PAM customizations, eBPF/audit capture and privileged debugging remain outside the tool's secrecy guarantee. Root-only policy edits require revalidation, not an automatic exemption or silent change to other rules.
 
-## Install, enroll and upgrade
+## For administrators: install and grant
 
 Use only the offline versioned package from a trusted build. Verify its archive checksum through a trusted channel; a checksum delivered with untrusted code is not a signature. Start in disposable VMs and keep an independent administrator session open.
 
 ```sh
-sha256sum -c agent-sudo-0.1.0-linux-amd64.tar.gz.sha256
-tar -xzf agent-sudo-0.1.0-linux-amd64.tar.gz
-sudo ./install.sh --user agent --user second-agent
+sha256sum -c agent-sudo-0.2.0-linux-amd64.tar.gz.sha256
+tar -xzf agent-sudo-0.2.0-linux-amd64.tar.gz
+sudo ./install.sh
 ```
 
-Specify the **complete** enrollment set each time. The accounts must already exist. Installer requires normal root authorization, freezes payload bytes, validates file ownership/ACLs, detects unmanaged/modified files, disables admissions and invalidates grants under the stable maintenance lock, atomically replaces managed files, validates actual sudoers and probes transport/effective permissions, starts the cleanup timer and commits a new generation last. Unsupported policies fail closed. No broad root rule is added. Run the same installer for upgrades or enrollment/policy changes; **all existing grants become unusable**. Detectable failed installations restore prior managed files/configuration, without resurrecting old grants. A power loss may leave installation disabled or a partial set requiring manual recovery; do not treat this as a cross-file atomic filesystem transaction.
+Installation is machine-wide with no recipient options. An administrator subsequently selects an existing non-root account using `agent-sudo USERNAME MINUTES`; no prior registration is needed. Give the resulting token privately to that account. Installer requires normal root authorization, freezes payload bytes, validates file ownership/ACLs, detects unmanaged/modified files, disables admissions and invalidates grants under the stable maintenance lock, atomically replaces managed files, validates actual sudoers and probes transport, starts the cleanup timer and commits a new generation last. Unsupported policies fail closed. The only passwordless rule permits four exact recipient helper operations for local accounts; each independently requires a live grant before READY, and execution additionally requires its secret token. No administrative operation is granted by this rule. Run the same installer for upgrades or policy changes; **all existing grants become unusable**. Detectable failed installations restore prior managed files/configuration, without resurrecting old grants. A power loss may leave installation disabled or a partial set requiring manual recovery; do not treat this as a cross-file atomic filesystem transaction.
 
 The helper is a root-owned compiled executable, never a script loaded from a checkout. It is mode 0755, without setuid. The tool does not modify SSH, unrelated sudoers files or `ops/grant-agent-sudo.sh`.
 
-## Grant and use
+## For administrators: issue access
 
 ```sh
-agent-sudo                            # Prompts, defaults: current account / 60 minutes
-agent-sudo grant --user agent --minutes 60
+agent-sudo agent 60                   # Existing recipient, 1–1440 minutes
+agent-sudo agent                      # Prompts for minutes (default 60)
+agent-sudo                            # Prompts for username and minutes
+agent-sudo grant --user agent --minutes 60  # Compatible explicit syntax
 ```
 
 The grant requests fresh sudo authentication using `sudo -k` with a command; the app does not prompt for, handle or save an administrator password. Passwordless administrator policy may not challenge. Token stdout is intentionally secret; do not redirect to logs, paste into shell commands, or capture terminal output in a recording session. Metadata/revocation instructions go to stderr. The displayed host is the machine-id, not DNS identity.
+
+## For agents: use granted access
+
+Receive the token privately from your administrator; you never need the administrator password.
 
 ```sh
 agent-sudo run -- /usr/bin/id </dev/null
@@ -40,7 +46,7 @@ agent-sudo admin list
 agent-sudo admin revoke GRANT-ID
 ```
 
-Run has no PTY or terminal emulation; redirect command stdin. Its hidden prompt uses `/dev/tty`. A nonsecret preflight checks current enrollment/policy before asking for a token. The actual run checks again before receiving the token, avoiding a privileged helper waiting while a human types. `--key-fd N` reads one newline-terminated (or EOF-terminated) token, closes that descriptor before actual run sudo, and keeps command stdin independent. No positional key, token environment variable, automatic plaintext key file, fallback elevation, user-selected root environment or cwd.
+Run has no PTY or terminal emulation; redirect command stdin. Its hidden prompt uses `/dev/tty`. A nonsecret preflight checks active identity-bound grant/policy before asking for a token. The actual run checks again before receiving the token, avoiding a privileged helper waiting while a human types. `--key-fd N` reads one newline-terminated (or EOF-terminated) token, closes that descriptor before actual run sudo, and keeps command stdin independent. No positional key, token environment variable, automatic plaintext key file, fallback elevation, user-selected root environment or cwd.
 
 Root programs get real/effective/saved UID/GID 0, empty supplementary groups, `/root` cwd, umask 077, fixed HOME/USER/LOGNAME/SHELL/PATH/LANG, core limit zero, and only intended stdin/stdout/stderr. Executables must be absolute. Arguments must be UTF-8 without NUL (<=256, <=4096 bytes each, <=32768 bytes total, also subject to 64 KiB encoded header). Shell expansion occurs only when an explicit shell is requested.
 
@@ -67,9 +73,9 @@ The remote shell duplicates SSH input to frontend fd 3 and uses `/dev/null` for 
 
 ## State and lifecycle
 
-`/run/agent-sudo` is root 0700; grant records are 0600 with single links, no symlinks/extended ACLs. Only a SHA-256 verifier is stored. Random tokens have 256 secret bits and 128-bit nonsecret IDs. Account UID/name/enrollment generation, machine ID, boot ID and CLOCK_BOOTTIME expiry are checked on admission. Suspension counts; wall time affects display only. Same-name/same-UID account recreation is not reliably detectable: revoke all grants before account changes.
+`/run/agent-sudo` is root 0700; grant records are 0600 with single links, no symlinks/extended ACLs. Only a SHA-256 verifier is stored. Random tokens have 256 secret bits and 128-bit nonsecret IDs. Account UID/GID/name/installation generation, machine ID, boot ID and CLOCK_BOOTTIME expiry are checked on admission. Suspension counts; wall time affects display only. Same-name/same-UID/GID account recreation is not reliably detectable: revoke all grants before account changes.
 
-An exclusive stable lock orders admission, issuance, revocation, cleanup and maintenance. Admission ordered before revoke/expiry may start later or continue; later admissions fail. No command-lifetime lock. A five-second header deadline applies only once the helper is ready; <=32 pending helpers globally, <=4 per UID, <=128 grants/enrollments, bounded listings and 10/min denial audit messages. Sudo's own launch/authentication resource use is still subject to OS limits, not a complete DoS defense. New grants never extend old ones. Stop cleanup if needed: expiry enforcement does not depend on it.
+An exclusive stable lock orders admission, issuance, revocation, cleanup and maintenance. Admission ordered before revoke/expiry may start later or continue; later admissions fail. No command-lifetime lock. A five-second header deadline applies only once the helper is ready; <=32 pending helpers globally, <=4 per UID bucket (UID modulo 128, colliding UIDs share capacity), <=128 grants, bounded listings and 10/min denial audit messages. Under concurrent load an operation, including revocation, may return busy/tool failure before admission; retry or use the independent administrator path. Once revocation succeeds, later admissions fail. Sudo's own launch/authentication resource use is still subject to OS limits, not a complete DoS defense. New grants never extend or invalidate unrelated grants. Registration is represented by live grant records, so there is no persistent recipient list to grow stale. Account deletion or changes to name/UID/GID cause denial; cleanup removes observed invalid records. Identical identity recreation between checks cannot be detected: revoke before account deletion/reuse. After the last live grant ends, recipient status/revocation operations are denied; administrators can still list/revoke. Stop cleanup if needed: expiry enforcement does not depend on it.
 
 The frontend acknowledges successful token output. Detectable write failure or missing acknowledgment revokes the grant. A crash after acknowledgment or uncertain delivery may leave a live grant; list/revoke it (or revoke-all). Lost secrets cannot be recovered. Token/verifier deletion is not secure erasure. RAM can be captured by root; key buffers are zeroized where practical, core dumps disabled, but swap/privileged debugging cannot be ruled out.
 
@@ -83,7 +89,7 @@ sudo ./uninstall.sh
 sudo /usr/local/libexec/agent-sudo-helper uninstall
 ```
 
-Removal disables control and the enrollment rule first, validates remaining sudoers, stops/disables cleanup, removes runtime state and only owned managed files. It retains a root-only disabled `/var/lib/agent-sudo` control/lock tombstone: never unlink the live lock while old helpers may exist. Other sudo access is preserved.
+Removal disables control and the recipient rule first, validates remaining sudoers, stops/disables cleanup, removes runtime state and only owned managed files. It retains a root-only disabled `/var/lib/agent-sudo` control/lock tombstone: never unlink the live lock while old helpers may exist. Other sudo access is preserved.
 
 If files were modified, normal removal/upgrade deliberately refuses to overwrite them. From an **independent administrator session**, remove `/etc/sudoers.d/agent-sudo` first, run the installed `visudo -c`, disable/stop `agent-sudo-cleanup.timer`, mark `/var/lib/agent-sudo/config` disabled (or remove config), remove `/run/agent-sudo`, then remove the managed binaries, units and tmpfiles config below and run `systemctl daemon-reload`. Preserve `/var/lib/agent-sudo/lock` and its directory until every old helper has exited. Do not delete unrelated sudoers policy or replace `/etc/sudoers`.
 

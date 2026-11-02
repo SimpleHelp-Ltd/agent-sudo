@@ -3,7 +3,7 @@
 Public page: https://tools.simplehelp.io/agent-sudo.html
 Bootstrap: https://tools.simplehelp.io/agent-sudo/install.sh
 
-0.1.0 is a development preview, tested only in disposable Ubuntu VMs. Loom testing is pending. No GitHub release or Loom/development-host installation is part of this publication.
+0.2.0 is a development preview, tested only in disposable Ubuntu VMs. Loom testing is pending. No GitHub release or Loom/development-host installation is part of this publication.
 
 ## Versioned release inputs
 
@@ -20,8 +20,8 @@ Source snapshot is the original c16c9de implementation; website/bootstrap source
 1. Increment the package version; never republish a rebuilt existing version. Build/test the next version in disposable VMs. Enforce exact binary hashes and inspect the archive/source allowlist. Exclude logs, keys, VM images, stale archives and private files. Produce source and checksums.
 2. Discover `lore services list --agent sh-website --owner antony --action tools_publish` before use. Publish each immutable versioned artifact with `operation: publish`, `public_release: true`, exact SHA-256 and one source field. The current Lore registry enforces a 64 KiB total input limit despite the action’s advertised 1 MiB base64 allowance; use a publisher-reachable `source_url` for larger files, and confirm reachability before submitting. Use a stable request ID for identical retries. Never overwrite a versioned archive; correct mistakes with a new version.
 3. Wait for each asynchronous request via `lore services get ID`. Check both service and action status, download the returned public URLs anonymously and verify their exact hashes. Save sanitized receipts in `docs/publication/`; never save upload payloads containing credentials.
-4. Update the version, archive name and SHA-256 in `website/install.sh`. Review the bootstrap and page; keep the complete enrollment and grant invalidation warnings. Update the bootstrap with `operation: update` and `expected_previous_sha256` equal to the freshly verified current public hash. A stale hash is a conflict: investigate, do not overwrite blindly. Record the returned previous/current hashes.
-5. Test the actual public bootstrap on both supported disposable VM configurations, including explicit/interactive enrollment, normal sudo prompting, failure preservation and grant/run/revoke. No development-host or Loom install.
+4. Update the version, archive name and SHA-256 in `website/install.sh`. Review the bootstrap and page; keep the machine-wide installation, private token handoff and grant invalidation explanations. Update the bootstrap with `operation: update` and `expected_previous_sha256` equal to the freshly verified current public hash. A stale hash is a conflict: investigate, do not overwrite blindly. Record the returned previous/current hashes.
+5. Test the actual public bootstrap on both supported disposable VM configurations, including machine-wide installation, positional/prompted grants, normal sudo prompting, failure preservation and grant/run/revoke. No development-host or Loom install.
 6. Update `agent-sudo.html` last using the same checksum precondition. Test HTML MIME/disposition, links/hashes, mobile/desktop rendering, copy success/failure and absence of browser errors. The page remains a preview until deployment validation warrants changing that statement.
 7. Record publication IDs, receipts, hashes and public test evidence; update CHANGELOG and file maps. Commit locally; pushing or GitHub releases are separate work.
 
@@ -29,9 +29,9 @@ Use `agent-sudo.html`: tools_publish prohibits `index.html`; no directory listin
 
 ## Bootstrap trust and privileges
 
-The one-line command downloads a bootstrap into a fresh temporary file and runs it with terminal stdin intact. HTTPS authenticates the hosting connection; the embedded SHA-256 pins the package. It is not a signature or protection from a compromised publisher/site. Downloads, checksum verification and extraction are unprivileged for a normal administrator. Only the verified package's existing offline installer is invoked through sudo; it independently validates payload, ownership, policy and supported sudo version. Explicit existing recipients are mandatory; the full list replaces prior enrollment, invalidating all grants. Re-running currently installs 0.1.0.
+The one-line command is `curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh`. It streams the bootstrap to `sh`; the script needs no recipient, and sudo retains its normal terminal authentication. A single outer shell compound command must parse completely before execution; keep its closing brace as the final byte so every truncated prefix is incomplete or a harmless no-op. Package download, pinned checksum verification, temporary directory and cleanup are handled inside the bootstrap. HTTPS authenticates the hosting connection; the embedded SHA-256 pins the package. It is not a signature or protection from a compromised publisher/site. Downloads, checksum verification and extraction are unprivileged for a normal administrator. Only the verified package's existing offline installer is invoked through sudo; it independently validates payload, ownership, policy and supported sudo version. Installation selects no recipient. Administrative issuance later authorizes each account dynamically. Reinstallation invalidates all grants. Current preview is 0.2.0; immutable 0.1.0 assets are retained.
 
-## 2026-11-02 public validation
+## 0.1.0 historical public validation
 
 Eight downloads (package, package checksum, matching source, three original reports, aggregate checksums and bootstrap) were fetched anonymously from their actual tools.simplehelp.io URLs and matched local exact-byte SHA-256 values. The aggregate metadata was corrected under the previous-hash precondition to use its actual public document filenames. No versioned archive was changed.
 

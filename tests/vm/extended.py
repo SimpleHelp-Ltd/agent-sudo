@@ -69,7 +69,7 @@ def main():
    # sudo can still launch helper under its independent policy, yet helper must deny.
    c=subprocess.run(['/usr/bin/sudo','-n','--',HELP,'status'],input=b'',capture_output=True,**userargs('humanadmin'));assert c.returncode!=0 and c.stdout[:1]!=b'R';assert run(key,who='humanadmin').returncode!=0
   finally:POLICY.write_bytes(saved);POLICY.chmod(0o440);f.unlink();reinstall()
- check('enrollment-rule-removal-with-independent-sudo-access',admin_cached_removal)
+ check('recipient-rule-removal-with-independent-sudo-access',admin_cached_removal)
  def real_cache_removal():
   # Same PTY/session establishes a real authentication cache, then removes enrollment via root coordinator.
   marker=pathlib.Path('/tmp/agent-sudo-cache-test-ready');go=pathlib.Path('/tmp/agent-sudo-cache-test-go');done=pathlib.Path('/tmp/agent-sudo-cache-test-done')
@@ -93,7 +93,7 @@ def main():
    if status is None:os.kill(pid,signal.SIGKILL);_,status=os.waitpid(pid,0)
    assert sent and removed and os.waitstatus_to_exitcode(status)==0
   finally:POLICY.write_bytes(saved);POLICY.chmod(0o440);os.close(fd)
- check('real-cached-auth-cannot-bypass-removed-enrollment',real_cache_removal)
+ check('real-cached-auth-cannot-bypass-removed-recipient-policy',real_cache_removal)
  def caller_identity():
   # root-injected metadata exercises helper cross-check, not forged policy privileges.
   e=os.environ.copy();e.update(SUDO_USER='agent',SUDO_UID=str(pwd.getpwnam('other').pw_uid),SUDO_GID=str(pwd.getpwnam('agent').pw_gid))
@@ -118,7 +118,7 @@ def main():
  check('denial-logging-global-rate-cap',denial_rate)
  def concurrent_maintenance():
   key,id=grant();c=req('run',None);assert frame(c.stdout)==(b'R',b'');reinstall(['agent','humanadmin']);send(c,json.dumps({'v':1,'token':key,'argv':['/usr/bin/id']}).encode());assert frame(c.stdout)[0]==b'X';assert c.wait(timeout=5)!=0;assert run(key).returncode!=0;assert front(['status'],'other').returncode!=0;reinstall()
- check('enrollment-replacement-invalidates-pending-admission',concurrent_maintenance)
+ check('upgrade-generation-invalidates-pending-admission',concurrent_maintenance)
  def rollback_policy():
   before=POLICY.read_bytes();f=pathlib.Path('/etc/sudoers.d/99-record-tag');f.write_text('root ALL=(root) LOG_OUTPUT: /usr/local/libexec/agent-sudo-helper probe\n');f.chmod(0o440)
   try:reinstall(success=False)
@@ -154,7 +154,8 @@ def main():
   cs=[]
   try:
    for u in names:subprocess.run(['useradd','-m',u],check=True,capture_output=True)
-   reinstall(['agent','other','humanadmin']+names)
+   reinstall()
+   for u in names:grant(u)
    for u in names[:8]:
     for _ in range(4):
      c=req('run',None,who=u);assert frame(c.stdout)==(b'R',b'');cs.append(c)

@@ -24,7 +24,15 @@ await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurabl
 if(!(await page.locator('#copy-status').textContent()).includes('Copy was blocked'))throw Error('fallback');
 if(await page.evaluate(()=>getSelection().toString())!==command)throw Error('fallback selection');
 if(errors.length)throw Error(errors.join(','));
+await page.locator('#copy').focus();
+await page.keyboard.press('Tab');await page.keyboard.press('Shift+Tab');
+if(!await page.locator('#copy').evaluate(e=>e===document.activeElement && getComputedStyle(e).outlineStyle==='solid'))throw Error('keyboard focus missing');
+await page.keyboard.press('Enter');
+if(!(await page.locator('#copy-status').textContent()).includes('Copy was blocked'))throw Error('keyboard activation');
+if(await page.locator('#administrators').count()!==1||await page.locator('#agents').count()!==1)throw Error('audiences');
+const brand=await page.evaluate(()=>({body:getComputedStyle(document.body).fontFamily,heading:getComputedStyle(document.querySelector('h1')).fontFamily,accent:getComputedStyle(document.querySelector('h1')).color,button:getComputedStyle(document.querySelector('button')).backgroundColor}));
+if(!brand.body.includes('Noto Sans')||!brand.heading.includes('Ubuntu')||brand.accent!=='rgb(126, 102, 204)'||brand.button!=='rgb(117, 71, 255)')throw Error('SimpleHelp brand styles');
 const links=await page.locator('a').evaluateAll(as=>as.map(a=>a.href));
-fs.writeFileSync('target/browser-check.json',JSON.stringify({url,widths:[375,768,1280],copySuccess:true,copyDeniedFallback:true,errors,links},null,2));
+fs.writeFileSync('target/browser-check.json',JSON.stringify({url,widths:[375,768,1280],copySuccess:true,copyDeniedFallback:true,keyboardFocus:true,keyboardActivation:true,brand,errors,links},null,2));
 await browser.close();console.log('PASS responsive layout, copy success/denial fallback, command equality, browser errors');
-})().catch(e=>{console.error(e);process.exitCode=1});
+})().catch(e=>{console.error(e);process.exit(1)});

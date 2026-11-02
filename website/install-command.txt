@@ -1,1 +1,1 @@
-sh -c 'set -e; f=$(mktemp); trap "rm -f -- \"$f\"" EXIT; curl --proto "=https" --proto-redir "=https" -fsSL https://tools.simplehelp.io/agent-sudo/install.sh -o "$f"; sh "$f"'
+curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh

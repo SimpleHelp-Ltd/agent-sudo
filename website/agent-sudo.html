@@ -1,34 +1,133 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><meta name="description" content="agent-sudo: temporary root command access for a trusted local agent account. Install and use the 0.1.0 development preview."><title>agent-sudo · SimpleHelp Tools</title>
-<style>
-:root{color-scheme:light;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#173347;background:#f5f8fa;line-height:1.65}*{box-sizing:border-box}body{margin:0}main{max-width:960px;margin:auto;padding:36px 24px 64px}a{color:#00738f;text-underline-offset:4px}a:hover{color:#004d61}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #0085a7;outline-offset:4px}.brand{font-size:15px;font-weight:700;letter-spacing:.03em;margin-bottom:34px}.brand a{text-decoration:none}.badge{display:inline-block;font-size:13px;font-weight:700;color:#72530b;background:#fff3d4;padding:5px 12px;border-radius:20px}h1{font-size:clamp(40px,8vw,66px);letter-spacing:-.05em;line-height:1.1;margin:18px 0}h2{font-size:26px;letter-spacing:-.02em;line-height:1.25;margin:0 0 14px}h3{font-size:18px;margin:0 0 8px}p{margin:0 0 16px;color:#526775}.lead{font-size:21px;max-width:750px}.panel{background:#fff;border:1px solid #dde7ed;border-radius:12px;padding:clamp(20px,4vw,32px);margin-top:24px}.install{border-top:4px solid #0085a7}.install-head{display:flex;align-items:center;justify-content:space-between;gap:16px}.install-head h2{margin:0}.command{position:relative;margin-top:18px}pre{background:#102f40;color:#e8f5f9;border-radius:8px;padding:18px;margin:12px 0 18px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.65}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}p code,li code{font-size:.9em;background:#eef4f7;padding:2px 5px;border-radius:4px;color:#173347}button{font:inherit;font-size:14px;font-weight:600;color:#fff;background:#00738f;border:0;border-radius:7px;padding:9px 16px;cursor:pointer;min-height:44px;flex-shrink:0}.note{font-size:14px}.notice{border-left:3px solid #c58c24;padding-left:18px;margin-top:24px}.steps{display:grid;gap:24px}.step{border-top:1px solid #e3ebef;padding-top:24px}.step:first-child{border:0;padding-top:0}.step-label{color:#00738f;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin:0 0 6px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.grid .panel{min-width:0}ul{padding-left:21px;margin:0}li{margin:8px 0}details{margin-top:18px}summary{cursor:pointer;color:#00738f;font-weight:600}footer{font-size:13px;color:#526775;margin-top:28px}#copy-status{font-size:13px;min-height:22px;margin:0;color:#00738f}.hash{font-size:12px;word-break:break-all}.downloads a{font-weight:600}@media(max-width:640px){main{padding:24px 16px 40px}.grid{grid-template-columns:1fr;gap:0}.lead{font-size:18px}.brand{margin-bottom:24px}h2{font-size:23px}.panel{margin-top:18px}pre{font-size:12px;padding:14px}}
-</style></head><body><main>
-<div class="brand"><a href="https://simple-help.com/">SimpleHelp</a> / Tools</div>
-<span class="badge">0.1.0 · Development preview</span>
-<h1>agent-sudo</h1><p class="lead">Give a trusted agent temporary permission to run root commands, without sharing your administrator password.</p>
-<p>A local Linux CLI with short-lived, revocable tokens. No network service. Tested in disposable Ubuntu VMs; <strong>Loom testing is pending.</strong></p>
-<section class="panel install" aria-labelledby="install-title"><div class="install-head"><h2 id="install-title">Install the preview</h2><button type="button" id="copy" aria-label="Copy installation command">Copy command</button></div>
-<div class="command"><pre><code id="install-command">sh -c &#x27;set -e; f=$(mktemp); trap &quot;rm -f -- \&quot;$f\&quot;&quot; EXIT; curl --proto &quot;=https&quot; --proto-redir &quot;=https&quot; -fsSL https://tools.simplehelp.io/agent-sudo/install.sh -o &quot;$f&quot;; sh &quot;$f&quot;&#x27;</code></pre></div><p id="copy-status" role="status" aria-live="polite"></p>
-<p>Run in an administrator’s terminal on the target machine. You’ll be asked for the <strong>existing account to enroll</strong>, then normal sudo authentication. Choose the agent’s account explicitly; it may be different from your administrator account. The installer does not create accounts.</p>
-<p class="note">Ubuntu 24.04 / 26.04 · Linux amd64 · systemd · curl required. Validated with traditional sudo 1.9.15p5 and sudo-rs 0.2.13. Unsupported sudo policies fail closed. Keep an independent administrator session open.</p>
-<details><summary>What this command downloads and verifies</summary><p>The command saves the bootstrap to a temporary file and runs it with terminal input available for prompts. The bootstrap downloads the pinned 0.1.0 package over HTTPS, verifies its SHA-256, then invokes the package’s existing offline installer through sudo. When started from a normal administrator account, downloads and verification run without root; only the verified package installer is invoked through sudo.</p><p>The bootstrap and checksum depend on your trust in this HTTPS site. Checksums detect changed or corrupt bytes; they are <strong>not signatures</strong> and do not prove authenticity if the site is compromised.</p><p><a href="agent-sudo/install.sh">Inspect the bootstrap</a> · <a href="agent-sudo/0.1.0-OPERATOR.md">Offline installation and recovery</a></p></details></section>
-<div class="notice"><h3>Full root authority, for a trusted account</h3><p>This is not a sandbox. An admitted command can do anything root can do, including establish persistent access. Expiry and revocation block new commands; <strong>already admitted root processes can outlive expiry</strong>. Keep tokens out of arguments, environment variables, shell history and logs. Avoid recorded terminal sessions when issuing a token.</p></div>
-<section class="panel" aria-labelledby="use-title"><h2 id="use-title">From installation to a root command</h2><div class="steps">
-<div class="step"><p class="step-label">1 · Administrator</p><h3>Enroll the intended account</h3><p>The install command above prompts for the existing recipient. Replace <code>agent</code> in the examples below with that account. For several recipients, download the bootstrap and provide the complete list:</p><pre><code>curl -fsSLo agent-sudo-install.sh https://tools.simplehelp.io/agent-sudo/install.sh
-sh agent-sudo-install.sh --user agent --user second-agent</code></pre><p class="note">Every installation replaces the entire enrollment list and invalidates existing grants. Remove the downloaded bootstrap afterward if desired.</p></div>
-<div class="step"><p class="step-label">2 · Administrator</p><h3>Issue a grant</h3><pre><code>agent-sudo grant --user agent --minutes 60</code></pre><p>Normal sudo authorization is requested afresh; your administrator password stays with sudo. Stdout contains one secret token line. Stderr shows its grant ID, recipient, machine identity, expiry and revocation instructions. Deliver the token privately to the recipient.</p><p class="note">Run <code>agent-sudo</code> without arguments for interactive recipient/duration prompts. Duration: 1–1440 minutes, default 60. Grants are bound to the recipient account, host and boot.</p></div>
-<div class="step"><p class="step-label">3 · Enrolled recipient</p><h3>Use the grant</h3><pre><code>agent-sudo run -- /usr/bin/id &lt;/dev/null</code></pre><p>Paste the token into the hidden prompt. Use an absolute executable path. Command stdin remains separate; binary input and output are supported. There is no PTY, so full-screen editors and interactive terminal applications are unsupported.</p><pre><code>agent-sudo run -- /bin/cat &lt; input.bin &gt; output.bin</code></pre><p class="note">Automation can supply a token via <code>--key-fd N</code> (N ≥ 3), never argv or environment. See the operator guide for SSH delivery and a separate <code>--result-fd</code> for unambiguous execution results.</p></div>
-<div class="step"><p class="step-label">4 · Check and revoke</p><h3>Control future admissions</h3><pre><code># Recipient: metadata only, no token needed
-agent-sudo status
-agent-sudo revoke GRANT-ID
-agent-sudo revoke --all
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Install agent-sudo and grant temporary root access to a trusted agent. Administrator and agent instructions, downloads and security guidance."><title>agent-sudo · SimpleHelp tools</title><style>@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(https://simple-help.com/assets/0c1fd2eed9f7-o-0mIpQlx3QUlC5A4PNB6Ryti20_6n1iPHjcz6L1SoM-jCpoiyCjA-9a6Vc.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(https://simple-help.com/assets/fb9bf4ef36a1-o-0mIpQlx3QUlC5A4PNB6Ryti20_6n1iPHjcz6L1SoM-jCpoiyD9A-9a6Vc.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(https://simple-help.com/assets/84de28b2f0f1-o-0mIpQlx3QUlC5A4PNB6Ryti20_6n1iPHjcz6L1SoM-jCpoiyDPA-9a6Vc.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(https://simple-help.com/assets/2c3137cbfbb2-o-0mIpQlx3QUlC5A4PNB6Ryti20_6n1iPHjcz6L1SoM-jCpoiyAjBO9a6Vc.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: normal;
+  font-display: swap;
+  src: url(https://simple-help.com/assets/8c74d5f82990-o-0mIpQlx3QUlC5A4PNB6Ryti20_6n1iPHjcz6L1SoM-jCpoiyAaBO9a6Vc.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://simple-help.com/assets/baba97a52687-4iCp6KVjbNBYlgoKejZftVyPN4Q.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://simple-help.com/assets/f0a9f64d2c1c-4iCu6KVjbNBYlgoKej70l0w.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://simple-help.com/assets/e753121a7dd4-4iCp6KVjbNBYlgoKejYHtFyPN4Q.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://simple-help.com/assets/7fe448ffe420-4iCp6KVjbNBYlgoKejZPslyPN4Q.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://simple-help.com/assets/5b0dcfebd40e-4iCv6KVjbNBYlgoC1CzjsGyI.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://simple-help.com/assets/352e4615175b-4iCs6KVjbNBYlgoKfw7z.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://simple-help.com/assets/08aa12dc91b0-4iCv6KVjbNBYlgoCjC3jsGyI.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://simple-help.com/assets/787883e73947-4iCv6KVjbNBYlgoCxCvjsGyI.ttf) format('truetype');
+}
 
-# Administrator: normal sudo authorization
-agent-sudo admin list
-agent-sudo admin revoke GRANT-ID</code></pre><p>Expiry, revocation and reboot prevent future uses. They do not stop admitted work or revoke independent sudo access.</p></div></div></section>
-<div class="grid"><section class="panel"><h2>Upgrade or change recipients</h2><p>Run the installation command again and supply the <strong>complete enrollment list</strong>. It currently installs preview 0.1.0; future releases will update the pinned version after validation.</p><p>All grants become unusable, including during rollback. Sudo-policy changes require administrator reinstallation/revalidation. Modified managed files are refused.</p></section><section class="panel"><h2>Remove</h2><pre><code>sudo /usr/local/libexec/agent-sudo-helper uninstall</code></pre><p>Disables admissions and removes managed files. Unrelated sudo permissions remain. A disabled root-only lock tombstone is retained for safe ordering with old helpers.</p><p class="note">Removal cannot undo root persistence. See the <a href="agent-sudo/0.1.0-OPERATOR.md">independent recovery procedure</a> if managed files were modified.</p></section></div>
-<section class="panel downloads"><h2>Downloads &amp; evidence</h2><p>Version 0.1.0 · Published 2 November 2026 · Development preview</p><ul><li><a href="agent-sudo/agent-sudo-0.1.0-linux-amd64.tar.gz">Linux amd64 package</a> · <a href="agent-sudo/agent-sudo-0.1.0-linux-amd64.tar.gz.sha256">Package SHA-256</a></li><li><a href="agent-sudo/agent-sudo-0.1.0-source.tar.gz">Matching 0.1.0 source</a> · <a href="agent-sudo/0.1.0-SHA256SUMS">Download checksums</a></li><li><a href="agent-sudo/0.1.0-VALIDATION.md">Validation evidence</a> · <a href="agent-sudo/0.1.0-SECURITY_REVIEW.md">Security review</a> · <a href="agent-sudo/0.1.0-OPERATOR.md">Full operator guide</a></li></ul><p class="hash">Package SHA-256:<br><code>6738d229c29ecf033698eadcb3233baac71aac69b5e26f9570eb024ece3f0946</code></p><p>202 installed-binary checks passed in disposable QEMU/KVM VMs: Ubuntu 24.04.5 / sudo 1.9.15p5 and Ubuntu 26.04.1 / sudo-rs 0.2.13. Includes token lifecycle, hostile requests, logging, binary streams, SSH, reboot and removal. Native tests and dependency audit also passed. The public installer passed 30 additional VM checks for installation, enrollment, grant use, revocation and removal, including simulated download and checksum failures.</p><p class="note">The linked reports record the original local build before website publication. No independent audit; other platform/policy combinations and exhaustive power-loss recovery are untested. Loom validation remains pending.</p></section>
-<footer>agent-sudo · MIT licensed · <a href="https://simple-help.com/">SimpleHelp</a>. Public downloads are versioned; this page and bootstrap select the current preview.</footer>
-</main><script>
-const copy=document.getElementById('copy');copy.addEventListener('click',async()=>{const status=document.getElementById('copy-status');try{await navigator.clipboard.writeText(document.getElementById('install-command').textContent);status.textContent='Command copied.';copy.textContent='Copied';}catch(e){status.textContent='Copy was blocked. Select and copy the command above.';const range=document.createRange();range.selectNodeContents(document.getElementById('install-command'));const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);}});
-</script></body></html>
+:root{--ink:#0e0f21cc;--purple:#7245ff;--blue:#339dff;--accent:#7e66cc;--light:#efeffa;--border:#dbdbdb}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:20px}body{margin:0;color:var(--ink);font:16px/1.65 'Noto Sans',sans-serif;background:#fff}a{color:#6334d6;text-underline-offset:4px}a:hover{color:#442492}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #6334d6;outline-offset:5px}.skip{position:absolute;left:16px;top:-70px;background:#fff;z-index:9;padding:12px}.skip:focus{top:10px}.top{background:#f7f6fc;border-bottom:1px solid #dbdbdb}.nav{max-width:1160px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px 28px}.brand{display:flex;align-items:center;gap:9px;font:700 25px/1 Ubuntu,Helvetica,sans-serif;color:#333;text-decoration:none}.brand svg{width:51px;height:27px}.navlinks{display:flex;gap:24px;font-family:Ubuntu,Helvetica,sans-serif}.navlinks a{color:var(--ink);text-decoration:none;padding:8px 0}main{max-width:1060px;margin:auto;padding:0 28px 56px}.hero{padding:64px 0 38px;position:relative}.eyebrow{font:500 14px Ubuntu,Helvetica,sans-serif;text-transform:uppercase;letter-spacing:.06em;color:#6334d6;margin:0 0 14px}.badge{display:inline-block;background:var(--light);border-radius:24px;color:#55339a;font-size:13px;padding:6px 13px;margin-bottom:18px}h1,h2,h3{font-family:Ubuntu,Helvetica,sans-serif;line-height:1.2;color:var(--ink)}h1{font-size:clamp(40px,7vw,60px);margin:0 0 18px;color:var(--accent)}h2{font-size:32px;margin:0 0 22px}h3{font-size:22px;margin:0 0 12px}.lead{font-size:20px;max-width:740px;margin:0 0 16px}.note{font-size:14px}.panel{border:1px solid var(--border);background:#f8f8f8;border-radius:12px;padding:32px;margin:0 0 32px}.install{background:#fff;border-top:4px solid var(--purple)}.install-head{display:flex;justify-content:space-between;align-items:center;gap:16px}.install-head h3{margin:0}button{font:600 15px 'Noto Sans',sans-serif;background:#7547ff;color:white;border:0;border-radius:8px;padding:12px 24px;cursor:pointer;min-height:44px;flex-shrink:0;box-shadow:0 2px 5px #25274630}button:hover{filter:brightness(.93)}pre{font:14px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;color:#252746;background:var(--light);border:1px solid #deddf3;border-radius:8px;padding:18px;margin:16px 0 20px;white-space:pre-wrap;overflow-wrap:anywhere}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}p code,li code{font-size:.9em;background:var(--light);padding:2px 5px;border-radius:3px}p{margin:0 0 16px}.step{padding-top:24px;border-top:1px solid var(--border);margin-top:24px}.step-label{color:#6334d6;font:500 13px Ubuntu,Helvetica,sans-serif;letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}.grid>div{min-width:0}.notice{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:0 0 36px}.hash{font-size:12px;overflow-wrap:anywhere}ul{padding-left:22px}li{margin:8px 0}#copy-status{min-height:24px;font-size:14px;color:#55339a;margin:0}.section{margin:0 0 52px}footer{border-top:1px solid var(--border);padding-top:24px;font-size:13px}.audience{color:#6334d6}.support{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 0}.support span{border:1px solid var(--border);padding:4px 10px;border-radius:20px;font-size:13px}@media(max-width:640px){.nav{padding:20px;flex-wrap:wrap;gap:12px}.navlinks{gap:18px;font-size:14px}.brand{font-size:22px}.brand svg{width:42px}main{padding:0 20px 40px}.hero{padding:40px 0 26px}.lead{font-size:18px}.panel{padding:22px;margin-bottom:24px}h2{font-size:28px}h3{font-size:21px}.grid{grid-template-columns:1fr;gap:22px}pre{font-size:12px;padding:14px}.install-head{align-items:flex-start}button{padding:10px 18px}.section{margin-bottom:36px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style></head><body><a class="skip" href="#administrators">Skip to installation</a>
+<header class="top"><nav class="nav" aria-label="Main"><a class="brand" href="https://simple-help.com/" aria-label="SimpleHelp home"><svg width="100%" height="100%" viewBox="0 0 188 94" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M140.496 0.305664H183.165C185.465 0.305664 187.328 2.16944 187.328 4.46852V62.7485C187.328 79.9916 173.35 93.97 156.107 93.97H97.8269C95.5278 93.97 93.6641 92.1062 93.6641 89.8071V45.5854L140.496 0.305664Z" fill="url(#paint0_linear_166_3132)"></path>
+<path d="M46.8322 93.97L4.16287 93.97C1.86379 93.97 1.0592e-05 92.1062 1.019e-05 89.8071L0 31.5271C-3.01488e-06 14.284 13.9783 0.305677 31.2214 0.305674L89.5014 0.305664C91.8005 0.305664 93.6643 2.16944 93.6643 4.46852L93.6643 47.1378L46.8322 93.97Z" fill="url(#paint1_linear_166_3132)"></path>
+<path d="M112.488 9.66278C120.592 3.5888 130.447 0.305664 140.574 0.305664L179.532 0.305664C182.032 0.305664 183.093 3.48683 181.095 4.98784L75.1118 84.5849C67.0009 90.6765 57.1314 93.97 46.9877 93.97H7.80995C5.30917 93.97 4.24845 90.786 6.24958 89.2862L112.488 9.66278Z" fill="url(#paint2_linear_166_3132)"></path>
+<defs>
+<linearGradient id="paint0_linear_166_3132" x1="93.6641" y1="93.97" x2="187.328" y2="93.9699" gradientUnits="userSpaceOnUse">
+<stop stop-color="#BB4AF0"></stop>
+<stop offset="0.499901" stop-color="#7245FF"></stop>
+</linearGradient>
+<linearGradient id="paint1_linear_166_3132" x1="1.31162e-06" y1="0.305671" x2="93.6643" y2="0.305677" gradientUnits="userSpaceOnUse">
+<stop offset="0.500015" stop-color="#339DFF"></stop>
+<stop offset="1" stop-color="#54D3FB"></stop>
+</linearGradient>
+<linearGradient id="paint2_linear_166_3132" x1="46.8327" y1="62.7485" x2="139.297" y2="49.5433" gradientUnits="userSpaceOnUse">
+<stop offset="0.0339362" stop-color="#339DFF"></stop>
+<stop offset="1" stop-color="#7245FF"></stop>
+</linearGradient>
+</defs>
+</svg><span>SimpleHelp</span></a><div class="navlinks"><a href="#administrators">Administrators</a><a href="#agents">Agents</a><a href="#downloads">Downloads</a></div></nav></header>
+<main><div class="hero"><p class="eyebrow">SimpleHelp tools</p><span class="badge">0.2.0 · Development preview · Loom testing pending</span><h1>agent-sudo</h1><p class="lead">Give a trusted agent temporary root access, without sharing your administrator password.</p><p>Install once. Grant access to an existing account when needed. Hand the agent its private token.</p><div class="support"><span>Ubuntu 24.04 / 26.04</span><span>Linux amd64</span><span>systemd</span></div></div>
+<section class="section" id="administrators" aria-labelledby="admin-title"><p class="eyebrow">For administrators</p><h2 id="admin-title">Setup and use</h2><div class="panel install"><div class="install-head"><h3>1. Install machine-wide</h3><button id="copy" type="button" aria-label="Copy installation command">Copy</button></div><pre><code id="install-command">curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh</code></pre><p id="copy-status" role="status" aria-live="polite"></p><p>Run this in a terminal. The script downloads and checks the pinned package, then sudo requests your normal administrator authorization. There is no account-selection step.</p><p class="note">The package checksum is pinned in the HTTPS bootstrap; it detects corrupted or mismatched packages. It is not a signature or protection against a compromised download site.</p>
+<div class="step"><h3>2. Grant access</h3><pre><code>agent-sudo agent 60</code></pre><p>Replace <code>agent</code> with an existing non-root account and <code>60</code> with the number of minutes (1–1440). Any administrator whose sudo policy permits the grant operation can issue a grant.</p><pre><code>agent-sudo agent     # Prompts for minutes; Enter selects 60
+agent-sudo           # Prompts for username and minutes</code></pre><p>Sudo handles fresh administrator authentication. Passwordless administrator policies may not prompt. agent-sudo never receives or saves your administrator password.</p></div>
+<div class="step"><h3>3. Give the token privately to the agent</h3><p>A successful grant prints one secret token. The account can use it immediately. Give that token privately to the intended agent; keep it out of recorded terminals, logs, command arguments and environment variables.</p><p class="note">The grant ID, recipient, machine identity, expiry and revocation instructions are shown separately. A lost token cannot be recovered; revoke that grant and issue a new one.</p></div></div>
+<div class="grid"><div><h3>Check and revoke</h3><pre><code>agent-sudo admin list
+agent-sudo admin revoke GRANT-ID</code></pre><p>These commands use normal fresh sudo authorization. Revocation stops future uses of that grant.</p></div><div><h3>Upgrade or remove</h3><p>Run the same installation command to install the current preview or revalidate a changed sudo policy. Installation and upgrades invalidate all previous grants, including when upgrading from 0.1.0.</p><pre><code>sudo /usr/local/libexec/agent-sudo-helper uninstall</code></pre><p>Removal disables access and removes managed files. Keep an independent administrator session available.</p></div></div></section>
+<section class="section" id="agents" aria-labelledby="agent-title"><p class="eyebrow">For agents</p><h2 id="agent-title">Using granted access</h2><div class="panel"><h3>Receive your token, then run a command</h3><pre><code>agent-sudo run -- /usr/bin/id &lt;/dev/null</code></pre><p>Paste the token into the hidden <code>Access token:</code> prompt. You never need the administrator’s password. Use an absolute executable path. Redirect stdin for commands that need no input.</p><pre><code>agent-sudo run -- /bin/cat &lt; input.bin &gt; output.bin</code></pre><p>Binary stdin, stdout and stderr are supported. This preview has no PTY; terminal editors and other full-screen terminal applications are unsupported.</p><div class="step"><h3>Automation through a descriptor</h3><pre><code>agent-sudo run --key-fd 3 -- /usr/bin/id &lt;/dev/null</code></pre><p>Your trusted launcher must supply descriptor 3 already open. It must contain the token plus a newline or EOF. <code>--key-fd</code> must be at least 3 and is separate from command stdin. Do not put the token itself in the command, environment or logs. The <a href="agent-sudo/0.2.0-OPERATOR.md">operator guide</a> includes a complete Python/SSH example and separate <code>--result-fd</code> output for reliable automation.</p></div><div class="step"><h3>Check access or give it up</h3><pre><code>agent-sudo status
+agent-sudo revoke GRANT-ID
+agent-sudo revoke --all</code></pre><p>These show metadata or revoke your own grants without reading a token. After the last grant expires or is revoked, recipient operations are denied. Ask an administrator for a new grant; there is no automatic renewal.</p></div></div></section>
+<div class="notice"><h3>Full root authority</h3><p>This grants arbitrary root commands to an account you trust. Expiry, revocation and reboot prevent new admissions; <strong>already admitted root processes can outlive expiry</strong> and may establish persistent access. Tokens are bound to the account, machine and current boot. Processes sharing a UID are not strongly isolated.</p></div>
+<section id="downloads" class="section" aria-labelledby="download-title"><h2 id="download-title">Downloads and validation</h2><p>0.2.0 development preview · 2 November 2026 · Loom testing pending</p><ul><li><a href="agent-sudo/agent-sudo-0.2.0-linux-amd64.tar.gz">Linux amd64 package</a> · <a href="agent-sudo/agent-sudo-0.2.0-linux-amd64.tar.gz.sha256">Package SHA-256</a></li><li><a href="agent-sudo/agent-sudo-0.2.0-source.tar.gz">Matching source</a> · <a href="agent-sudo/0.2.0-SHA256SUMS">Download checksums</a></li><li><a href="agent-sudo/0.2.0-OPERATOR.md">Operator guide</a> · <a href="agent-sudo/0.2.0-VALIDATION.md">Validation evidence</a> · <a href="agent-sudo/0.2.0-SECURITY_REVIEW.md">Security review</a></li></ul><p class="hash">Package SHA-256: <code>1bb0b9626aca32e8f4d07f61ea9a88791c27b20e0b10fb417495f4b8bce36329</code></p><p>Tested using installed production binaries in disposable QEMU/KVM VMs: Ubuntu 24.04.5 with sudo 1.9.15p5 and Ubuntu 26.04.1 with sudo-rs 0.2.13. See the evidence for exact hashes, checks and simulated failure cases.</p><p class="note">Supports the documented local sudo policies only. Revoke grants before deleting or reusing recipient accounts. No independent audit; other platforms and exhaustive power-loss recovery remain untested. Immutable 0.1.0 downloads remain available at their original URLs.</p></section>
+<footer>agent-sudo · MIT licensed · <a href="https://simple-help.com/">SimpleHelp</a> · Versioned downloads; this page and installer select the current preview.</footer></main>
+<script>document.getElementById('copy').addEventListener('click',async()=>{const button=document.getElementById('copy'),status=document.getElementById('copy-status'),command=document.getElementById('install-command');try{await navigator.clipboard.writeText(command.textContent);status.textContent='Command copied.';button.textContent='Copied';}catch{status.textContent='Copy was blocked. Select and copy the command above.';const r=document.createRange();r.selectNodeContents(command);const s=window.getSelection();s.removeAllRanges();s.addRange(r);}});</script></body></html>

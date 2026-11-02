@@ -92,7 +92,7 @@ fn read_line(file: &mut impl Read, limit: usize) -> Result<Zeroizing<String>> {
 }
 fn help() {
     println!(
-        "agent-sudo {}\n\nTemporary arbitrary root commands for an enrolled local account.\n\nagent-sudo                              Interactive grant\nagent-sudo grant --user USER --minutes 1..1440\nagent-sudo run [--key-fd FD] [--result-fd FD] [--json-result] -- /absolute/program [args]\nagent-sudo status\nagent-sudo revoke GRANT-ID | revoke --all\nagent-sudo admin list | admin revoke GRANT-ID\nagent-sudo --help | --version\n\nRun supports piped binary streams, no PTY. Redirect stdin (e.g. </dev/null).\nNo saved administrator passwords. Existing root work survives expiry/revoke.",
+        "agent-sudo {}\n\nTemporary arbitrary root commands for an authorized local account.\n\nagent-sudo [USERNAME [MINUTES]]           Issue a grant (missing values prompt)\nagent-sudo grant --user USER --minutes 1..1440\nagent-sudo run [--key-fd FD] [--result-fd FD] [--json-result] -- /absolute/program [args]\nagent-sudo status\nagent-sudo revoke GRANT-ID | revoke --all\nagent-sudo admin list | admin revoke GRANT-ID\nagent-sudo --help | --version\n\nRun supports piped binary streams, no PTY. Redirect stdin (e.g. </dev/null).\nNo saved administrator passwords. Existing root work survives expiry/revoke.",
         agent_sudo::VERSION
     );
 }
@@ -129,7 +129,7 @@ fn call(op: &str, mut request: p::Request, key_fd: Option<i32>, json_result: boo
     if !matches!(&ready,Ok((b'R',b))if b.is_empty()) {
         SUDO_PID.store(0, Ordering::SeqCst);
         let _ = child.wait();
-        return fail("helper unavailable: check enrollment and validated sudo policy");
+        return fail("helper unavailable: check active grant and validated sudo policy");
     }
     p::write_request(&mut w, &request)?;
     request.token.zeroize();
@@ -268,15 +268,29 @@ fn real() -> Result<i32> {
     let mut r = p::Request::empty();
     let mut key = None;
     let mut json = false;
-    let op = if args.is_empty() {
+    let reserved = ["grant", "run", "status", "revoke", "admin"];
+    let op = if args.is_empty()
+        || (!reserved.contains(&args[0].as_str()) && !args[0].starts_with('-') && args.len() <= 2)
+    {
         eprintln!(
-            "This grants arbitrary root commands. Root work and persistence can outlive expiry. Normal sudo authentication follows; passwordless host policy may not challenge."
+            "Arbitrary root access; admitted work survives expiry. Normal fresh sudo authentication follows; passwordless policy may not challenge."
         );
-        let default = std::env::var("USER").unwrap_or_default();
-        let u = tty_line(&format!("Recipient [{default}]: "), false)?;
-        r.user = Some(if u.is_empty() { default } else { u.to_string() });
-        let m = tty_line("Minutes [60]: ", false)?;
-        r.minutes = Some(if m.is_empty() { 60 } else { m.parse()? });
+        let user = if let Some(u) = args.first() {
+            u.clone()
+        } else {
+            tty_line("Recipient username: ", false)?.to_string()
+        };
+        let a = s::account(&user)?;
+        if a.uid == 0 {
+            return fail("recipient must be non-root");
+        }
+        r.user = Some(user);
+        r.minutes = Some(if let Some(m) = args.get(1) {
+            m.parse()?
+        } else {
+            let m = tty_line("Minutes [60]: ", false)?;
+            if m.is_empty() { 60 } else { m.parse()? }
+        });
         "grant"
     } else {
         match args[0].as_str() {
@@ -371,6 +385,12 @@ fn real() -> Result<i32> {
         return fail("key and result descriptors must differ");
     }
     r.validate(op)?;
+    if op == "grant" {
+        let a = s::account(r.user.as_deref().ok_or("missing recipient")?)?;
+        if a.uid == 0 {
+            return fail("recipient must be non-root");
+        }
+    }
     call(op, r, key, json)
 }
 fn main() {

@@ -25,3 +25,15 @@
 - Documented immutable release publication ordering and public VM bootstrap validation; Loom and GitHub releases remain untouched.
 - Verified all eight public downloads and exact hashes; 30 public bootstrap/installation/grant/removal VM checks passed across both supported sudo implementations.
 - Published the responsive HTML page through SH Website and verified live HTML MIME/rendering, desktop/tablet/mobile layouts, real clipboard copying and denied-copy fallback; recorded checksum-guarded metadata update and sanitized publication receipts.
+
+## Short public installation command — 2026-11-02
+
+- Simplified the page, copy button, command file and documentation to `curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh`.
+- Guarded bootstrap execution with a complete shell compound command so a truncated script cannot begin installation; recipient selection remains on `/dev/tty`.
+- Preserved the exact tested 0.1.0 package and pinned SHA-256; download verification, temporary files and cleanup stay inside the bootstrap.
+
+## 0.2.0 — 2026-11-02
+
+- Machine-wide installation without recipient selection; positional and prompted administrative grants dynamically authorize existing non-root recipients.
+- Preserve private tokens, exact recipient-only sudo dispatch, independent administrative policy checks, bounded state, maintenance invalidation and separate binary streams.
+- Simplify public installation to a piped hosted bootstrap guarded against truncated scripts; separate administrator and agent guides, using inspected SimpleHelp styles.

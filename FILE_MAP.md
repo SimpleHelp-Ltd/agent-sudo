@@ -6,9 +6,9 @@
 - `src/bin/agent-sudo-helper.rs`: Exact privileged operation dispatch, readiness gates, grant receipt and admissions.
 - `src/protocol.rs`: Bounded versioned requests/frames, deadlines and parser mutation tests.
 - `src/security.rs`: Safe root path traversal, ownership/link/ACL validation, identity, clocks, randomness and audits.
-- `src/store.rs`: Enrollment/state gates, stable lock, verifier records, expiration, revocation and resource bounds.
+- `src/store.rs`: Dynamic grant/state gates, stable lock, verifier records, expiration, revocation and resource bounds.
 - `src/execution.rs`: Root execution context, descriptor hygiene, nonblocking binary relay, signals and child reaping.
-- `src/maintenance.rs`: Policy sealing, sudo compatibility, installation/enrollment, rollback and removal.
+- `src/maintenance.rs`: Policy sealing, sudo compatibility, machine-wide installation, rollback and removal.
 - `install.sh` / `uninstall.sh`: Offline root-authorized package entry points.
 - `scripts/build-release.py`: Static local release build, deterministic archive/checksums and tested hash guard.
 - `docs/SPEC.md`: Supplied requirements.
@@ -19,7 +19,7 @@
 - `docs/SECURITY_REVIEW.md`: Final implementation review, fixes and limitations.
 - `tests/vm/lab.py` / `transport.py`: Disposable QEMU lab and initial actual-sudo transport/logging gate.
 - `tests/vm/guest.py` / `run.py`: Installed-binary core acceptance matrix and runner.
-- `tests/vm/extended.py` / `lifecycle.py` / `run_extra.py`: Hostile helper/state/maintenance/logging/clock/expiry checks.
+- `tests/vm/extended.py` / `dynamic.py` / `lifecycle.py` / `run_extra.py`: Hostile helper/state/maintenance/logging, dynamic issuance/migration and clock/expiry checks.
 - `LICENSE`: MIT license for this implementation.
 - `CHANGELOG.md`: Development change history.
 - `.gitignore`: Excludes raw debug/working logs, VM state, builds and local artifacts.

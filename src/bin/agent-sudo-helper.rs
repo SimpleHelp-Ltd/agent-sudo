@@ -2,11 +2,13 @@ use agent_sudo::{Result, execution, fail, maintenance, protocol as p, security a
 use std::{fs::File, io::Write, os::fd::FromRawFd};
 use zeroize::Zeroize;
 fn operation(op: &str, actor: &s::Account, input: &mut File, out: &mut File) -> Result<()> {
+    // Bound helpers before they wait for the maintenance lock or parse policy.
+    // Even accounts without a grant share this fixed-size admission namespace.
+    let pending = store::pending(actor)?;
     let c = {
         let _l = store::lock()?;
         store::gate(actor, op)?
     };
-    let pending = store::pending(actor)?;
     p::file_frame(out, b'R', b"")?;
     let mut r = p::read_request(input, op)?;
     let result = (|| {
@@ -183,7 +185,7 @@ fn real() -> Result<()> {
             // error channel gets EOF/tool failure rather than another waiting helper.
             let _ = s::nonblock(std::os::fd::AsRawFd::as_raw_fd(&out));
             let b = serde_json::to_vec(
-                &serde_json::json!({"kind":"error","message":"authorization or operation failed; check enrollment, token, expiry and installation policy"}),
+                &serde_json::json!({"kind":"error","message":"authorization or operation failed; check active grant, token, expiry and installation policy"}),
             )?;
             let _ = out.write(&p::packet(b'X', &b));
             Err("helper operation failed".into())

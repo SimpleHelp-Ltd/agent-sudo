@@ -14,7 +14,6 @@ pub struct Config {
     pub v: u32,
     pub enabled: bool,
     pub generation: String,
-    pub accounts: Vec<s::Account>,
     pub policy: Vec<(String, String)>,
     pub sudo_version: String,
 }
@@ -25,6 +24,7 @@ pub struct Grant {
     pub id: String,
     pub creator: u32,
     pub uid: u32,
+    pub gid: u32,
     pub user: String,
     pub host: String,
     pub boot: String,
@@ -117,7 +117,7 @@ pub fn try_lock() -> Result<Lock> {
 }
 pub fn config() -> Result<Config> {
     let c: Config = serde_json::from_slice(&s::read(&format!("{CONTROL}/config"), 131072, true)?)?;
-    if c.v != 1 || !c.enabled || c.accounts.len() > 128 {
+    if c.v != 2 || !c.enabled {
         return fail("installation disabled or invalid");
     }
     Ok(c)
@@ -135,9 +135,18 @@ pub fn gate(actor: &s::Account, op: &str) -> Result<Config> {
     let c = config()?;
     s::open(RUNTIME, true, true)?;
     if matches!(op, "run" | "status" | "revoke" | "revoke-all")
-        && !c.accounts.iter().any(|a| a == actor)
+        && !ids()?.iter().any(|id| {
+            read_grant(id).is_ok_and(|g| {
+                g.uid == actor.uid
+                    && g.user == actor.name
+                    && live(&g, &c, s::boottime().unwrap_or(u64::MAX)).is_ok()
+            })
+        })
     {
-        return fail("account is not enrolled");
+        return fail("account has no active grant");
+    }
+    if matches!(op, "grant" | "admin-list" | "admin-revoke") {
+        crate::maintenance::authorize_admin(actor, op)?;
     }
     let current = crate::maintenance::policy_snapshot()?;
     if current != c.policy {
@@ -150,7 +159,7 @@ pub fn pending(actor: &s::Account) -> Result<Vec<File>> {
     let mut locks = Vec::new();
     for (prefix, max) in [
         ("slot-global".to_owned(), 32),
-        (format!("slot-uid-{}", actor.uid), 4),
+        (format!("slot-uid-{}", actor.uid % 128), 4),
     ] {
         let mut found = None;
         for i in 0..max {
@@ -241,8 +250,8 @@ pub fn issue(
     minutes: u32,
 ) -> Result<(Grant, Zeroizing<String>)> {
     let a = s::account(user)?;
-    if !c.accounts.contains(&a) {
-        return fail("recipient is not enrolled");
+    if a.uid == 0 {
+        return fail("recipient must be non-root");
     }
     if !(1..=1440).contains(&minutes) {
         return fail("minutes must be 1..1440");
@@ -258,6 +267,7 @@ pub fn issue(
         id: id.clone(),
         creator: actor.uid,
         uid: a.uid,
+        gid: a.gid,
         user: a.name,
         host: identity("/etc/machine-id")?,
         boot: identity("/proc/sys/kernel/random/boot_id")?,
@@ -300,8 +310,8 @@ pub fn live(g: &Grant, c: &Config, now: u64) -> Result<()> {
         return fail("grant expired or invalidated");
     }
     let a = s::account(&g.user)?;
-    if a.uid != g.uid || !c.accounts.contains(&a) {
-        return fail("recipient identity changed or unenrolled");
+    if a.uid != g.uid || a.gid != g.gid {
+        return fail("recipient identity changed");
     }
     Ok(())
 }
@@ -384,7 +394,7 @@ pub fn denial(actor: u32) {
 
 /// Drop obsolete per-account admission slots during maintenance. Global slots remain
 /// stable; stale helpers still consume a global slot and cannot pass generation checks.
-pub fn prune_slots(accounts: &[s::Account]) -> Result<()> {
+pub fn prune_slots() -> Result<()> {
     for e in std::fs::read_dir(RUNTIME)? {
         let p = e?.path();
         let n = p
@@ -398,7 +408,7 @@ pub fn prune_slots(accounts: &[s::Account]) -> Result<()> {
             if index >= 4 {
                 return fail("invalid slot index");
             }
-            if uid != 0 && !accounts.iter().any(|a| a.uid == uid) {
+            if uid != 0 {
                 s::open(p.to_str().ok_or("runtime path")?, false, true)?;
                 std::fs::remove_file(p)?;
             }

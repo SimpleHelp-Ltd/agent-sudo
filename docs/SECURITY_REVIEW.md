@@ -1,18 +1,18 @@
-# Implementation security review — 0.1.0
+# Implementation security review — 0.2.0
 
-Reviewed locally on 2026-11-02. This is an implementation review and adversarial testing by the implementer, **not an independent audit**. No production/host privilege changes, push or publication were authorized or performed.
+Reviewed locally on 2026-11-02. This is an implementation review and adversarial testing by the implementer, **not an independent audit**. Privileged testing is limited to disposable VMs; public preview assets/page are authorized through SH Website. No Loom/development-host installation, GitHub push or GitHub release.
 
 ## Scope and conclusion
 
-Reviewed frontend parsing/prompts/descriptors, privileged operation dispatch, sudo transport and policy, account/enrollment authority, token generation/verifiers, state files/ACLs, boot/clock expiration, admission/revocation/maintenance ordering, root process context, framed streams/signals, cleanup, installation/rollback/removal and build/test infrastructure. The prototype transport gate preceded frontend implementation. Actual traditional sudo and sudo-rs VM evidence is in VALIDATION.md.
+Reviewed frontend parsing/prompts/descriptors, privileged operation dispatch, sudo transport and policy, administrative issuance authority, token generation/verifiers, state files/ACLs, boot/clock expiration, admission/revocation/maintenance ordering, root process context, framed streams/signals, cleanup, installation/rollback/removal and build/test infrastructure. The prototype transport gate preceded frontend implementation. Actual traditional sudo and sudo-rs VM evidence is in VALIDATION.md.
 
-The trust boundary is explicit: an enrolled account can contact four narrow token operations; it cannot mint a grant through those operations. Requests never select the helper operation. Every operation independently checks effective root identity, consistent sudo actor metadata, installed helper inode, enabled root-owned configuration, current enrollment where applicable, and sealed supported sudo policy. A run then checks the random secret verifier, actor UID/name, current account mapping, host, boot, generation and exact BOOTTIME deadline while locked.
+The trust boundary is explicit: a local account can launch four narrow token operations, with a live grant required before READY; it cannot mint a grant through those operations. Requests never select the helper operation. Every operation independently checks effective root identity, consistent sudo actor metadata, installed helper inode, enabled root-owned configuration, current live identity-bound grant where applicable, and sealed supported sudo policy. A run then checks the random secret verifier, actor UID/GID/name, current account mapping, host, boot, generation and exact BOOTTIME deadline while locked.
 
 A grant intentionally permits arbitrary root code. Once admitted, root can alter this installation, credentials or the host and retain authority. Expiry/revocation is an admission rule, not containment or termination. Existing sudo policy is independent.
 
 ## Findings repaired during development
 
-- Enrollment cannot rely on `sudo -n`: independent config/policy checks deny removed enrollment even when an ordinary administrator's real sudo cache still launches the helper.
+- Authorization cannot rely on `sudo -n`: independent config/policy checks deny missing/disabled grant state or removed policy even when an ordinary administrator's real sudo cache still launches the helper.
 - Stable persistent lock and installation generations serialize issuance/revoke/admission/cleanup with maintenance. Stale helpers compare their executing inode to the installed helper; missing/disabled stores never regenerate grants. Removal retains a disabled lock tombstone.
 - Arbitrary command bytes and child exit 125 cannot serve as tool protocol markers. Versioned response frames and a separate frontend result descriptor distinguish binary output, signals, child status and tool errors. Mixed-stderr JSON is documented as a convenience only.
 - Waiting for input or blocked metadata output while holding the maintenance lock could delay revocation. Header reads occur without that lock; control writes occur after releasing it, have deadlines, and retain admission slots. Failure output and denial-log locking do not block after slot release. An actual 4096-byte stalled status pipe regression verifies concurrent revocation.
@@ -25,8 +25,17 @@ A grant intentionally permits arbitrary root code. Once admitted, root can alter
 - Frontend stdin read failure could leave the child waiting. It now closes command input logically and reports tool failure even if the program exits zero.
 - Reaping a leader before all process-group signaling ended could permit PID reuse. `waitid(WNOWAIT)` keeps the leader unreaped until forwarding stops; interruption during spawn is recorded and forwarded. Child execution resets signal handlers.
 - Child setup clears all UID/GID variants and supplementary groups, environment, cwd, umask and unintended descriptors. `close_range(CLOEXEC)` retains Rust's exec-error pipe until exec without leaking it into the program.
-- Rollback also restores its managed-file manifest; upgrades always invalidate grants. Managed paths and manifest shape are validated, modified/unmanaged files refused, obsolete per-account slots pruned, and state/config/protocol/denial workloads bounded.
+- Rollback also restores its managed-file manifest; upgrades always invalidate grants. Managed paths and manifest shape are validated, modified/unmanaged files refused, obsolete pending slots pruned, and state/config/protocol/denial workloads bounded.
 - Test infrastructure fixes prevent stale evidence reuse, enforce exact tested binary hashes, distinguish clock/record injection from real clock tests, and support the two actual PAM prompt formats without echoing fixture passwords.
+
+## 0.2 dynamic issuance review
+
+- Machine-wide install accepts no recipient list. Only independently authorized administrative `grant` can create a grant, which itself represents recipient registration. The managed ALL rule names only exact run/status/revoke/revoke-all helper arguments; JSON cannot alter dispatch. Each administrative request independently checks the actor's existing sudo authorization for that exact operation. Normal frontend issuance uses fresh `sudo -k` authentication; existing NOPASSWD policy remains authoritative.
+- Recipient gates require current live UID/GID/name/host/boot/generation/deadline binding before READY, then validate the specific secret again at admission. An unregistered caller receives no READY. All callers acquire bounded slots before waiting for the maintenance lock, preventing unauthenticated local callers from accumulating lock waiters.
+- Issuance uses the stable lock without modifying policy/config/generation, preserving unrelated recipients and grants. At most 128 grants represent registrations; expiry/revocation/deletion removes eligibility. UID slots now use a fixed 128-bucket namespace, avoiding persistent growth across account churn.
+- Schema 2 activates only after disabling/invalidation/replacement/validation. Old schema and copied/stale helpers fail closed. An actual 0.1.0 package upgrade tests old-token and waiting-old-helper denial; root-injected partial schema tests are separately identified.
+- Moving admission slots before lock acquisition bounds unregistered local waiters; a real flock contention test verifies that excess callers fail before READY. A concurrent revoke may be rejected by that bound and must retry before its successful ordering point.
+- The entire hosted bootstrap is one compound command whose closing brace is the final byte, preventing any proper truncated prefix from invoking installation. All proper byte prefixes are tested with syscall-command marker shims; public successful installation separately exercises actual HTTPS, sudo and installed binaries.
 
 ## Remaining limits and untested scope
 

@@ -133,17 +133,38 @@ pub fn policy_snapshot() -> Result<Vec<(String, String)>> {
     out.push(("sudo-version".into(), sudo_version()?));
     Ok(out)
 }
-pub fn policy(accounts: &[s::Account], rs: bool) -> String {
+/// Sudo remains the administrative authority. Independently confirm that this
+/// invoking account's policy permits the exact administrative operation. Managed
+/// NOPASSWD recipient rules never match any administrative operation.
+pub fn authorize_admin(actor: &s::Account, op: &str) -> Result<()> {
+    if actor.uid == 0 {
+        return Ok(());
+    }
+    if !matches!(op, "grant" | "admin-list" | "admin-revoke") {
+        return fail("invalid administrative operation");
+    }
+    let result = Command::new("/usr/bin/sudo")
+        .args(["-n", "-l", "-U", &actor.name, "--", HELPER, op])
+        .env_clear()
+        .env("PATH", "/usr/bin:/bin")
+        .env("LC_ALL", "C")
+        .output()?;
+    if !result.status.success() {
+        return fail("administrator policy does not authorize this operation");
+    }
+    Ok(())
+}
+pub fn policy(rs: bool) -> String {
     let mut p = String::from(
-        "# agent-sudo managed v1\nDefaults!/usr/local/libexec/agent-sudo-helper !use_pty",
+        "# agent-sudo managed v2\nDefaults!/usr/local/libexec/agent-sudo-helper !use_pty",
     );
     if !rs {
         p.push_str(", !log_input, !log_output");
     }
     p.push('\n');
-    for a in accounts {
-        p.push_str(&format!("{} ALL=(root) NOPASSWD: NOSETENV: {HELPER} run, {HELPER} status, {HELPER} revoke, {HELPER} revoke-all\n",a.name));
-    }
+    // All local accounts may launch only these exact token operations. The helper
+    // independently requires an active identity-bound grant before READY.
+    p.push_str(&format!("ALL ALL=(root) NOPASSWD: NOSETENV: {HELPER} run, {HELPER} status, {HELPER} revoke, {HELPER} revoke-all\n"));
     p
 }
 pub fn atomic(path: &str, b: &[u8], mode: u32) -> Result<()> {
@@ -253,16 +274,10 @@ pub fn install(from: &str, users: &[String]) -> Result<()> {
     if unsafe { libc::geteuid() } != 0 || unsafe { libc::getuid() } != 0 {
         return fail("installation requires root through normal administrator sudo");
     }
-    if users.is_empty() || users.len() > 128 {
-        return fail("select 1..128 explicit --user accounts");
-    }
-    let mut accounts = Vec::new();
-    for u in users {
-        let a = s::account(u)?;
-        if a.uid == 0 || accounts.iter().any(|x: &s::Account| x.uid == a.uid) {
-            return fail("duplicate/root enrollment unsupported");
-        }
-        accounts.push(a);
+    if !users.is_empty() {
+        return fail(
+            "recipient options were removed; install machine-wide, then use agent-sudo USERNAME MINUTES",
+        );
     }
     // Freeze payload bytes before making changes. It is code deliberately selected by an administrator.
     let mut payload = Vec::new();
@@ -319,7 +334,7 @@ pub fn install(from: &str, users: &[String]) -> Result<()> {
     let version = sudo_version()?;
     visudo()?;
     policy_snapshot()?;
-    let new_policy = policy(&accounts, version.starts_with("sudo-rs"));
+    let new_policy = policy(version.starts_with("sudo-rs"));
     let mut backups = Vec::new();
     for (p, mode) in MANAGED {
         let bytes = if Path::new(p).exists() {
@@ -332,10 +347,9 @@ pub fn install(from: &str, users: &[String]) -> Result<()> {
     let old_manifest = s::read(&format!("{CONTROL}/manifest"), 16384, true).ok();
     let old_config = s::read(&format!("{CONTROL}/config"), 131072, true).ok();
     let disabled = store::Config {
-        v: 1,
+        v: 2,
         enabled: false,
         generation: s::random(16)?,
-        accounts: vec![],
         policy: vec![],
         sudo_version: version.clone(),
     };
@@ -359,39 +373,17 @@ pub fn install(from: &str, users: &[String]) -> Result<()> {
             atomic(p, b, 0o644)?;
         }
         store::ensure_dir(RUNTIME)?;
-        store::prune_slots(&accounts)?;
+        store::prune_slots()?;
         atomic(POLICY, new_policy.as_bytes(), 0o440)?;
         visudo()?;
         let seals = policy_snapshot()?;
         transport()?;
-        // Check effective permission for the exact operation as each recipient, without feeding secrets.
-        for a in &accounts {
-            let o = Command::new("/usr/sbin/runuser")
-                .args([
-                    "-u",
-                    &a.name,
-                    "--",
-                    "/usr/bin/sudo",
-                    "-n",
-                    "-l",
-                    "--",
-                    HELPER,
-                    "status",
-                ])
-                .env_clear()
-                .env("PATH", "/usr/bin:/bin")
-                .output()?;
-            if !o.status.success() || !o.stderr.is_empty() {
-                return fail("effective token-operation policy probe failed");
-            }
-        }
         systemctl(&["daemon-reload"])?;
         systemctl(&["enable", "--now", "agent-sudo-cleanup.timer"])?;
         let c = store::Config {
-            v: 1,
+            v: 2,
             enabled: true,
             generation: s::random(16)?,
-            accounts,
             policy: seals,
             sudo_version: version,
         };
@@ -443,8 +435,7 @@ pub fn install(from: &str, users: &[String]) -> Result<()> {
     }
     s::audit("install", s::actor()?.uid, "-", None);
     println!(
-        "agent-sudo installed; all previous grants invalidated. Enrollment: {}",
-        users.join(", ")
+        "agent-sudo installed machine-wide; all previous grants invalidated. Issue access with agent-sudo USERNAME MINUTES."
     );
     Ok(())
 }
@@ -455,10 +446,9 @@ pub fn uninstall() -> Result<()> {
     let _l = store::lock()?;
     existing()?;
     let c = store::Config {
-        v: 1,
+        v: 2,
         enabled: false,
         generation: s::random(16)?,
-        accounts: vec![],
         policy: vec![],
         sudo_version: String::new(),
     };

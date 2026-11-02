@@ -1,5 +1,7 @@
 # agent-sudo: temporary token-authorized administrator commands
 
+Historical input: installation-time enrollment described below was superseded by the authorized 0.2 machine-wide/dynamic-grant workflow in DESIGN.md and OPERATOR.md.
+
 Status: development specification; this request does not install software or change privileges on any host.
 Date: 2026-11-02. Initial target: Ubuntu Linux with systemd, traditional sudo or sudo-rs.
 

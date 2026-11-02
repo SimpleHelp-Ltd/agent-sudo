@@ -1,0 +1,1200 @@
+{
+  "version": "0.2.0",
+  "binaries": {
+    "agent-sudo": "ab1d0971712204d425b954cdb51c554807a249c8fbd792e7a2ea94cb1de42fc3",
+    "agent-sudo-helper": "bb61b702af7b646141657deb75847b0d8ca3160ea8d70a87c422656683abab96"
+  },
+  "systems": {
+    "noble": {
+      "core": {
+        "results": [
+          {
+            "check": "public-help-version-no-elevation",
+            "pass": true,
+            "seconds": 0.003
+          },
+          {
+            "check": "root-id-gid",
+            "pass": true,
+            "seconds": 0.073
+          },
+          {
+            "check": "exact-argv-no-shell",
+            "pass": true,
+            "seconds": 0.057
+          },
+          {
+            "check": "binary-4MiB-stdin-stdout-stderr-backpressure",
+            "pass": true,
+            "seconds": 0.165
+          },
+          {
+            "check": "child-exit-0",
+            "pass": true,
+            "seconds": 0.052
+          },
+          {
+            "check": "child-exit-1",
+            "pass": true,
+            "seconds": 0.05
+          },
+          {
+            "check": "child-exit-125",
+            "pass": true,
+            "seconds": 0.043
+          },
+          {
+            "check": "child-exit-126",
+            "pass": true,
+            "seconds": 0.043
+          },
+          {
+            "check": "child-exit-127",
+            "pass": true,
+            "seconds": 0.042
+          },
+          {
+            "check": "child-exit-255",
+            "pass": true,
+            "seconds": 0.033
+          },
+          {
+            "check": "child-signal-distinct",
+            "pass": true,
+            "seconds": 0.036
+          },
+          {
+            "check": "missing-executable-tool-error",
+            "pass": true,
+            "seconds": 0.057
+          },
+          {
+            "check": "root-context-env-groups-umask-core-fd-hygiene",
+            "pass": true,
+            "seconds": 0.047
+          },
+          {
+            "check": "malformed-token-denied",
+            "pass": true,
+            "seconds": 0.017
+          },
+          {
+            "check": "modified-token-denied",
+            "pass": true,
+            "seconds": 0.032
+          },
+          {
+            "check": "random-token-denied",
+            "pass": true,
+            "seconds": 0.025
+          },
+          {
+            "check": "wrong-uid-denied",
+            "pass": true,
+            "seconds": 0.006
+          },
+          {
+            "check": "own-status-no-verifier-token",
+            "pass": true,
+            "seconds": 0.039
+          },
+          {
+            "check": "direct-nonroot-helper-denied",
+            "pass": true,
+            "seconds": 0.001
+          },
+          {
+            "check": "unauthorized-grant-admin-maintenance-denied",
+            "pass": true,
+            "seconds": 0.03
+          },
+          {
+            "check": "exact-operation-run extra",
+            "pass": true,
+            "seconds": 0.004
+          },
+          {
+            "check": "exact-operation-status extra",
+            "pass": true,
+            "seconds": 0.004
+          },
+          {
+            "check": "exact-operation-revoke-all extra",
+            "pass": true,
+            "seconds": 0.004
+          },
+          {
+            "check": "hostile-header-duplicate",
+            "pass": true,
+            "seconds": 0.01
+          },
+          {
+            "check": "hostile-header-unknown",
+            "pass": true,
+            "seconds": 0.01
+          },
+          {
+            "check": "hostile-header-wrong-type",
+            "pass": true,
+            "seconds": 0.01
+          },
+          {
+            "check": "hostile-header-deep",
+            "pass": true,
+            "seconds": 0.01
+          },
+          {
+            "check": "hostile-header-nul-argv",
+            "pass": true,
+            "seconds": 0.01
+          },
+          {
+            "check": "hostile-header-path-traversal",
+            "pass": true,
+            "seconds": 0.01
+          },
+          {
+            "check": "hostile-header-bad-schema",
+            "pass": true,
+            "seconds": 0.01
+          },
+          {
+            "check": "hostile-header-fields-for-other-op",
+            "pass": true,
+            "seconds": 0.01
+          },
+          {
+            "check": "oversized-zero-length-header",
+            "pass": true,
+            "seconds": 0.029
+          },
+          {
+            "check": "pending-input-5second-deadline",
+            "pass": true,
+            "seconds": 5.016
+          },
+          {
+            "check": "per-uid-pending-limit",
+            "pass": true,
+            "seconds": 0.102
+          },
+          {
+            "check": "state-mode",
+            "pass": true,
+            "seconds": 0.014
+          },
+          {
+            "check": "state-owner",
+            "pass": true,
+            "seconds": 0.014
+          },
+          {
+            "check": "state-truncated",
+            "pass": true,
+            "seconds": 0.014
+          },
+          {
+            "check": "state-symlink",
+            "pass": true,
+            "seconds": 0.014
+          },
+          {
+            "check": "state-hardlink",
+            "pass": true,
+            "seconds": 0.011
+          },
+          {
+            "check": "state-acl",
+            "pass": true,
+            "seconds": 0.012
+          },
+          {
+            "check": "state-wrong-boot",
+            "pass": true,
+            "seconds": 0.011
+          },
+          {
+            "check": "state-wrong-host",
+            "pass": true,
+            "seconds": 0.007
+          },
+          {
+            "check": "state-uid-name-mismatch",
+            "pass": true,
+            "seconds": 0.008
+          },
+          {
+            "check": "state-exact-deadline-injected",
+            "pass": true,
+            "seconds": 0.007
+          },
+          {
+            "check": "state-old-generation",
+            "pass": true,
+            "seconds": 0.008
+          },
+          {
+            "check": "state-directory-mode-and-symlink-substitution",
+            "pass": true,
+            "seconds": 0.014
+          },
+          {
+            "check": "independent-root-disabled-state-gate",
+            "pass": true,
+            "seconds": 0.008
+          },
+          {
+            "check": "policy-change-denies-before-token-read",
+            "pass": true,
+            "seconds": 0.013
+          },
+          {
+            "check": "own-other-idempotent-revocation",
+            "pass": true,
+            "seconds": 0.124
+          },
+          {
+            "check": "admin-list-and-revoke",
+            "pass": true,
+            "seconds": 0.061
+          },
+          {
+            "check": "failed-grant-delivery-revokes",
+            "pass": true,
+            "seconds": 0.013
+          },
+          {
+            "check": "duration-invalid-0",
+            "pass": true,
+            "seconds": 0.001
+          },
+          {
+            "check": "duration-invalid-1441",
+            "pass": true,
+            "seconds": 0.001
+          },
+          {
+            "check": "duration-invalid--1",
+            "pass": true,
+            "seconds": 0.001
+          },
+          {
+            "check": "unknown-and-root-recipient",
+            "pass": true,
+            "seconds": 0.001
+          },
+          {
+            "check": "real-pam-sudo-fresh-auth-no-app-password",
+            "pass": true,
+            "seconds": 0.125
+          },
+          {
+            "check": "no-argument-interactive-grant-prompts",
+            "pass": true,
+            "seconds": 0.065
+          },
+          {
+            "check": "interactive-invalid-duration-before-auth",
+            "pass": true,
+            "seconds": 0.003
+          },
+          {
+            "check": "interrupt-frontend-forwards-to-command",
+            "pass": true,
+            "seconds": 0.503
+          },
+          {
+            "check": "concurrent-admission-revoke-ordering",
+            "pass": true,
+            "seconds": 0.255
+          },
+          {
+            "check": "upgrade-invalidates-and-stale-pending-grant-denied",
+            "pass": true,
+            "seconds": 0.718
+          },
+          {
+            "check": "mid-install-rollback-preserves-managed-files-invalidates-grants",
+            "pass": true,
+            "seconds": 2.047
+          },
+          {
+            "check": "real-logging-policy-secrecy-and-unrelated-auditing",
+            "pass": true,
+            "seconds": 3.043
+          },
+          {
+            "check": "secrets-never-in-state-files",
+            "pass": true,
+            "seconds": 0.001
+          }
+        ],
+        "versions": "PRETTY_NAME=\"Ubuntu 24.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.5 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo\n6.8.0-147-generic\nSudo version 1.9.15p5\nvisudo version 1.9.15p5\nvisudo grammar version 50\n",
+        "helper_sha256": "bb61b702af7b646141657deb75847b0d8ca3160ea8d70a87c422656683abab96",
+        "frontend_sha256": "ab1d0971712204d425b954cdb51c554807a249c8fbd792e7a2ea94cb1de42fc3"
+      },
+      "extended": {
+        "binary_hashes": {
+          "agent-sudo": "ab1d0971712204d425b954cdb51c554807a249c8fbd792e7a2ea94cb1de42fc3",
+          "agent-sudo-helper": "bb61b702af7b646141657deb75847b0d8ca3160ea8d70a87c422656683abab96"
+        },
+        "results": [
+          {
+            "check": "separate-result-fd-distinguishes-forged-binary-stderr",
+            "pass": true,
+            "seconds": 0.08
+          },
+          {
+            "check": "non-utf8-argv-explicitly-rejected",
+            "pass": true,
+            "seconds": 0.001
+          },
+          {
+            "check": "hidden-token-prompt-echo-off-human-delay-over-5s",
+            "pass": true,
+            "seconds": 6.042
+          },
+          {
+            "check": "token-prompt-interrupt-restores-echo",
+            "pass": true,
+            "seconds": 0.026
+          },
+          {
+            "check": "high-numbered-extra-fd-not-inherited",
+            "pass": true,
+            "seconds": 0.065
+          },
+          {
+            "check": "hostile-stream-frames-denied",
+            "pass": true,
+            "seconds": 0.057
+          },
+          {
+            "check": "recipient-rule-removal-with-independent-sudo-access",
+            "pass": true,
+            "seconds": 1.446
+          },
+          {
+            "check": "real-cached-auth-cannot-bypass-removed-recipient-policy",
+            "pass": true,
+            "seconds": 0.234
+          },
+          {
+            "check": "inconsistent-sudo-identity-root-injected",
+            "pass": true,
+            "seconds": 0.001
+          },
+          {
+            "check": "128-grant-cap-and-bounded-list-root-fixtures",
+            "pass": true,
+            "seconds": 0.07
+          },
+          {
+            "check": "denial-logging-global-rate-cap",
+            "pass": true,
+            "seconds": 0.269
+          },
+          {
+            "check": "upgrade-generation-invalidates-pending-admission",
+            "pass": true,
+            "seconds": 1.425
+          },
+          {
+            "check": "unsupported-logging-tag-fails-install-unchanged",
+            "pass": true,
+            "seconds": 0.01
+          },
+          {
+            "check": "frontend-token-output-write-failure-revokes",
+            "pass": true,
+            "seconds": 0.016
+          },
+          {
+            "check": "child-early-exit-while-large-input-pending",
+            "pass": true,
+            "seconds": 0.055
+          },
+          {
+            "check": "output-disconnect-no-success",
+            "pass": true,
+            "seconds": 0.042
+          },
+          {
+            "check": "hostile-caller-environment-not-in-root-command",
+            "pass": true,
+            "seconds": 0.041
+          },
+          {
+            "check": "32-global-pending-helper-cap-nine-accounts",
+            "pass": true,
+            "seconds": 5.935
+          },
+          {
+            "check": "copied-or-stale-helper-cannot-issue",
+            "pass": true,
+            "seconds": 0.003
+          },
+          {
+            "check": "slow-consumer-after-child-exit-no-buffered-output-loss",
+            "pass": true,
+            "seconds": 3.058
+          },
+          {
+            "check": "later-scoped-recording-override-fails-closed",
+            "pass": true,
+            "seconds": 0.012
+          },
+          {
+            "check": "frontend-stdin-read-error-no-hang-no-success",
+            "pass": true,
+            "seconds": 0.109
+          },
+          {
+            "check": "blocked-status-output-does-not-hold-maintenance-lock-times-out",
+            "pass": true,
+            "seconds": 5.104
+          },
+          {
+            "check": "two-grants-same-tty-each-request-fresh-PAM-auth",
+            "pass": true,
+            "seconds": 0.19
+          }
+        ]
+      },
+      "dynamic": {
+        "binary_hashes": {
+          "agent-sudo": "ab1d0971712204d425b954cdb51c554807a249c8fbd792e7a2ea94cb1de42fc3",
+          "agent-sudo-helper": "bb61b702af7b646141657deb75847b0d8ca3160ea8d70a87c422656683abab96"
+        },
+        "results": {
+          "results": [
+            {
+              "check": "positional-new-eligible-account",
+              "pass": true,
+              "seconds": 0.057
+            },
+            {
+              "check": "username-only-prompts-minutes-and-real-sudo",
+              "pass": true,
+              "seconds": 0.061
+            },
+            {
+              "check": "positional-root-unknown-and-duration-bounds",
+              "pass": true,
+              "seconds": 0.006
+            },
+            {
+              "check": "dynamic-two-recipients-preservation-another-admin-and-nonadmin-denial",
+              "pass": true,
+              "seconds": 2.61
+            },
+            {
+              "check": "concurrent-issuance-preserves-independent-recipients",
+              "pass": true,
+              "seconds": 0.339
+            },
+            {
+              "check": "observed-account-removal-prunes-registration-before-uid-reuse",
+              "pass": true,
+              "seconds": 0.859
+            },
+            {
+              "check": "unregistered-account-denied-before-ready-bounded-slot-namespace",
+              "pass": true,
+              "seconds": 0.717
+            },
+            {
+              "check": "unregistered-local-flood-bounded-before-maintenance-lock",
+              "pass": true,
+              "seconds": 1.718
+            },
+            {
+              "check": "actual-0.1.0-upgrade-invalidates-old-grant-and-stale-pending-helper",
+              "pass": true,
+              "seconds": 1.53
+            },
+            {
+              "check": "root-injected-partial-schema-migration-fails-closed",
+              "pass": true,
+              "seconds": 0.067
+            }
+          ],
+          "frontend_sha256": "ab1d0971712204d425b954cdb51c554807a249c8fbd792e7a2ea94cb1de42fc3",
+          "helper_sha256": "bb61b702af7b646141657deb75847b0d8ca3160ea8d70a87c422656683abab96"
+        }
+      },
+      "lifecycle": {
+        "binary_hashes": {
+          "agent-sudo": "ab1d0971712204d425b954cdb51c554807a249c8fbd792e7a2ea94cb1de42fc3",
+          "agent-sudo-helper": "bb61b702af7b646141657deb75847b0d8ca3160ea8d70a87c422656683abab96"
+        },
+        "results": [
+          {
+            "check": "real-wall-clock-forward-and-back-does-not-extend-or-expire",
+            "pass": true,
+            "seconds": 0.177
+          },
+          {
+            "check": "real-one-minute-expiry-stopped-cleanup-admitted-root-work-survives",
+            "pass": true,
+            "seconds": 65.141
+          }
+        ]
+      }
+    },
+    "resolute": {
+      "core": {
+        "results": [
+          {
+            "check": "public-help-version-no-elevation",
+            "pass": true,
+            "seconds": 0.005
+          },
+          {
+            "check": "root-id-gid",
+            "pass": true,
+            "seconds": 0.082
+          },
+          {
+            "check": "exact-argv-no-shell",
+            "pass": true,
+            "seconds": 0.052
+          },
+          {
+            "check": "binary-4MiB-stdin-stdout-stderr-backpressure",
+            "pass": true,
+            "seconds": 0.135
+          },
+          {
+            "check": "child-exit-0",
+            "pass": true,
+            "seconds": 0.03
+          },
+          {
+            "check": "child-exit-1",
+            "pass": true,
+            "seconds": 0.032
+          },
+          {
+            "check": "child-exit-125",
+            "pass": true,
+            "seconds": 0.034
+          },
+          {
+            "check": "child-exit-126",
+            "pass": true,
+            "seconds": 0.034
+          },
+          {
+            "check": "child-exit-127",
+            "pass": true,
+            "seconds": 0.034
+          },
+          {
+            "check": "child-exit-255",
+            "pass": true,
+            "seconds": 0.03
+          },
+          {
+            "check": "child-signal-distinct",
+            "pass": true,
+            "seconds": 0.033
+          },
+          {
+            "check": "missing-executable-tool-error",
+            "pass": true,
+            "seconds": 0.056
+          },
+          {
+            "check": "root-context-env-groups-umask-core-fd-hygiene",
+            "pass": true,
+            "seconds": 0.046
+          },
+          {
+            "check": "malformed-token-denied",
+            "pass": true,
+            "seconds": 0.015
+          },
+          {
+            "check": "modified-token-denied",
+            "pass": true,
+            "seconds": 0.027
+          },
+          {
+            "check": "random-token-denied",
+            "pass": true,
+            "seconds": 0.026
+          },
+          {
+            "check": "wrong-uid-denied",
+            "pass": true,
+            "seconds": 0.007
+          },
+          {
+            "check": "own-status-no-verifier-token",
+            "pass": true,
+            "seconds": 0.042
+          },
+          {
+            "check": "direct-nonroot-helper-denied",
+            "pass": true,
+            "seconds": 0.002
+          },
+          {
+            "check": "unauthorized-grant-admin-maintenance-denied",
+            "pass": true,
+            "seconds": 0.022
+          },
+          {
+            "check": "exact-operation-run extra",
+            "pass": true,
+            "seconds": 0.003
+          },
+          {
+            "check": "exact-operation-status extra",
+            "pass": true,
+            "seconds": 0.003
+          },
+          {
+            "check": "exact-operation-revoke-all extra",
+            "pass": true,
+            "seconds": 0.003
+          },
+          {
+            "check": "hostile-header-duplicate",
+            "pass": true,
+            "seconds": 0.011
+          },
+          {
+            "check": "hostile-header-unknown",
+            "pass": true,
+            "seconds": 0.011
+          },
+          {
+            "check": "hostile-header-wrong-type",
+            "pass": true,
+            "seconds": 0.011
+          },
+          {
+            "check": "hostile-header-deep",
+            "pass": true,
+            "seconds": 0.011
+          },
+          {
+            "check": "hostile-header-nul-argv",
+            "pass": true,
+            "seconds": 0.011
+          },
+          {
+            "check": "hostile-header-path-traversal",
+            "pass": true,
+            "seconds": 0.011
+          },
+          {
+            "check": "hostile-header-bad-schema",
+            "pass": true,
+            "seconds": 0.011
+          },
+          {
+            "check": "hostile-header-fields-for-other-op",
+            "pass": true,
+            "seconds": 0.011
+          },
+          {
+            "check": "oversized-zero-length-header",
+            "pass": true,
+            "seconds": 0.032
+          },
+          {
+            "check": "pending-input-5second-deadline",
+            "pass": true,
+            "seconds": 5.017
+          },
+          {
+            "check": "per-uid-pending-limit",
+            "pass": true,
+            "seconds": 0.108
+          },
+          {
+            "check": "state-mode",
+            "pass": true,
+            "seconds": 0.015
+          },
+          {
+            "check": "state-owner",
+            "pass": true,
+            "seconds": 0.015
+          },
+          {
+            "check": "state-truncated",
+            "pass": true,
+            "seconds": 0.014
+          },
+          {
+            "check": "state-symlink",
+            "pass": true,
+            "seconds": 0.012
+          },
+          {
+            "check": "state-hardlink",
+            "pass": true,
+            "seconds": 0.014
+          },
+          {
+            "check": "state-acl",
+            "pass": true,
+            "seconds": 0.014
+          },
+          {
+            "check": "state-wrong-boot",
+            "pass": true,
+            "seconds": 0.014
+          },
+          {
+            "check": "state-wrong-host",
+            "pass": true,
+            "seconds": 0.013
+          },
+          {
+            "check": "state-uid-name-mismatch",
+            "pass": true,
+            "seconds": 0.013
+          },
+          {
+            "check": "state-exact-deadline-injected",
+            "pass": true,
+            "seconds": 0.013
+          },
+          {
+            "check": "state-old-generation",
+            "pass": true,
+            "seconds": 0.012
+          },
+          {
+            "check": "state-directory-mode-and-symlink-substitution",
+            "pass": true,
+            "seconds": 0.022
+          },
+          {
+            "check": "independent-root-disabled-state-gate",
+            "pass": true,
+            "seconds": 0.01
+          },
+          {
+            "check": "policy-change-denies-before-token-read",
+            "pass": true,
+            "seconds": 0.013
+          },
+          {
+            "check": "own-other-idempotent-revocation",
+            "pass": true,
+            "seconds": 0.133
+          },
+          {
+            "check": "admin-list-and-revoke",
+            "pass": true,
+            "seconds": 0.083
+          },
+          {
+            "check": "failed-grant-delivery-revokes",
+            "pass": true,
+            "seconds": 0.021
+          },
+          {
+            "check": "duration-invalid-0",
+            "pass": true,
+            "seconds": 0.003
+          },
+          {
+            "check": "duration-invalid-1441",
+            "pass": true,
+            "seconds": 0.002
+          },
+          {
+            "check": "duration-invalid--1",
+            "pass": true,
+            "seconds": 0.003
+          },
+          {
+            "check": "unknown-and-root-recipient",
+            "pass": true,
+            "seconds": 0.005
+          },
+          {
+            "check": "real-pam-sudo-fresh-auth-no-app-password",
+            "pass": true,
+            "seconds": 0.138
+          },
+          {
+            "check": "no-argument-interactive-grant-prompts",
+            "pass": true,
+            "seconds": 0.067
+          },
+          {
+            "check": "interactive-invalid-duration-before-auth",
+            "pass": true,
+            "seconds": 0.003
+          },
+          {
+            "check": "interrupt-frontend-forwards-to-command",
+            "pass": true,
+            "seconds": 0.504
+          },
+          {
+            "check": "concurrent-admission-revoke-ordering",
+            "pass": true,
+            "seconds": 0.228
+          },
+          {
+            "check": "upgrade-invalidates-and-stale-pending-grant-denied",
+            "pass": true,
+            "seconds": 0.782
+          },
+          {
+            "check": "mid-install-rollback-preserves-managed-files-invalidates-grants",
+            "pass": true,
+            "seconds": 2.264
+          },
+          {
+            "check": "real-logging-policy-secrecy-and-unrelated-auditing",
+            "pass": true,
+            "seconds": 0.144
+          },
+          {
+            "check": "secrets-never-in-state-files",
+            "pass": true,
+            "seconds": 0.0
+          }
+        ],
+        "versions": "PRETTY_NAME=\"Ubuntu 26.04.1 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"26.04\"\nVERSION=\"26.04.1 LTS (Resolute Raccoon)\"\nVERSION_CODENAME=resolute\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=resolute\nLOGO=ubuntu-logo\n7.0.0-38-generic\nsudo-rs 0.2.13-0ubuntu1.2\nvisudo-rs 0.2.13\n",
+        "helper_sha256": "bb61b702af7b646141657deb75847b0d8ca3160ea8d70a87c422656683abab96",
+        "frontend_sha256": "ab1d0971712204d425b954cdb51c554807a249c8fbd792e7a2ea94cb1de42fc3"
+      },
+      "extended": {
+        "binary_hashes": {
+          "agent-sudo": "ab1d0971712204d425b954cdb51c554807a249c8fbd792e7a2ea94cb1de42fc3",
+          "agent-sudo-helper": "bb61b702af7b646141657deb75847b0d8ca3160ea8d70a87c422656683abab96"
+        },
+        "results": [
+          {
+            "check": "separate-result-fd-distinguishes-forged-binary-stderr",
+            "pass": true,
+            "seconds": 0.064
+          },
+          {
+            "check": "non-utf8-argv-explicitly-rejected",
+            "pass": true,
+            "seconds": 0.002
+          },
+          {
+            "check": "hidden-token-prompt-echo-off-human-delay-over-5s",
+            "pass": true,
+            "seconds": 6.052
+          },
+          {
+            "check": "token-prompt-interrupt-restores-echo",
+            "pass": true,
+            "seconds": 0.029
+          },
+          {
+            "check": "high-numbered-extra-fd-not-inherited",
+            "pass": true,
+            "seconds": 0.074
+          },
+          {
+            "check": "hostile-stream-frames-denied",
+            "pass": true,
+            "seconds": 0.08
+          },
+          {
+            "check": "recipient-rule-removal-with-independent-sudo-access",
+            "pass": true,
+            "seconds": 1.531
+          },
+          {
+            "check": "real-cached-auth-cannot-bypass-removed-recipient-policy",
+            "pass": true,
+            "seconds": 0.236
+          },
+          {
+            "check": "inconsistent-sudo-identity-root-injected",
+            "pass": true,
+            "seconds": 0.001
+          },
+          {
+            "check": "128-grant-cap-and-bounded-list-root-fixtures",
+            "pass": true,
+            "seconds": 0.095
+          },
+          {
+            "check": "denial-logging-global-rate-cap",
+            "pass": true,
+            "seconds": 0.25
+          },
+          {
+            "check": "upgrade-generation-invalidates-pending-admission",
+            "pass": true,
+            "seconds": 1.559
+          },
+          {
+            "check": "unsupported-logging-tag-fails-install-unchanged",
+            "pass": true,
+            "seconds": 0.01
+          },
+          {
+            "check": "frontend-token-output-write-failure-revokes",
+            "pass": true,
+            "seconds": 0.017
+          },
+          {
+            "check": "child-early-exit-while-large-input-pending",
+            "pass": true,
+            "seconds": 0.058
+          },
+          {
+            "check": "output-disconnect-no-success",
+            "pass": true,
+            "seconds": 0.058
+          },
+          {
+            "check": "hostile-caller-environment-not-in-root-command",
+            "pass": true,
+            "seconds": 0.052
+          },
+          {
+            "check": "32-global-pending-helper-cap-nine-accounts",
+            "pass": true,
+            "seconds": 5.937
+          },
+          {
+            "check": "copied-or-stale-helper-cannot-issue",
+            "pass": true,
+            "seconds": 0.002
+          },
+          {
+            "check": "slow-consumer-after-child-exit-no-buffered-output-loss",
+            "pass": true,
+            "seconds": 3.038
+          },
+          {
+            "check": "later-scoped-recording-override-fails-closed",
+            "pass": true,
+            "seconds": 0.008
+          },
+          {
+            "check": "frontend-stdin-read-error-no-hang-no-success",
+            "pass": true,
+            "seconds": 0.101
+          },
+          {
+            "check": "blocked-status-output-does-not-hold-maintenance-lock-times-out",
+            "pass": true,
+            "seconds": 5.096
+          },
+          {
+            "check": "two-grants-same-tty-each-request-fresh-PAM-auth",
+            "pass": true,
+            "seconds": 0.191
+          }
+        ]
+      },
+      "dynamic": {
+        "binary_hashes": {
+          "agent-sudo": "ab1d0971712204d425b954cdb51c554807a249c8fbd792e7a2ea94cb1de42fc3",
+          "agent-sudo-helper": "bb61b702af7b646141657deb75847b0d8ca3160ea8d70a87c422656683abab96"
+        },
+        "results": {
+          "results": [
+            {
+              "check": "positional-new-eligible-account",
+              "pass": true,
+              "seconds": 0.052
+            },
+            {
+              "check": "username-only-prompts-minutes-and-real-sudo",
+              "pass": true,
+              "seconds": 0.076
+            },
+            {
+              "check": "positional-root-unknown-and-duration-bounds",
+              "pass": true,
+              "seconds": 0.009
+            },
+            {
+              "check": "dynamic-two-recipients-preservation-another-admin-and-nonadmin-denial",
+              "pass": true,
+              "seconds": 2.769
+            },
+            {
+              "check": "concurrent-issuance-preserves-independent-recipients",
+              "pass": true,
+              "seconds": 0.358
+            },
+            {
+              "check": "observed-account-removal-prunes-registration-before-uid-reuse",
+              "pass": true,
+              "seconds": 0.944
+            },
+            {
+              "check": "unregistered-account-denied-before-ready-bounded-slot-namespace",
+              "pass": true,
+              "seconds": 0.75
+            },
+            {
+              "check": "unregistered-local-flood-bounded-before-maintenance-lock",
+              "pass": true,
+              "seconds": 1.783
+            },
+            {
+              "check": "actual-0.1.0-upgrade-invalidates-old-grant-and-stale-pending-helper",
+              "pass": true,
+              "seconds": 1.776
+            },
+            {
+              "check": "root-injected-partial-schema-migration-fails-closed",
+              "pass": true,
+              "seconds": 0.072
+            }
+          ],
+          "frontend_sha256": "ab1d0971712204d425b954cdb51c554807a249c8fbd792e7a2ea94cb1de42fc3",
+          "helper_sha256": "bb61b702af7b646141657deb75847b0d8ca3160ea8d70a87c422656683abab96"
+        }
+      },
+      "lifecycle": {
+        "binary_hashes": {
+          "agent-sudo": "ab1d0971712204d425b954cdb51c554807a249c8fbd792e7a2ea94cb1de42fc3",
+          "agent-sudo-helper": "bb61b702af7b646141657deb75847b0d8ca3160ea8d70a87c422656683abab96"
+        },
+        "results": [
+          {
+            "check": "real-wall-clock-forward-and-back-does-not-extend-or-expire",
+            "pass": true,
+            "seconds": 0.177
+          },
+          {
+            "check": "real-one-minute-expiry-stopped-cleanup-admitted-root-work-survives",
+            "pass": true,
+            "seconds": 65.154
+          }
+        ]
+      }
+    }
+  },
+  "suspend": [
+    {
+      "vm": "noble",
+      "check": "actual-ACPI-suspend-CLOCK_BOOTTIME-expiry-cleanup-stopped",
+      "pass": true,
+      "suspend_seconds": 65
+    },
+    {
+      "vm": "resolute",
+      "check": "actual-ACPI-suspend-CLOCK_BOOTTIME-expiry-cleanup-stopped",
+      "pass": true,
+      "suspend_seconds": 65
+    }
+  ],
+  "ssh_reboot_removal": [
+    {
+      "vm": "noble",
+      "check": "real-SSH-new-session-secret-via-stdin-no-argv-env-file",
+      "pass": true
+    },
+    {
+      "vm": "resolute",
+      "check": "real-SSH-new-session-secret-via-stdin-no-argv-env-file",
+      "pass": true
+    },
+    {
+      "vm": "noble",
+      "check": "new-SSH-session-still-requires-token",
+      "pass": true
+    },
+    {
+      "vm": "resolute",
+      "check": "new-SSH-session-still-requires-token",
+      "pass": true
+    },
+    {
+      "vm": "noble",
+      "check": "live-process-argv-env-history-journal-secret-scan",
+      "pass": true
+    },
+    {
+      "vm": "resolute",
+      "check": "live-process-argv-env-history-journal-secret-scan",
+      "pass": true
+    },
+    {
+      "vm": "noble",
+      "check": "real-reboot-volatile-grants-lost-timer-independent",
+      "pass": true
+    },
+    {
+      "vm": "noble",
+      "check": "preboot-record-restored-still-denied-actual-boot-binding",
+      "pass": true
+    },
+    {
+      "vm": "resolute",
+      "check": "real-reboot-volatile-grants-lost-timer-independent",
+      "pass": true
+    },
+    {
+      "vm": "resolute",
+      "check": "preboot-record-restored-still-denied-actual-boot-binding",
+      "pass": true
+    },
+    {
+      "vm": "resolute",
+      "check": "actual-cross-host-token-denied",
+      "pass": true
+    },
+    {
+      "vm": "noble",
+      "check": "actual-cross-host-token-denied",
+      "pass": true
+    },
+    {
+      "vm": "noble",
+      "check": "uninstall-serializes-pending-admission",
+      "pass": true
+    },
+    {
+      "vm": "noble",
+      "check": "uninstall-removes-managed-files-state-timer",
+      "pass": true
+    },
+    {
+      "vm": "noble",
+      "check": "uninstall-preserves-unrelated-sudo-and-ops-script",
+      "pass": true
+    },
+    {
+      "vm": "noble",
+      "check": "uninstall-retains-disabled-stable-lock-tombstone",
+      "pass": true
+    },
+    {
+      "vm": "resolute",
+      "check": "uninstall-serializes-pending-admission",
+      "pass": true
+    },
+    {
+      "vm": "resolute",
+      "check": "uninstall-removes-managed-files-state-timer",
+      "pass": true
+    },
+    {
+      "vm": "resolute",
+      "check": "uninstall-preserves-unrelated-sudo-and-ops-script",
+      "pass": true
+    },
+    {
+      "vm": "resolute",
+      "check": "uninstall-retains-disabled-stable-lock-tombstone",
+      "pass": true
+    }
+  ],
+  "count": 222
+}
