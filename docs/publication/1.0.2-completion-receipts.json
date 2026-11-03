@@ -1,0 +1,120 @@
+[
+  {
+    "id": "9ba07202-211d-4344-8b5f-bcd971f78bbe",
+    "status": "succeeded",
+    "result": {
+      "checks": [
+        "The public installer\u2019s SHA-256 matched the requested previous checksum at the time of the check."
+      ],
+      "message": "The primary agent is actively investigating agent-sudo publication, and safe separation from that work could not be established. No files were changed by this request.",
+      "next_steps": [
+        "Retry this request after the primary agent\u2019s investigation is complete."
+      ],
+      "path": "agent-sudo/install.sh",
+      "receipt_reference": "No receipt created.",
+      "request_id": "agent-sudo-102-7b7d8385527e1eb75fae-agent-sudo-install.sh",
+      "status": "blocked",
+      "url": "https://tools.simplehelp.io/agent-sudo/install.sh"
+    }
+  },
+  {
+    "id": "086fe6e2-dde7-49a3-9ee8-2f5c8a99f73b",
+    "status": "succeeded",
+    "result": {
+      "bytes": 2564,
+      "checks": [
+        "Submitted bytes and previous public checksum verified; private backup retained.",
+        "Anonymous HTTPS download returned the expected bytes and attachment header.",
+        "Directory listing, landing page, robots file, SH live, staging protection, Caddy configuration and release pointers verified.",
+        "Local mirror updated and verified."
+      ],
+      "is_current": true,
+      "message": "Updated the installer bootstrap and verified its public download. The submitted script was not executed.",
+      "next_steps": [],
+      "path": "agent-sudo/install.sh",
+      "previous_sha256": "568bacbc3572687c97700ad4e19878ff8434623716d75a99744e296b25e558c7",
+      "receipt_reference": "services/receipts/tools_publish/d6817ea3c7135ae429f63f321c55af9a0f0398e6246168a42fd311d47ec7f1ce",
+      "request_id": "agent-sudo-102-installer-resume-20261103",
+      "sha256": "7b7d8385527e1eb75fae43c59eadadf6a2e76f7482b553eeb5680aa3e74eebbc",
+      "status": "updated",
+      "url": "https://tools.simplehelp.io/agent-sudo/install.sh"
+    }
+  },
+  {
+    "id": "5811a7d7-45bf-4fb4-9754-ca38efee3bf5",
+    "status": "succeeded",
+    "result": {
+      "checks": [
+        "Reviewed the submitted content and publishing restrictions."
+      ],
+      "message": "The submitted HTML identifies a private machine and describes its test activity in the note under Downloads and validation. The publishing service prohibits publishing private machine data. This request made no public or local changes.",
+      "next_steps": [
+        "Remove the private machine reference and associated test details, then submit the revised HTML with its new SHA-256 and a new request ID."
+      ],
+      "path": "agent-sudo.html",
+      "receipt_reference": "No receipt created; stopped before publication.",
+      "request_id": "agent-sudo-102-b2ee8412f52051658572-agent-sudo.html",
+      "status": "blocked"
+    }
+  },
+  {
+    "id": "12f61edf-47dd-4b4e-9fe8-30db629e768f",
+    "status": "succeeded",
+    "result": {
+      "checks": [
+        "The anonymous public page SHA-256 matches the supplied expected previous checksum.",
+        "The local publishing lock was available when checked."
+      ],
+      "message": "The submitted base64 payload could not be transferred intact to the publication runner for decoding and checksum verification. The public page remains at the expected previous checksum; no files were changed by this request. The local mirror was not checked.",
+      "next_steps": [
+        "Retry with a new request ID and the exact HTML as content_text, or provide an unsigned HTTPS artifact URL and its SHA-256."
+      ],
+      "path": "agent-sudo.html",
+      "previous_sha256": "802c45088bfd95b122764aa58f9d9371e276d3d92aa26fad2ca2b69f453500bf",
+      "receipt_reference": "No receipt created; publication did not begin.",
+      "request_id": "agent-sudo-102-396682185680b2abb875-agent-sudo.html",
+      "status": "blocked",
+      "url": "https://tools.simplehelp.io/agent-sudo.html"
+    }
+  },
+  {
+    "id": "2364f60c-1bc3-4c67-8623-bc2acabd9981",
+    "status": "succeeded",
+    "result": {
+      "checks": [
+        "The current public page SHA-256 is 802c45088bfd95b122764aa58f9d9371e276d3d92aa26fad2ca2b69f453500bf, matching expected_previous_sha256.",
+        "No local file matching the submitted SHA-256 was found in the agent workspaces."
+      ],
+      "is_current": false,
+      "message": "The existing page matches the expected previous checksum, but I could not transfer the submitted inline text into a file with its exact bytes for checksum verification. No public or local files were changed.",
+      "next_steps": [
+        "Resubmit the exact page bytes using content_base64 and the same SHA-256, with a new request_id. The current page checksum can be used as expected_previous_sha256 after rechecking it."
+      ],
+      "path": "agent-sudo.html",
+      "previous_sha256": "802c45088bfd95b122764aa58f9d9371e276d3d92aa26fad2ca2b69f453500bf",
+      "receipt_reference": "No receipt created; publication did not start.",
+      "request_id": "agent-sudo-102-page-text-20261103",
+      "status": "blocked",
+      "url": "https://tools.simplehelp.io/agent-sudo.html"
+    }
+  },
+  {
+    "id": "0e145417-c191-474a-8fb9-d87f56e674cb",
+    "status": "succeeded",
+    "result": {
+      "checks": [
+        "Fetched the current public page and verified its SHA-256 against expected_previous_sha256.",
+        "Confirmed the local publication lock was available at the time of the check."
+      ],
+      "message": "The update was not applied because I could not reliably transfer the supplied base64 payload from the request into the private staging file for checksum verification. No publication or local mirror change was made. The public page currently has SHA-256 802c45088bfd95b122764aa58f9d9371e276d3d92aa26fad2ca2b69f453500bf, matching the requested previous version.",
+      "next_steps": [
+        "Retry through a runtime that exposes the complete request payload as a machine-readable file, or submit the same bytes through an accessible unsigned artifact URL with a new request ID."
+      ],
+      "path": "agent-sudo.html",
+      "receipt_reference": "No receipt created; publication did not begin.",
+      "request_id": "agent-sudo-102-page-base64-retry-20261103",
+      "status": "blocked",
+      "url": "https://tools.simplehelp.io/agent-sudo.html"
+    }
+  }
+]

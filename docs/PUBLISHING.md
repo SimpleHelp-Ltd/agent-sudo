@@ -3,7 +3,7 @@
 Public page: https://tools.simplehelp.io/agent-sudo.html
 Bootstrap: https://tools.simplehelp.io/agent-sudo/install.sh
 
-1.0.1 is the current public release. The exact release binaries are tested in disposable Ubuntu VMs. A Loom 0.2.0 root-command smoke test passed; its user-requested expiry recheck is pending. No Loom/development-host installation, GitHub push or GitHub release is part of this publication.
+1.0.2 is the current public release. The exact release binaries are tested in disposable Ubuntu VMs. A Loom 0.2.0 root-command smoke test passed; its user-requested expiry recheck is pending. No Loom/development-host installation, GitHub push or GitHub release is part of this publication.
 
 ## Versioned release inputs
 
@@ -29,7 +29,7 @@ Use `agent-sudo.html`: tools_publish prohibits `index.html`; no directory listin
 
 ## Bootstrap trust and privileges
 
-The one-line command is `curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh`. It streams the bootstrap to `sh`; the script needs no recipient, and sudo retains its normal terminal authentication. A single outer shell compound command must parse completely before execution; keep its closing brace as the final byte so every truncated prefix is incomplete or a harmless no-op. Package download, pinned checksum verification, temporary directory and cleanup are handled inside the bootstrap. HTTPS authenticates the hosting connection; the embedded SHA-256 pins the package. It is not a signature or protection from a compromised publisher/site. Downloads, checksum verification and extraction are unprivileged for a normal administrator. Only the verified package's existing offline installer is invoked through sudo; it independently validates payload, ownership, policy and supported sudo version. Installation selects no recipient. Administrative issuance later authorizes each account dynamically. Reinstallation invalidates all grants. Current release is 1.0.1; immutable 0.1.0 and 0.2.0 assets are retained.
+The one-line command is `curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh`. It streams the bootstrap to `sh`; the script needs no recipient, and sudo retains its normal terminal authentication. A single outer shell compound command must parse completely before execution; keep its closing brace as the final byte so every truncated prefix is incomplete or a harmless no-op. Package download, pinned checksum verification, temporary directory and cleanup are handled inside the bootstrap. HTTPS authenticates the hosting connection; the embedded SHA-256 pins the package. It is not a signature or protection from a compromised publisher/site. Downloads, checksum verification and extraction are unprivileged for a normal administrator. Only the verified package's existing offline installer is invoked through sudo; it independently validates payload, ownership, policy and supported sudo version. Installation selects no recipient. Administrative issuance later authorizes each account dynamically. Reinstallation invalidates all grants. Current release is 1.0.2; immutable 0.1.0 and 0.2.0 assets are retained.
 
 ## 0.1.0 historical public validation
 
@@ -82,4 +82,8 @@ Final live page SHA-256: `802c45088bfd95b122764aa58f9d9371e276d3d92aa26fad2ca2b6
 
 ## 1.0.2 publication attempt — 2026-11-02
 
-Expanded command-line guide and `-h` shortcut; grant and helper behavior unchanged. 128 core VM checks and installed help checks passed. Publication is incomplete: SH Website declined the security guide citing private machine-specific operational details, and the operator guide upload was blocked by a transfer failure. Several versioned files, including an aggregate checksum file referencing the missing guides, were published. Installer and page remain on 1.0.1. The published 1.0.2 package and source contain a copy of the same security guide; remediation and coordination with SH Website are required before resuming. See `docs/publication/1.0.2-*` for identities and receipts. No GitHub push or release, and no Loom or development-host installation.
+Expanded command-line guide and `-h` shortcut; grant and helper behavior unchanged. 128 core VM checks and installed help checks passed. Publication is incomplete: SH Website declined the security guide citing private machine-specific operational details, and the operator guide upload was blocked by a transfer failure. Several versioned files, including an aggregate checksum file referencing the missing guides, were published. Installer and page remain on 1.0.1. The published 1.0.2 package and source contain a copy of the same security guide. The optional standalone guide is not required for the release; completion is recorded below. See `docs/publication/1.0.2-*` for identities and receipts. No GitHub push or release, and no Loom or development-host installation.
+
+## 1.0.2 publication completion — 2026-11-03
+
+The published 1.0.2 package matches SHA-256 `cd1e485336a43859bcc8559d21a11f519525649b86740d0b1416182781d61be0`. The installer was updated under the previous hash precondition and the exact public command passed in both disposable Ubuntu VMs. The public page remains on 1.0.1: SH Website could not transfer the revised page via either inline text or base64. The prepared page links to the existing 1.0.1 operator guide and omits links to unpublished optional documents. Earlier failed requests remain recorded for transparency. No Loom installation or GitHub release was performed.
