@@ -2,7 +2,7 @@
 
 ## Website — 2026-11-04 (unpublished)
 
-- Redesigned `website/agent-sudo.html` for readability: administrator/agent entry choices, numbered steps, command tables, a prominent root-access warning and collapsible secondary details. Same install command, copy behavior, downloads, hash and SimpleHelp styling; local browser checks pass. Not yet published.
+- Redesigned `website/agent-sudo.html` for readability: administrator/agent entry choices, numbered steps, command tables, a prominent root-access warning and collapsible secondary details. Same install command, copy behavior, downloads, hash and SimpleHelp styling; local and live browser checks pass. Published to tools.simplehelp.io on 2026-11-04 (receipt `docs/publication/1.0.3-page-redesign-receipt.json`).
 
 ## 1.0.3 — 2026-11-04
 

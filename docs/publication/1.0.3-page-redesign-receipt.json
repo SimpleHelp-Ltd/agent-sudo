@@ -1,0 +1,25 @@
+{
+  "id": "d5eae022-67ce-4a85-bd8e-b9b9173b0b1b",
+  "status": "succeeded",
+  "result": {
+    "bytes": 22128,
+    "checks": [
+      "Input, path, ownership and previous checksum validated under local and remote locks.",
+      "Private backup preserved; replacement and local mirror installed atomically.",
+      "Anonymous HTTPS returned 200 with matching SHA-256 and size, text/html and no attachment disposition.",
+      "Directory listing unavailable; landing page and robots unchanged.",
+      "SH live returned 200; staging returned 401; Caddy hashes and release pointers/manifests unchanged.",
+      "Submitted scripts were not executed."
+    ],
+    "is_current": true,
+    "message": "Published the exact supplied HTML. SH releases and hosting configuration remain unchanged.",
+    "next_steps": [],
+    "path": "agent-sudo.html",
+    "previous_sha256": "6bc5e2cf718cca4e907313faae6051e34e632f77cc6a4c4dc10b78024f2f3889",
+    "receipt_reference": "services/receipts/tools_publish/2e46acb35ab8f43cc0d70e9e9bb4501f8dfe833fa80abe232c01ea9ba367a047",
+    "request_id": "agent-sudo-page-redesign-4577157b2885655182a3",
+    "sha256": "4577157b2885655182a3cfa60fa00cf2730cfb3e3fb2d04d8a7053c84bf2f461",
+    "status": "updated",
+    "url": "https://tools.simplehelp.io/agent-sudo.html"
+  }
+}
