@@ -47,7 +47,7 @@ assert key not in subprocess.check_output(['journalctl','--no-pager','-o','cat']
  ssh(n,'python3 -c '+__import__('shlex').quote(code),input=t,check=True,capture_output=True);proc.stdin.close();assert proc.wait(timeout=5)==0
  mark(n,'live-process-argv-env-history-journal-secret-scan')
  # Keep preboot record in memory, reinsert after reboot to exercise actual boot mismatch.
- gid=t.decode().split('.')[1];record=ssh(n,'cat /run/agent-sudo/g-'+gid,capture_output=True,check=True).stdout
+ gid=base64.urlsafe_b64decode(t[3:])[:16].hex();record=ssh(n,'cat /run/agent-sudo/g-'+gid,capture_output=True,check=True).stdout
  reboot(n);r=agentssh(n,'exec agent-sudo run --key-fd 3 -- /usr/bin/id 3<&0 </dev/null',t+b'\n');assert r.returncode!=0
  mark(n,'real-reboot-volatile-grants-lost-timer-independent')
  code="import sys,pathlib; p=pathlib.Path('/run/agent-sudo/g-"+gid+"');p.write_bytes(sys.stdin.buffer.read());p.chmod(0o600)"

@@ -1,0 +1,27 @@
+{
+  "version": "1.0.3",
+  "source_commit": "6e694bdaea947a14ca3568aee1abab7bd8a63816",
+  "source_paths": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md",
+    "install.sh",
+    "uninstall.sh",
+    "src",
+    "tests",
+    "scripts",
+    "docs/BUILD.md",
+    "docs/DESIGN.md",
+    "docs/OPERATOR.md",
+    "docs/SECURITY_REVIEW.md",
+    "docs/VALIDATION.md"
+  ],
+  "binary_hashes": {
+    "agent-sudo": "e1dd13789d6ff350ac6f43e7143d9b0d8e1762b97abde85f6c50a7c405b80b15",
+    "agent-sudo-helper": "35f27acb9333a1db29dfe9a7b9120e8a025fdc27ba37e6e80213ec196dfcfdce"
+  },
+  "package_sha256": "c62253cdf3041a70cbde65593d38aa73c13c7955fdf21132c16f296a29e90565",
+  "source_sha256": "fefd6e638fbea0f1287bfaf4d4cc11dcd58bafc57970f903411a74298c4ca09b"
+}

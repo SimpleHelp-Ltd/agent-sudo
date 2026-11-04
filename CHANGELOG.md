@@ -5,6 +5,7 @@
 - Terminal grant output says `Copy and paste this line to your agent:` followed by `see: https://tools.simplehelp.io/agent-sudo.html | TOKEN`. Redirected stdout remains token-only.
 - Issue compact 67-character v2 Base64url tokens, preserving 128-bit grant IDs, 256-bit secrets and all authorization checks. Accept existing v1 tokens with the same verifier; installation still invalidates prior grants.
 - Passed 230 installed-binary VM checks, eight native/parser tests, lint/MSRV/dependency checks and identical relocated-source reproduction. Publish reviewed user-facing documentation with internal publication history excluded from new archives; clear generated staging contents before packaging to prevent stale files.
+- Update the optional SSH/reboot harness to decode v2 grant IDs. This test-only follow-up is later than the frozen release source snapshot.
 
 ## 1.0.2 — 2026-11-03
 
