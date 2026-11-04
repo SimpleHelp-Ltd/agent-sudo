@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """Build a local, deterministic Linux amd64 tar archive; never publish/install."""
-import pathlib,subprocess,os,hashlib,tarfile,io,json,argparse
+import pathlib,subprocess,os,hashlib,tarfile,io,json,argparse,shutil
 root=pathlib.Path(__file__).resolve().parents[1];os.chdir(root)
 p=argparse.ArgumentParser();p.add_argument('--skip-build',action='store_true');p.add_argument('--expected-helper');p.add_argument('--expected-frontend');args=p.parse_args()
 env=os.environ.copy();env['PATH']=str(pathlib.Path.home()/'.cargo/bin')+':'+env.get('PATH','');env['RUSTFLAGS']='--remap-path-prefix='+str(root)+'=. --remap-path-prefix='+str(pathlib.Path.home()/'.cargo')+'=cargo'
 if not args.skip_build:subprocess.run(['cargo','build','--locked','--release','--target','x86_64-unknown-linux-musl'],check=True,env=env)
 version=next(l.split('"')[1] for l in (root/'Cargo.toml').read_text().splitlines() if l.startswith('version ='))
-out=root/'artifacts'/('agent-sudo-'+version+'-linux-amd64');out.mkdir(parents=True,exist_ok=True)
+out=root/'artifacts'/('agent-sudo-'+version+'-linux-amd64')
+if out.exists():shutil.rmtree(out)
+out.mkdir(parents=True)
 for name,expected in [('agent-sudo',args.expected_frontend),('agent-sudo-helper',args.expected_helper)]:
  b=(root/'target/x86_64-unknown-linux-musl/release'/name).read_bytes();h=hashlib.sha256(b).hexdigest()
  if expected and expected!=h:raise SystemExit('tested binary hash mismatch: '+name)
