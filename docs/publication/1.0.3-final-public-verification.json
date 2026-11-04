@@ -1,0 +1,47 @@
+[
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/1.0.3-OPERATOR.md",
+    "bytes": 13288,
+    "sha256": "576461051fc4a87dfe2a24249776aa1aac737d7e528dbd80baf625cf8aa99e06"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/1.0.3-SHA256SUMS",
+    "bytes": 478,
+    "sha256": "33b01b3ac77d5bacdd4873d8f3a45ba0a38282da02ceff30f271a5b955772166"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/1.0.3-VALIDATION.md",
+    "bytes": 3722,
+    "sha256": "8754655711f81ea1b07d976e3a893b8f893cd3940746a71a7b1f4154ee8c9132"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.1-linux-amd64.tar.gz",
+    "bytes": 755142,
+    "sha256": "beefb7afd69d4dd59c67c704518388c364e2384177edf527697e0878d48e2b02"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.2-linux-amd64.tar.gz",
+    "bytes": 756589,
+    "sha256": "cd1e485336a43859bcc8559d21a11f519525649b86740d0b1416182781d61be0"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.3-linux-amd64.tar.gz",
+    "bytes": 746797,
+    "sha256": "c62253cdf3041a70cbde65593d38aa73c13c7955fdf21132c16f296a29e90565"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.3-linux-amd64.tar.gz.sha256",
+    "bytes": 102,
+    "sha256": "8a2cb5a7d4d60cb44f220e3ad8de43762c4cd946459c56b4ca944a50ad1ad413"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.3-source.tar.gz",
+    "bytes": 72661,
+    "sha256": "fefd6e638fbea0f1287bfaf4d4cc11dcd58bafc57970f903411a74298c4ca09b"
+  },
+  {
+    "url": "https://tools.simplehelp.io/agent-sudo/install.sh",
+    "bytes": 2564,
+    "sha256": "4085b3fd1ef8c9abcbabaf451dc9a19a6b01621faa054eb046ae34e6788f968f"
+  }
+]

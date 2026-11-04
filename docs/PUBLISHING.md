@@ -3,7 +3,7 @@
 Public page: https://tools.simplehelp.io/agent-sudo.html
 Bootstrap: https://tools.simplehelp.io/agent-sudo/install.sh
 
-1.0.2 is the current public release. The exact release binaries are tested in disposable Ubuntu VMs. A Loom 0.2.0 root-command smoke test passed; its user-requested expiry recheck is pending. No Loom/development-host installation, GitHub push or GitHub release is part of this publication.
+1.0.3 is the current public release. The exact release binaries are tested in disposable Ubuntu VMs. No development-host installation, GitHub push or GitHub release is part of this publication.
 
 ## Versioned release inputs
 
@@ -29,7 +29,7 @@ Use `agent-sudo.html`: tools_publish prohibits `index.html`; no directory listin
 
 ## Bootstrap trust and privileges
 
-The one-line command is `curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh`. It streams the bootstrap to `sh`; the script needs no recipient, and sudo retains its normal terminal authentication. A single outer shell compound command must parse completely before execution; keep its closing brace as the final byte so every truncated prefix is incomplete or a harmless no-op. Package download, pinned checksum verification, temporary directory and cleanup are handled inside the bootstrap. HTTPS authenticates the hosting connection; the embedded SHA-256 pins the package. It is not a signature or protection from a compromised publisher/site. Downloads, checksum verification and extraction are unprivileged for a normal administrator. Only the verified package's existing offline installer is invoked through sudo; it independently validates payload, ownership, policy and supported sudo version. Installation selects no recipient. Administrative issuance later authorizes each account dynamically. Reinstallation invalidates all grants. Current release is 1.0.2; immutable 0.1.0 and 0.2.0 assets are retained.
+The one-line command is `curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh`. It streams the bootstrap to `sh`; the script needs no recipient, and sudo retains its normal terminal authentication. A single outer shell compound command must parse completely before execution; keep its closing brace as the final byte so every truncated prefix is incomplete or a harmless no-op. Package download, pinned checksum verification, temporary directory and cleanup are handled inside the bootstrap. HTTPS authenticates the hosting connection; the embedded SHA-256 pins the package. It is not a signature or protection from a compromised publisher/site. Downloads, checksum verification and extraction are unprivileged for a normal administrator. Only the verified package's existing offline installer is invoked through sudo; it independently validates payload, ownership, policy and supported sudo version. Installation selects no recipient. Administrative issuance later authorizes each account dynamically. Reinstallation invalidates all grants. Current release is 1.0.3; immutable 0.1.0 and 0.2.0 assets are retained.
 
 ## 0.1.0 historical public validation
 
@@ -87,3 +87,15 @@ Expanded command-line guide and `-h` shortcut; grant and helper behavior unchang
 ## 1.0.2 publication completion — 2026-11-03
 
 The published 1.0.2 package matches SHA-256 `cd1e485336a43859bcc8559d21a11f519525649b86740d0b1416182781d61be0`. The installer was updated under the previous hash precondition and the exact public command passed in both disposable Ubuntu VMs. The public page remains on 1.0.1: SH Website could not transfer the revised page via either inline text or base64. The prepared page links to the existing 1.0.1 operator guide and omits links to unpublished optional documents. Earlier failed requests remain recorded for transparency. No Loom installation or GitHub release was performed.
+
+## 1.0.3 publication preparation — 2026-11-04
+
+Owner-authorized compact v2 tokens and `see: URL | TOKEN` terminal handoff. Frozen allowlisted source commit `6e694bdaea947a14ca3568aee1abab7bd8a63816`; package SHA-256 `c62253cdf3041a70cbde65593d38aa73c13c7955fdf21132c16f296a29e90565`. Eight native tests, 230 installed-binary VM checks, lint/MSRV/audit, exact relocated-source binary reproduction and archive manifest review passed. No installation on the development host or GitHub push/release. Public source and package exclude internal publication history; source paths are recorded in the artifact identity. Six immutable artifacts were submitted through SH Website before mutable installer/page updates. Publication remains pending until the completion evidence below.
+
+## 1.0.3 publication completion — 2026-11-04
+
+All six immutable artifacts were published and anonymously verified before the installer update. The exact public installation command passed 38 checks (19 in each disposable Ubuntu VM), including 2,564 proper bootstrap prefixes per VM and failure preservation. Installer SHA-256: `4085b3fd1ef8c9abcbabaf451dc9a19a6b01621faa054eb046ae34e6788f968f`. Final page SHA-256: `6bc5e2cf718cca4e907313faae6051e34e632f77cc6a4c4dc10b78024f2f3889`. The HTML relay rejected the page with HTTP 415; the supported direct-text service input succeeded. Eight successful publication/update receipts and public/browser evidence are in `docs/publication/1.0.3-*`.
+
+Chromium verified live HTML MIME/disposition, real clipboard contents, denied-copy fallback, keyboard operation, brand fonts/colors and 375/768/1280 px layouts with no page errors. Nine final public download URLs were verified, including unchanged 1.0.1/1.0.2 packages. The handoff is 118 characters including its 67-character token; earlier chat estimates of 116 were corrected. Script stdout remains token-only. Upgrades invalidate existing grants.
+
+The frozen source archive is the exact allowlisted commit in its artifact identity; a later test-only optional SSH/reboot harness grant-ID correction is recorded in local commit `82bac80`. Those SSH/reboot suites are excluded from this release's claimed 230 installed-binary checks. Production binaries were unchanged by that follow-up. Final review, deterministic clean-staging regression, exact source-file comparison and all publication verification passed. Test VMs were shut down; no development-host installation or GitHub push/release occurred.

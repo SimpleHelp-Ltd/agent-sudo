@@ -1,0 +1,34 @@
+{
+  "checks": [
+    "actual-public-bootstrap-hash",
+    "exact-public-pipe-command-normal-sudo-no-recipient-prompt",
+    "machine-wide-schema-no-recipient-list",
+    "public-installed-grant-run-status-revoke",
+    "exact-public-command-reinstallation-with-sudo",
+    "reinstalled-new-recipient-grant-run-revoke",
+    "public-installed-creator-revoke-all-command",
+    "exact-tested-binary-hashes",
+    "actual-public-package-hash-for-truncation-fixture",
+    "every-truncated-bootstrap-prefix-blocked-with-positive-control",
+    "injected-bootstrap-download-failure-preserves-install-before-sudo",
+    "injected-bootstrap-truncated-failure-preserves-install-before-sudo",
+    "injected-download-failure-preserves-install-before-sudo",
+    "injected-package-truncated-failure-preserves-install-before-sudo",
+    "injected-checksum-failure-preserves-install-before-sudo",
+    "injected-platform-failure-preserves-install-before-sudo",
+    "old-installer-recipient-option-refused-before-modification",
+    "injected-unsupported-os-denied-without-modification",
+    "clean-removal-after-public-install"
+  ],
+  "count": 19,
+  "bootstrap_sha256": "4085b3fd1ef8c9abcbabaf451dc9a19a6b01621faa054eb046ae34e6788f968f",
+  "binary_hashes": {
+    "/usr/local/bin/agent-sudo": "e1dd13789d6ff350ac6f43e7143d9b0d8e1762b97abde85f6c50a7c405b80b15",
+    "/usr/local/libexec/agent-sudo-helper": "35f27acb9333a1db29dfe9a7b9120e8a025fdc27ba37e6e80213ec196dfcfdce"
+  },
+  "package_sha256": "c62253cdf3041a70cbde65593d38aa73c13c7955fdf21132c16f296a29e90565",
+  "command": "curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh",
+  "truncated_prefixes": 2564,
+  "os": "PRETTY_NAME=\"Ubuntu 24.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.5 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo\n",
+  "sudo_version": "Sudo version 1.9.15p5"
+}

@@ -4,9 +4,9 @@
 {
 # HTTPS download bootstrap; only the existing offline installer runs as root.
 set -eu
-agent_sudo_version=1.0.2
-agent_sudo_archive=agent-sudo-1.0.2-linux-amd64.tar.gz
-agent_sudo_sha256=cd1e485336a43859bcc8559d21a11f519525649b86740d0b1416182781d61be0
+agent_sudo_version=1.0.3
+agent_sudo_archive=agent-sudo-1.0.3-linux-amd64.tar.gz
+agent_sudo_sha256=c62253cdf3041a70cbde65593d38aa73c13c7955fdf21132c16f296a29e90565
 agent_sudo_base=https://tools.simplehelp.io/agent-sudo
 fail() { printf 'agent-sudo installer: %s\n' "$*" >&2; exit 1; }
 if [ "$(uname -s)" != Linux ] || [ "$(uname -m)" != x86_64 ]; then fail 'This release supports Linux amd64 only.'; fi

@@ -1,0 +1,197 @@
+[
+  {
+    "id": "057a0794-6671-495f-8a52-d815142d2c3e",
+    "status": "succeeded",
+    "result": {
+      "bytes": 102,
+      "checks": [
+        "Input, path safety and source checksum validated.",
+        "Local and remote locks held; installed atomically.",
+        "Anonymous HTTPS returned 200 with attachment header and matching full checksum and size.",
+        "Parent directory returned 404; landing page and robots unchanged.",
+        "SH live returned 200; anonymous staging returned 401.",
+        "Caddy hashes, SH release pointers and manifests unchanged.",
+        "Local mirror verified."
+      ],
+      "is_current": true,
+      "message": "Published the exact checksum file and verified its public download. No SH deployment or configuration changes.",
+      "next_steps": [],
+      "path": "agent-sudo/agent-sudo-1.0.3-linux-amd64.tar.gz.sha256",
+      "receipt_reference": "services/receipts/tools_publish/f1f2a705895f39ffe1dd9875d6f344bd2f2b874d1bccc3cac371a79f10f37a62",
+      "request_id": "agent-sudo-103-8a2cb5a7d4d60cb44f22-agent-sudo-agent-sudo-1.0.3-linux-amd64.tar.gz.sha256",
+      "sha256": "8a2cb5a7d4d60cb44f220e3ad8de43762c4cd946459c56b4ca944a50ad1ad413",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.3-linux-amd64.tar.gz.sha256"
+    }
+  },
+  {
+    "id": "4baf8b3c-a717-4ea8-ba3c-1be370d3b850",
+    "status": "succeeded",
+    "result": {
+      "bytes": 17887,
+      "checks": [
+        "Input validation and source checksum passed.",
+        "Local and remote locks held; previous checksum and private backup verified; replacement atomic.",
+        "Anonymous HTTPS returned 200 with matching SHA-256 and size, text/html and no attachment disposition.",
+        "Utility directory returned 404; landing page and robots unchanged.",
+        "SH live returned 200; staging returned 401; Caddy hashes and release pointers/manifests unchanged.",
+        "Local mirror checksum verified; private receipt and publication history saved."
+      ],
+      "is_current": true,
+      "message": "Updated agent-sudo.html with the exact supplied bytes. HTML opens in the browser. No SH deployment or Caddy reload performed.",
+      "next_steps": [],
+      "path": "agent-sudo.html",
+      "previous_sha256": "802c45088bfd95b122764aa58f9d9371e276d3d92aa26fad2ca2b69f453500bf",
+      "receipt_reference": "services/receipts/tools_publish/75810d7c55bf4e09a5d475732a26e3b7133af7112c7a2ab81df3bd7898f6e8f2",
+      "request_id": "agent-sudo-103-6bc5e2cf718cca4e9073-agent-sudo.html",
+      "sha256": "6bc5e2cf718cca4e907313faae6051e34e632f77cc6a4c4dc10b78024f2f3889",
+      "status": "updated",
+      "url": "https://tools.simplehelp.io/agent-sudo.html"
+    }
+  },
+  {
+    "id": "5caaf0fe-2c05-4fdc-a228-ee55640e5bb0",
+    "status": "succeeded",
+    "result": {
+      "bytes": 2564,
+      "checks": [
+        "Input, source checksum and path validated.",
+        "Local and remote locks held; previous checksum and private backup verified; replacement atomic.",
+        "Anonymous HTTPS returned 200 with attachment header and matching full checksum and size.",
+        "Parent directory returned 404; landing page and robots unchanged.",
+        "SH live returned 200 and staging returned 401; Caddy hashes and release pointers/manifests unchanged.",
+        "Local mirror updated atomically with matching checksum."
+      ],
+      "is_current": true,
+      "message": "Updated the installer to the exact supplied bytes. The script was not executed.",
+      "next_steps": [],
+      "path": "agent-sudo/install.sh",
+      "previous_sha256": "7b7d8385527e1eb75fae43c59eadadf6a2e76f7482b553eeb5680aa3e74eebbc",
+      "receipt_reference": "services/receipts/tools_publish/5d8a11094cf4b1259b6bf45b87f3033285172ae219f103c742dee21cde9659ac",
+      "request_id": "agent-sudo-103-4085b3fd1ef8c9abcbab-agent-sudo-install.sh",
+      "sha256": "4085b3fd1ef8c9abcbabaf451dc9a19a6b01621faa054eb046ae34e6788f968f",
+      "status": "updated",
+      "url": "https://tools.simplehelp.io/agent-sudo/install.sh"
+    }
+  },
+  {
+    "id": "5db9746d-9e69-456c-a3bd-8586d5d79f33",
+    "status": "succeeded",
+    "result": {
+      "bytes": 3722,
+      "checks": [
+        "Input, authenticated caller and path validated; content inspected for credentials and private data.",
+        "Local and remote locks held; atomic publication and transfer checksum verified.",
+        "Anonymous HTTPS returned 200 with attachment header and matching full SHA-256 and size.",
+        "Local mirror verified; parent directory returned 404 without listings.",
+        "Landing page, robots and Caddy hashes unchanged.",
+        "SH live returned 200; staging returned 401; release pointers and manifests unchanged."
+      ],
+      "is_current": true,
+      "message": "Published the exact validation report and verified its public download. No SH deployment or Caddy reload occurred.",
+      "next_steps": [],
+      "path": "agent-sudo/1.0.3-VALIDATION.md",
+      "receipt_reference": "services/receipts/tools_publish/ce71496f4d262d76b33931e885db33a35bdf76539c91f2eb63e7eac2abcec77c",
+      "request_id": "agent-sudo-103-8754655711f81ea1b07d-agent-sudo-1.0.3-VALIDATION.md",
+      "sha256": "8754655711f81ea1b07d976e3a893b8f893cd3940746a71a7b1f4154ee8c9132",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/1.0.3-VALIDATION.md"
+    }
+  },
+  {
+    "id": "6a3e7fcf-ad62-43b9-b734-909e0b50e148",
+    "status": "succeeded",
+    "result": {
+      "bytes": 478,
+      "checks": [
+        "Input, path and SHA-256 validated before publication.",
+        "Local and remote locks held; file installed atomically.",
+        "Anonymous HTTPS returned 200 with attachment header and matching full checksum and size.",
+        "Local mirror verified; private publication history recorded.",
+        "Parent directory returned 404; landing page and robots unchanged.",
+        "SH live returned 200; staging returned 401; Caddy hashes and release pointers/manifests unchanged."
+      ],
+      "is_current": true,
+      "message": "Published the exact checksum file and verified its public download.",
+      "next_steps": [],
+      "path": "agent-sudo/1.0.3-SHA256SUMS",
+      "receipt_reference": "services/receipts/tools_publish/ffc77aa7f0d7626fa9b79c34773217634b066febbfb90cffb1e5a957623ce81f",
+      "request_id": "agent-sudo-103-33b01b3ac77d5bacdd48-agent-sudo-1.0.3-SHA256SUMS",
+      "sha256": "33b01b3ac77d5bacdd4873d8f3a45ba0a38282da02ceff30f271a5b955772166",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/1.0.3-SHA256SUMS"
+    }
+  },
+  {
+    "id": "76d168c0-a950-4261-b3bc-9ab0014deb86",
+    "status": "succeeded",
+    "result": {
+      "bytes": 72661,
+      "checks": [
+        "Source checksum and size verified before publication.",
+        "Local and remote locks held; destination absence and safe permissions verified.",
+        "Anonymous HTTPS returned 200 with matching full checksum, size and attachment header.",
+        "Parent directory returned 404; landing page and robots unchanged.",
+        "SH live returned 200; staging returned 401; Caddy configuration and release pointers/manifests unchanged.",
+        "Local mirror and private publication history updated."
+      ],
+      "is_current": true,
+      "message": "Published the exact archive without unpacking or executing it. No SH deployment or hosting configuration changes.",
+      "next_steps": [],
+      "path": "agent-sudo/agent-sudo-1.0.3-source.tar.gz",
+      "receipt_reference": "services/receipts/tools_publish/19930695108f23ac8e80309a562ca76e391e25753af21d9e637ab074f8397d57",
+      "request_id": "agent-sudo-103-fefd6e638fbea0f1287b-agent-sudo-agent-sudo-1.0.3-source.tar.gz",
+      "sha256": "fefd6e638fbea0f1287bfaf4d4cc11dcd58bafc57970f903411a74298c4ca09b",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.3-source.tar.gz"
+    }
+  },
+  {
+    "id": "b2679c2f-d038-483a-95ff-f6e5a281f1bc",
+    "status": "succeeded",
+    "result": {
+      "bytes": 13288,
+      "checks": [
+        "Input, path and supplied checksum validated before publication",
+        "Local and remote publishing locks held; file installed atomically",
+        "Anonymous HTTPS 200; full download checksum and size match; attachment header verified",
+        "Parent directory 404; landing page and robots unchanged",
+        "Caddy hashes and SH release pointers/manifests unchanged; live 200 and staging 401",
+        "Local mirror checksum verified"
+      ],
+      "is_current": true,
+      "message": "Published the exact operator guide. A local preparation delimiter error caused unsuccessful sudo attempts before publication; corrected and recorded privately.",
+      "next_steps": [],
+      "path": "agent-sudo/1.0.3-OPERATOR.md",
+      "receipt_reference": "services/receipts/tools_publish/7d76c32bd3af40e59964a6dc0fbd0fc4383a4dcd70a22ed3c55e0ec35303e34c",
+      "request_id": "agent-sudo-103-576461051fc4a87dfe2a-agent-sudo-1.0.3-OPERATOR.md",
+      "sha256": "576461051fc4a87dfe2a24249776aa1aac737d7e528dbd80baf625cf8aa99e06",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/1.0.3-OPERATOR.md"
+    }
+  },
+  {
+    "id": "d439d60d-7e53-4169-803e-38cef2418806",
+    "status": "succeeded",
+    "result": {
+      "bytes": 746797,
+      "checks": [
+        "Source TLS, SHA-256 and size verified before publication.",
+        "Local and remote locks, destination absence and path safety verified.",
+        "Atomic installation and anonymous HTTPS 200 download verified with matching checksum, size and attachment header.",
+        "Parent directory returns 404; landing page and robots unchanged.",
+        "SH live returns 200; anonymous staging returns 401; Caddy hashes and release pointers/manifests unchanged.",
+        "Local mirror and private publication history updated."
+      ],
+      "is_current": true,
+      "message": "Published the exact archive. It was not unpacked or executed. No SH website deployment occurred.",
+      "next_steps": [],
+      "path": "agent-sudo/agent-sudo-1.0.3-linux-amd64.tar.gz",
+      "receipt_reference": "services/receipts/tools_publish/b730a010fc00ffaafa724fd27cb862c73bb6d2eaad0e1b50e25d45e8298af9e5",
+      "request_id": "agent-sudo-103-c62253cdf3041a70cbde-agent-sudo-agent-sudo-1.0.3-linux-amd64.tar.gz",
+      "sha256": "c62253cdf3041a70cbde65593d38aa73c13c7955fdf21132c16f296a29e90565",
+      "status": "published",
+      "url": "https://tools.simplehelp.io/agent-sudo/agent-sudo-1.0.3-linux-amd64.tar.gz"
+    }
+  }
+]
