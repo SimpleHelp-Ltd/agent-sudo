@@ -75,22 +75,26 @@ def main():
   import re,datetime
   code,out,used=pty_call([],[(b'Username [humanadmin]:',b''),(b'Minutes [10]:',b''),(b'password for',b'VmOnly-TestPassword-9274')],env_updates={'USER':'other','LOGNAME':'other','TZ':'America/New_York'})
   assert code==0 and used==3 and b'Grant humanadmin full root access for 10 minutes.'in out and b'Access granted'in out
-  assert b'Account: humanadmin'in out and b'Give this token privately'in out and b'agent-sudo admin revoke'in out
+  assert b'Account: humanadmin'in out and b'Copy and paste this line to your agent:'in out and b'agent-sudo admin revoke'in out
   assert b'Already running commands can continue.'in out and b'host "'not in out and b'VmOnly-TestPassword-9274'not in out
-  m=re.search(rb'v1\.([a-f0-9]{32})\.[a-f0-9]{64}',out);assert m
-  g=json.loads((STATE/('g-'+m.group(1).decode())).read_bytes());assert g['user']=='humanadmin'and g['expires']-g['created']==600
+  m=re.search(rb'v2\.[A-Za-z0-9_-]{64}',out);assert m
+  handoff=b'see: https://tools.simplehelp.io/agent-sudo.html | '+m.group(0)
+  assert out.splitlines().count(handoff)==1
+  g=json.loads((STATE/('g-'+token_id(m.group(0).decode()))).read_bytes());assert g['user']=='humanadmin'and g['expires']-g['created']==600
   from zoneinfo import ZoneInfo
   expected=datetime.datetime.fromtimestamp(g['expires'],ZoneInfo('America/New_York')).strftime('%Y-%m-%d %H:%M %Z (%z)').encode();assert expected in out
  check('default-username-real-uid-10minutes-local-timezone-readable-tty',default_ui)
  def username_default_minutes():
   import re
   code,out,used=pty_call(['other'],[(b'Minutes [10]:',b''),(b'password for',b'VmOnly-TestPassword-9274')]);assert code==0 and used==2 and b'Username ['not in out
-  m=re.search(rb'v1\.([a-f0-9]{32})\.[a-f0-9]{64}',out);assert m;g=json.loads((STATE/('g-'+m.group(1).decode())).read_bytes());assert g['user']=='other'and g['expires']-g['created']==600
+  m=re.search(rb'v2\.[A-Za-z0-9_-]{64}',out);assert m;g=json.loads((STATE/('g-'+token_id(m.group(0).decode()))).read_bytes());assert g['user']=='other'and g['expires']-g['created']==600
  check('username-only-enter-selects-10minutes',username_default_minutes)
  def script_output():
-  r=front(['other','7']);assert r.returncode==0 and len(r.stdout)==101 and r.stdout.startswith(b'v1.')
-  t=r.stdout.strip().decode();g=json.loads((STATE/('g-'+t.split('.')[1])).read_bytes());assert g['expires']-g['created']==420
+  r=front(['other','7']);assert r.returncode==0 and len(r.stdout)==68 and r.stdout.startswith(b'v2.')
+  t=r.stdout.strip().decode();g=json.loads((STATE/('g-'+token_id(t))).read_bytes());assert g['expires']-g['created']==420
   assert b'Account: other'in r.stderr and b'in 7 minutes'in r.stderr and b'agent-sudo admin revoke'in r.stderr and t.encode()not in r.stderr
+  assert b'Give this token privately'in r.stderr and b'Copy and paste'not in r.stderr
+  assert b'https://'not in r.stdout
   assert front(['admin','revoke',g['id']]).returncode==0 and run(t,who='other').returncode!=0
  check('explicit-duration-token-only-stdout-private-output-and-admin-revoke',script_output)
  def upgrade02():
@@ -98,7 +102,7 @@ def main():
   subprocess.run(['tar','-xzf','/root/old-0.2.0.tar.gz','-C',str(old)],check=True)
   r=subprocess.run([str(old/'install.sh')],capture_output=True);assert r.returncode==0
   t,i=grant();assert run(t).returncode==0
-  reinstall();assert run(t).returncode!=0 and front(['--version']).stdout==b'agent-sudo 1.0.1\n'
+  reinstall();assert run(t).returncode!=0 and front(['--version']).stdout==b'agent-sudo 1.0.3\n'
   t,i=grant();assert run(t).returncode==0
  check('published-0.2.0-upgrade-invalidates-grants-and-issues-new',upgrade02)
  def upgrade10():
@@ -106,7 +110,7 @@ def main():
   subprocess.run(['tar','-xzf','/root/old-1.0.0.tar.gz','-C',str(old)],check=True)
   assert subprocess.run([str(old/'install.sh')],capture_output=True).returncode==0
   t,i=grant();assert run(t).returncode==0
-  reinstall();assert run(t).returncode!=0 and front(['--version']).stdout==b'agent-sudo 1.0.1\n'
+  reinstall();assert run(t).returncode!=0 and front(['--version']).stdout==b'agent-sudo 1.0.3\n'
   t,i=grant();r=front(['revoke','all']);assert r.returncode==0 and b'Revoked 1 grant(s)'in r.stdout and run(t).returncode!=0
  check('published-1.0.0-upgrade-and-creator-revoke-command',upgrade10)
  def migration():

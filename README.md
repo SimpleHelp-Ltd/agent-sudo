@@ -2,7 +2,7 @@
 
 A local Linux tool for a human administrator to delegate **temporary arbitrary root commands** to an authorized account, without sharing an administrator password.
 
-**1.0.1 release. Tested in disposable VMs; Loom 0.2.0 root-command smoke test passed; expiry test pending.**
+**1.0.3 release. Validated using installed binaries in disposable Ubuntu VMs.**
 
 ```sh
 curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh
@@ -40,7 +40,7 @@ agent-sudo revoke all  # Revoke grants issued by the calling administrator
 agent-sudo --help | -h | --version
 ```
 
-Redirected grant stdout contains only one token line; a readable account, local expiry/timezone and administrator revocation command go to stderr. Terminal output labels the private token. Detailed machine identity stays in status metadata. Status/list output is JSON metadata without tokens/verifiers. `--key-fd` consumes a token line from a descriptor >=3. Tokens in argv/environment and automatic token files are unsupported. Commands receive binary stdin/stdout/stderr and their actual exit status (signals map to 128+signal). For reliable automation, supply a separate writable `--result-fd`: it receives one JSON final result, distinguishing child code 125 from tool failure. `--json-result` is a convenience on stderr, which remains mixed with arbitrary child stderr; use the separate result descriptor for unambiguous results.
+Redirected grant stdout contains only one token line; a readable account, local expiry/timezone and administrator revocation command go to stderr. Terminal output says `Copy and paste this line to your agent:` followed by `see: https://tools.simplehelp.io/agent-sudo.html | TOKEN` with the actual private token. New tokens are 67-character v2 Base64url strings, retaining a 128-bit grant ID and 256-bit secret; v1 tokens are also accepted. The token stays separate from the URL. Detailed machine identity stays in status metadata. Status/list output is JSON metadata without tokens/verifiers. `--key-fd` consumes a token line from a descriptor >=3. Tokens in argv/environment and automatic token files are unsupported. Commands receive binary stdin/stdout/stderr and their actual exit status (signals map to 128+signal). For reliable automation, supply a separate writable `--result-fd`: it receives one JSON final result, distinguishing child code 125 from tool failure. `--json-result` is a convenience on stderr, which remains mixed with arbitrary child stderr; use the separate result descriptor for unambiguous results.
 
 This is **delegated root authority**, not a sandbox. Tokens are bound to a local account, host and boot. Expiry/revocation/reboot stop future admissions. Already admitted processes survive expiry/revocation, and root can establish persistence. Processes sharing a Linux UID are not strongly isolated. Preserve an independent administrator session. No listener, setuid application, daemon command server, saved administrator password or change to unrelated sudo permissions. The existing `ops/grant-agent-sudo.sh` mechanism is separate and untouched.
 

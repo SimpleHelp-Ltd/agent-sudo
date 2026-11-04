@@ -2,11 +2,11 @@
 
 - `README.md`: CLI, trust boundary, supported preview and local build entry point.
 - `Cargo.toml` / `Cargo.lock`: Rust frontend/helper package and locked dependencies.
-- `src/bin/agent-sudo.rs`: Unprivileged CLI, hidden/FD token input, sudo preflight and framed stream/result decoding.
+- `src/bin/agent-sudo.rs`: Unprivileged CLI, one-line agent handoff, hidden/FD token input, sudo preflight and framed stream/result decoding.
 - `src/bin/agent-sudo-helper.rs`: Exact privileged operation dispatch, readiness gates, grant receipt and admissions.
 - `src/protocol.rs`: Bounded versioned requests/frames, deadlines and parser mutation tests.
 - `src/security.rs`: Safe root path traversal, ownership/link/ACL validation, identity, clocks, randomness and audits.
-- `src/store.rs`: Dynamic grant/state gates, stable lock, verifier records, expiration, revocation and resource bounds.
+- `src/store.rs`: Compact v2/legacy v1 token parsing, dynamic grant/state gates, stable lock, verifier records, expiration, revocation and resource bounds.
 - `src/execution.rs`: Root execution context, descriptor hygiene, nonblocking binary relay, signals and child reaping.
 - `src/maintenance.rs`: Policy sealing, sudo compatibility, machine-wide installation, rollback and removal.
 - `install.sh` / `uninstall.sh`: Offline root-authorized package entry points.

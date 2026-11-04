@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.3 — 2026-11-04
+
+- Terminal grant output says `Copy and paste this line to your agent:` followed by `see: https://tools.simplehelp.io/agent-sudo.html | TOKEN`. Redirected stdout remains token-only.
+- Issue compact 67-character v2 Base64url tokens, preserving 128-bit grant IDs, 256-bit secrets and all authorization checks. Accept existing v1 tokens with the same verifier; installation still invalidates prior grants.
+- Passed 230 installed-binary VM checks, eight native/parser tests, lint/MSRV/dependency checks and identical relocated-source reproduction. Publish reviewed user-facing documentation with internal publication history excluded from new archives.
+
 ## 1.0.2 — 2026-11-03
 
 - Expand command-line help with agent and administrator instructions, safe token input, examples and automation options; add the `-h` shortcut. Passed 128 core VM checks and installed help checks. The public installer selects 1.0.2; public installation checks passed in both Ubuntu VMs. See docs/PUBLISHING.md.
@@ -41,7 +47,7 @@
 
 - Added tools.simplehelp.io preview page and HTTPS bootstrap using the exact VM-tested 0.1.0 package and pinned SHA-256.
 - Require explicit existing recipient selection, preserve terminal sudo authentication, and verify downloads before invoking the offline installer.
-- Documented immutable release publication ordering and public VM bootstrap validation; Loom and GitHub releases remain untouched.
+- Documented immutable release publication ordering and public VM bootstrap validation; No production-host installation or GitHub release was performed.
 - Verified all eight public downloads and exact hashes; 30 public bootstrap/installation/grant/removal VM checks passed across both supported sudo implementations.
 - Published the responsive HTML page through SH Website and verified live HTML MIME/rendering, desktop/tablet/mobile layouts, real clipboard copying and denied-copy fallback; recorded checksum-guarded metadata update and sanitized publication receipts.
 

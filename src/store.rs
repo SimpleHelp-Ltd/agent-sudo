@@ -1,4 +1,5 @@
 use crate::{CONTROL, RUNTIME, Result, fail, security as s};
+use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
 use serde::{Deserialize, Serialize};
 use std::{
     fs::File,
@@ -196,7 +197,17 @@ pub fn verifier(id: &str, secret: &str) -> String {
     h.push_str(secret);
     s::hash(h.as_bytes())
 }
-pub fn token(t: &str) -> Result<(&str, &str)> {
+pub fn token(t: &str) -> Result<(String, Zeroizing<String>)> {
+    if let Some(encoded) = t.strip_prefix("v2.") {
+        if encoded.len() != 64 {
+            return fail("invalid token");
+        }
+        let mut bytes = Zeroizing::new([0u8; 48]);
+        if URL_SAFE_NO_PAD.decode_slice(encoded, &mut *bytes).ok() != Some(48) {
+            return fail("invalid token");
+        }
+        return Ok((s::hex(&bytes[..16]), Zeroizing::new(s::hex(&bytes[16..]))));
+    }
     let parts: Vec<_> = t.split('.').collect();
     if parts.len() != 3 || parts[0] != "v1" {
         return fail("invalid token");
@@ -209,7 +220,7 @@ pub fn token(t: &str) -> Result<(&str, &str)> {
     {
         return fail("invalid token");
     }
-    Ok((parts[1], parts[2]))
+    Ok((parts[1].to_owned(), Zeroizing::new(parts[2].to_owned())))
 }
 fn path(id: &str) -> Result<String> {
     valid_id(id)?;
@@ -262,8 +273,10 @@ pub fn issue(
     if ids()?.len() >= 128 {
         return fail("grant limit reached; revoke or clean expired records");
     }
-    let id = s::random(16)?;
-    let secret = Zeroizing::new(s::random(32)?);
+    let mut bytes = Zeroizing::new([0u8; 48]);
+    getrandom::fill(&mut *bytes).map_err(|_| "OS randomness failed")?;
+    let id = s::hex(&bytes[..16]);
+    let secret = Zeroizing::new(s::hex(&bytes[16..]));
     let now = s::walltime();
     let g = Grant {
         v: 1,
@@ -299,7 +312,9 @@ pub fn issue(
         return Err(e);
     }
     s::audit_recipient("grant", actor.uid, Some(g.uid), &id, None);
-    Ok((g, Zeroizing::new(format!("v1.{id}.{}", *secret))))
+    let mut encoded = Zeroizing::new(String::from("v2."));
+    URL_SAFE_NO_PAD.encode_string(&bytes[..], &mut encoded);
+    Ok((g, encoded))
 }
 pub fn before_deadline(now: u64, deadline: u64) -> bool {
     now < deadline
@@ -320,17 +335,17 @@ pub fn live(g: &Grant, c: &Config, now: u64) -> Result<()> {
 }
 pub fn admit(c: &Config, actor: &s::Account, t: &str, exe: &str) -> Result<String> {
     let (id, secret) = token(t)?;
-    let g = read_grant(id)?;
+    let g = read_grant(&id)?;
     if g.uid != actor.uid || g.user != actor.name {
         return fail("grant belongs to another account");
     }
-    let v = Zeroizing::new(verifier(id, secret));
+    let v = Zeroizing::new(verifier(&id, &secret));
     if !bool::from(v.as_bytes().ct_eq(g.verifier.as_bytes())) {
         return fail("invalid token");
     }
     live(&g, c, s::boottime()?)?;
-    s::audit_recipient("admit", actor.uid, Some(g.uid), id, Some(exe));
-    Ok(id.into())
+    s::audit_recipient("admit", actor.uid, Some(g.uid), &id, Some(exe));
+    Ok(id)
 }
 pub fn revoke(id: &str, actor: &s::Account, admin: bool) -> Result<()> {
     let p = path(id)?;
@@ -428,8 +443,40 @@ mod tests {
         let id = "a".repeat(32);
         let s = "b".repeat(64);
         let t = format!("v1.{id}.{s}");
-        assert_eq!(token(&t).unwrap(), (&*id, &*s));
+        let (parsed_id, parsed_secret) = token(&t).unwrap();
+        assert_eq!(parsed_id, id);
+        assert_eq!(*parsed_secret, s);
         assert_ne!(verifier(&id, &s), verifier(&id, &"c".repeat(64)));
+    }
+    #[test]
+    fn compact_tokens() {
+        // Independent RFC 4648 vector: consecutive bytes 0..47, no padding.
+        let encoded = "v2.AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4v";
+        let (id, secret) = token(encoded).unwrap();
+        assert_eq!(encoded.len(), 67);
+        assert_eq!(id, "000102030405060708090a0b0c0d0e0f");
+        assert_eq!(
+            *secret,
+            "101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f"
+        );
+        let (old_id, old_secret) = token(&format!("v1.{id}.{}", *secret)).unwrap();
+        assert_eq!(verifier(&id, &secret), verifier(&old_id, &old_secret));
+        for invalid in [
+            encoded.to_owned() + "=",
+            encoded[..66].to_owned(),
+            encoded.replace("v2.", "v3."),
+            encoded.replace('A', "+"),
+            encoded.replace('A', "/"),
+            encoded.replace('A', " "),
+            encoded.replace('A', "é"),
+            encoded.to_owned() + "\n",
+        ] {
+            assert!(token(&invalid).is_err());
+        }
+        let bytes = [255u8; 48];
+        let (id, secret) = token(&format!("v2.{}", URL_SAFE_NO_PAD.encode(bytes))).unwrap();
+        assert_eq!(id, "ff".repeat(16));
+        assert_eq!(*secret, "ff".repeat(32));
     }
     #[test]
     fn exact_deadline() {

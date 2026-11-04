@@ -1,6 +1,6 @@
 # Implementation security review — 1.0.1
 
-Reviewed locally on 2026-11-02. This is an implementation review and adversarial testing by the implementer, **not an independent audit**. Privileged testing is limited to disposable VMs; public release assets/page are authorized through SH Website. No Loom/development-host installation during this release task, GitHub push or GitHub release.
+Reviewed locally on 2026-11-02. This is an implementation review and adversarial testing by the implementer, **not an independent audit**. Privileged testing is limited to disposable VMs; public release assets/page are authorized through SH Website. No development-host installation during this release task, GitHub push or GitHub release.
 
 ## Scope and conclusion
 
@@ -54,8 +54,12 @@ Policy assumptions are checked against the installed VM tools and [sudo's primar
 
 ## 1.0 presentation review
 
-Changed only the frontend UI/defaults and package version. Real-UID lookup prevents USER/LOGNAME from selecting a misleading default recipient; helper identity/duration checks remain authoritative. Displayed local expiry is advisory: admission continues to use boot-relative deadlines. Generic denial guidance deliberately avoids claiming an exact expiry/revocation cause, or exposing token/state diagnostics. Redirected token output, secret wiping and delivery acknowledgment ordering remain intact. Loom's 0.2.0 root `/usr/bin/id` smoke test succeeded on 2026-11-02; the user-requested expiry recheck remains pending. 1.0 is validated in disposable VMs; it has not been installed on Loom by this release task. No independent security audit is claimed.
+Changed only the frontend UI/defaults and package version. Real-UID lookup prevents USER/LOGNAME from selecting a misleading default recipient; helper identity/duration checks remain authoritative. Displayed local expiry is advisory: admission continues to use boot-relative deadlines. Generic denial guidance deliberately avoids claiming an exact expiry/revocation cause, or exposing token/state diagnostics. Redirected token output, secret wiping and delivery acknowledgment ordering remain intact. 1.0 was validated in disposable VMs. No independent security audit is claimed.
 
 ## 1.0.1 creator-scoped revocation review
 
 The new batch operation is administrative: fresh sudo authentication and independent exact-operation policy checks apply at both gates. It is absent from managed recipient NOPASSWD permissions. The caller cannot supply a creator UID or selection fields; a versioned empty request is required. Selection uses only root-stored creator UID and independently resolved sudo actor identity. Existing lock, generation/inode gates, bounded inventory, safe deletion, directory sync and per-record audit remain in force. No changes to tokens or recipient self-revocation. UID reuse remains an administrator identity limitation. A failed batch may have removed some grants; it reports failure and can safely be retried.
+
+## 1.0.3 token encoding review — 2026-11-04
+
+New tokens encode the same 16-byte random grant ID and 32-byte random secret using unpadded Base64url. Decoding requires exactly 64 encoded characters and 48 decoded bytes. Both v2 and legacy v1 normalize to the same lowercase hexadecimal inputs to the unchanged domain-separated SHA-256 verifier. Decoded bytes and secret strings use zeroizing buffers. The token remains separate from its instructions URL and is never sent as part of a browser request. Receipt acknowledgment still follows successful terminal/token output flushing. Installed-VM checks cover both encodings against one grant, invalid inputs, account binding and shared revocation. Authorization, policy, state schema and lifetime rules are unchanged.

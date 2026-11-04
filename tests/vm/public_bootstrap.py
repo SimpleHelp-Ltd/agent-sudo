@@ -7,7 +7,7 @@ from lab import ROOT, LAB, PEERS, ssh
 GUEST = r'''
 import os,sys,pathlib,subprocess,json,time,pty,select,pwd,signal,hashlib
 sys.path.insert(0,'/root')
-from guest import front,grant,run
+from guest import front,grant,run,token_id
 BASE='https://tools.simplehelp.io/agent-sudo/'
 SCRIPT=pathlib.Path('/home/humanadmin/public-install.sh')
 RESULT=[]
@@ -51,7 +51,7 @@ check('exact-public-pipe-command-normal-sudo-no-recipient-prompt',lambda:termina
 check('machine-wide-schema-no-recipient-list',lambda:ok(json.loads(pathlib.Path('/var/lib/agent-sudo/config').read_bytes())['v']==2 and 'accounts' not in json.loads(pathlib.Path('/var/lib/agent-sudo/config').read_bytes())))
 
 def cycle(who):
- issued=front([who,'60']);assert issued.returncode==0;t=issued.stdout.strip().decode();i=t.split('.')[1];r=run(t,who=who);assert r.returncode==0 and b'uid=0(root)'in r.stdout
+ issued=front([who,'60']);assert issued.returncode==0;t=issued.stdout.strip().decode();i=token_id(t);r=run(t,who=who);assert r.returncode==0 and b'uid=0(root)'in r.stdout
  assert i.encode()in front(['status'],who).stdout
  assert front(['revoke',i],who).returncode==0 and run(t,who=who).returncode!=0
 check('public-installed-grant-run-status-revoke',lambda:cycle('other'))
@@ -65,7 +65,7 @@ check('public-installed-creator-revoke-all-command',creator_cycle)
 check('exact-tested-binary-hashes',lambda:ok(all(hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()==h for path,h in EXPECTED_BINARIES.items())))
 
 def package_fixture():
- subprocess.run(['curl','-fsSL',BASE+'agent-sudo-1.0.2-linux-amd64.tar.gz','-o','/home/humanadmin/public-package.tar.gz'],check=True,timeout=60)
+ subprocess.run(['curl','-fsSL',BASE+'agent-sudo-1.0.3-linux-amd64.tar.gz','-o','/home/humanadmin/public-package.tar.gz'],check=True,timeout=60)
  assert hashlib.sha256(pathlib.Path('/home/humanadmin/public-package.tar.gz').read_bytes()).hexdigest()==EXPECTED_PACKAGE
 check('actual-public-package-hash-for-truncation-fixture',package_fixture)
 
@@ -122,7 +122,7 @@ pathlib.Path('/root/public-results.json').write_text(json.dumps({'checks':RESULT
 '''
 def one(name):
  result=LAB/(name+'-public-results.json');result.unlink(missing_ok=True)
- code='EXPECTED_PACKAGE='+repr(hashlib.sha256((ROOT/'artifacts/agent-sudo-1.0.2-linux-amd64.tar.gz').read_bytes()).hexdigest())+'\nEXPECTED_BINARIES='+repr({'/usr/local/bin/agent-sudo':hashlib.sha256((ROOT/'target/x86_64-unknown-linux-musl/release/agent-sudo').read_bytes()).hexdigest(),'/usr/local/libexec/agent-sudo-helper':hashlib.sha256((ROOT/'target/x86_64-unknown-linux-musl/release/agent-sudo-helper').read_bytes()).hexdigest()})+'\nEXPECTED_BOOTSTRAP='+repr(hashlib.sha256((ROOT/'website/install.sh').read_bytes()).hexdigest())+'\nCOMMAND='+repr((ROOT/'website/install-command.txt').read_text().strip())+'\n'+GUEST
+ code='EXPECTED_PACKAGE='+repr(hashlib.sha256((ROOT/'artifacts/agent-sudo-1.0.3-linux-amd64.tar.gz').read_bytes()).hexdigest())+'\nEXPECTED_BINARIES='+repr({'/usr/local/bin/agent-sudo':hashlib.sha256((ROOT/'target/x86_64-unknown-linux-musl/release/agent-sudo').read_bytes()).hexdigest(),'/usr/local/libexec/agent-sudo-helper':hashlib.sha256((ROOT/'target/x86_64-unknown-linux-musl/release/agent-sudo-helper').read_bytes()).hexdigest()})+'\nEXPECTED_BOOTSTRAP='+repr(hashlib.sha256((ROOT/'website/install.sh').read_bytes()).hexdigest())+'\nCOMMAND='+repr((ROOT/'website/install-command.txt').read_text().strip())+'\n'+GUEST
  src=LAB/(name+'-public-test.py');src.write_text(code)
  for local,remote in [(src,'/root/public-test.py'),(ROOT/'tests/vm/guest.py','/root/guest.py')]:
   subprocess.run(['scp','-q','-i',str(LAB/'key'),'-P',str(PEERS[name]),'-o','StrictHostKeyChecking=no','-o','UserKnownHostsFile='+str(LAB/'known_hosts'),str(local),'root@127.0.0.1:'+remote],check=True)

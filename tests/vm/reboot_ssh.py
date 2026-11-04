@@ -10,7 +10,7 @@ def agentssh(n,command,data):
  return subprocess.run(['ssh','-i',str(LAB/'key'),'-p',str(PEERS[n]),'-o','StrictHostKeyChecking=no','-o','UserKnownHostsFile='+str(LAB/'known_hosts'),'-o','LogLevel=ERROR','agent@127.0.0.1',command],input=data,capture_output=True,timeout=20)
 def mint(n):
  r=ssh(n,"cd /root; python3 -c 'from guest import grant; t,i=grant();print(t)'",capture_output=True,check=True)
- t=r.stdout.strip();assert t.startswith(b'v1.')and len(t)==100;return t
+ t=r.stdout.strip();assert t.startswith(b'v2.')and len(t)==67;return t
 
 def reboot(n):
  old=ssh(n,'cat /proc/sys/kernel/random/boot_id',capture_output=True,check=True).stdout

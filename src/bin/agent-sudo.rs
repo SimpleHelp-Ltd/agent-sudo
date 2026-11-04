@@ -302,12 +302,18 @@ fn call(op: &str, mut request: p::Request, key_fd: Option<i32>, json_result: boo
                         let expires = v["expires_utc"].as_str().ok_or("missing expiry")?;
                         let minutes = request.minutes.ok_or("missing duration")?;
                         eprintln!(
-                            "\nAccess granted\n  Account: {recipient}\n  Expires: {} (in {minutes} minutes)\n\nGive this token privately to the agent:",
+                            "\nAccess granted\n  Account: {recipient}\n  Expires: {} (in {minutes} minutes)\n",
                             local_expiry(expires)
                         );
                         if stdout.is_terminal() {
-                            writeln!(stdout, "  {}", *token)?;
+                            eprintln!("Copy and paste this line to your agent:");
+                            writeln!(
+                                stdout,
+                                "see: https://tools.simplehelp.io/agent-sudo.html | {}",
+                                *token
+                            )?;
                         } else {
+                            eprintln!("Give this token privately to the agent:");
                             writeln!(stdout, "{}", *token)?;
                         }
                         stdout.flush()?;

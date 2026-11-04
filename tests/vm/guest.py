@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Run ONLY as root inside disposable VMs. Test secrets stay in memory."""
-import os,sys,json,subprocess,struct,time,pathlib,signal,threading,pty,select,pwd,hashlib,fcntl,concurrent.futures
+import base64,re,os,sys,json,subprocess,struct,time,pathlib,signal,threading,pty,select,pwd,hashlib,fcntl,concurrent.futures
 FRONT='/usr/local/bin/agent-sudo';HELP='/usr/local/libexec/agent-sudo-helper';STATE=pathlib.Path('/run/agent-sudo');CONTROL=pathlib.Path('/var/lib/agent-sudo');POLICY=pathlib.Path('/etc/sudoers.d/agent-sudo')
 RESULTS=[]
 def check(name,fn):
@@ -13,11 +13,15 @@ def userargs(name):
  a=pwd.getpwnam(name)
  return dict(user=a.pw_uid,group=a.pw_gid,extra_groups=[],env={'PATH':'/usr/local/bin:/usr/bin:/bin','HOME':a.pw_dir,'USER':name,'LANG':'C.UTF-8'})
 def front(args,who='root',data=b'',**kw):return subprocess.run([FRONT]+args,input=data,capture_output=True,timeout=20,**userargs(who),**kw)
+def token_id(t):
+ if re.fullmatch(r'v2\.[A-Za-z0-9_-]{64}',t):return base64.urlsafe_b64decode(t[3:])[:16].hex()
+ assert re.fullmatch(r'v1\.[a-f0-9]{32}\.[a-f0-9]{64}',t)
+ return t.split('.')[1]
 def grant(who='agent',minutes=60):
  r=front(['grant','--user',who,'--minutes',str(minutes)])
  assert r.returncode==0,('grant failed',r.returncode,r.stderr[:200])
- t=r.stdout.strip().decode();assert len(t)==100 and t.startswith('v1.')
- return t,t.split('.')[1]
+ t=r.stdout.strip().decode()
+ return t,token_id(t)
 def run(t,args=['/usr/bin/id'],who='agent',data=b'',**kw):
  rd,wr=os.pipe();os.write(wr,(t+'\n').encode());os.close(wr)
  try:
@@ -91,6 +95,17 @@ def main():
   r=run(TOKEN,['/usr/bin/python3','-c',code]);assert r.returncode==0;x=json.loads(r.stdout);assert x['uids']==[0,0,0] and x['gids']==[0,0,0] and x['groups']==[] and x['cwd']=='/root' and x['mask']==63 and x['core']==[0,0] and x['fds']==[] and set(x['env'])==set(['HOME','USER','LOGNAME','SHELL','PATH','LANG'])
  check('root-context-env-groups-umask-core-fd-hygiene',context)
  for name,t in [('malformed','x'),('modified',TOKEN[:-1]+('a' if TOKEN[-1]!='a' else 'b')),('random','v1.'+'c'*32+'.'+'d'*64)]:check(name+'-token-denied',lambda t=t:assertok(run(t).returncode!=0))
+ def compatibility():
+  t,i=grant();assert t.startswith('v2.') and len(t)==67
+  raw=base64.urlsafe_b64decode(t[3:]);assert len(raw)==48 and raw[:16].hex()==i
+  old='v1.'+i+'.'+raw[16:].hex()
+  assert run(old).returncode==0 and run(t).returncode==0
+  assert run(old,who='other').returncode!=0
+  for malformed in [t+'=',t[:-1],t.replace('v2.','v3.'),t[:3]+'+'+t[4:],t[:3]+'/'+t[4:]]:
+   assert run(malformed).returncode!=0
+  assert front(['revoke',i],'agent').returncode==0
+  assert run(t).returncode!=0 and run(old).returncode!=0
+ check('v2-length-legacy-equivalence-malformed-and-shared-revocation',compatibility)
  check('wrong-uid-denied',lambda:assertok(run(TOKEN,who='other').returncode!=0))
  check('own-status-no-verifier-token',lambda:assertok(ID.encode() in front(['status'],'agent').stdout and TOKEN.encode() not in front(['status'],'agent').stdout and b'verifier' not in front(['status'],'agent').stdout))
  check('direct-nonroot-helper-denied',lambda:assertok(subprocess.run([HELP,'run'],capture_output=True,**userargs('agent')).returncode!=0))

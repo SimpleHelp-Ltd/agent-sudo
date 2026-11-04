@@ -6,8 +6,8 @@ import re
 def human_grant(who):
  code,out,used=pty_call([who,'10'],[(b'password for',b'VmOnly-TestPassword-9274')])
  assert code==0 and used==1
- token=re.search(rb'v1\.[a-f0-9]{32}\.[a-f0-9]{64}',out).group().decode()
- return token,token.split('.')[1]
+ token=re.search(rb'v2\.[A-Za-z0-9_-]{64}',out).group().decode()
+ return token,token_id(token)
 
 def human_revoke():
  code,out,used=pty_call(['revoke','all'],[(b'password for',b'VmOnly-TestPassword-9274')],env_updates={'USER':'root','LOGNAME':'root'})
