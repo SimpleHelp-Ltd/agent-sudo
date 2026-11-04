@@ -1,5 +1,9 @@
 # Changelog
 
+## Website — 2026-11-04 (unpublished)
+
+- Redesigned `website/agent-sudo.html` for readability: administrator/agent entry choices, numbered steps, command tables, a prominent root-access warning and collapsible secondary details. Same install command, copy behavior, downloads, hash and SimpleHelp styling; local browser checks pass. Not yet published.
+
 ## 1.0.3 — 2026-11-04
 
 - Terminal grant output says `Copy and paste this line to your agent:` followed by `see: https://tools.simplehelp.io/agent-sudo.html | TOKEN`. Redirected stdout remains token-only.
