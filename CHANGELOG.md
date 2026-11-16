@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased — 2026-11-16
+## 1.0.4 — 2026-11-16
+
+- Validate the exact static binaries with eight native tests, 230 installed-VM checks, lint, dependency audit and identical relocated-source reproduction. Update release harness versions and operator examples.
 
 - Refresh the README with prominent SimpleHelp guide/download links, an administrator/recipient quick start, current-release distinctions and local build instructions; correct stale operator archive examples and generalise private operational references.
 

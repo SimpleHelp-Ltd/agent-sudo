@@ -4,7 +4,7 @@
 
 A local Linux tool for a human administrator to delegate **temporary arbitrary root commands** to an authorized account, without sharing an administrator password.
 
-**Current published release: 1.0.3.** Its installed binaries were validated in disposable Ubuntu VMs. This checkout includes unreleased Apache licensing and guide-link changes; the public installer still installs the original MIT-licensed 1.0.3.
+**Current release: 1.0.4**, licensed under Apache 2.0. Its installed binaries are validated in disposable Ubuntu VMs. Earlier releases, including 1.0.3, retain their original MIT licence.
 
 ```sh
 curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh

@@ -68,7 +68,7 @@ check('public-installed-creator-revoke-all-command',creator_cycle)
 check('exact-tested-binary-hashes',lambda:ok(all(hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()==h for path,h in EXPECTED_BINARIES.items())))
 
 def package_fixture():
- subprocess.run(['curl','-fsSL',BASE+'agent-sudo-1.0.3-linux-amd64.tar.gz','-o','/home/humanadmin/public-package.tar.gz'],check=True,timeout=60)
+ subprocess.run(['curl','-fsSL',BASE+'agent-sudo-1.0.4-linux-amd64.tar.gz','-o','/home/humanadmin/public-package.tar.gz'],check=True,timeout=60)
  assert hashlib.sha256(pathlib.Path('/home/humanadmin/public-package.tar.gz').read_bytes()).hexdigest()==EXPECTED_PACKAGE
 check('actual-public-package-hash-for-truncation-fixture',package_fixture)
 
@@ -125,7 +125,7 @@ pathlib.Path('/root/public-results.json').write_text(json.dumps({'checks':RESULT
 '''
 def one(name):
  result=LAB/(name+'-public-results.json');result.unlink(missing_ok=True)
- code='EXPECTED_PACKAGE='+repr(hashlib.sha256((ROOT/'artifacts/agent-sudo-1.0.3-linux-amd64.tar.gz').read_bytes()).hexdigest())+'\nEXPECTED_BINARIES='+repr({'/usr/local/bin/agent-sudo':hashlib.sha256((ROOT/'target/x86_64-unknown-linux-musl/release/agent-sudo').read_bytes()).hexdigest(),'/usr/local/libexec/agent-sudo-helper':hashlib.sha256((ROOT/'target/x86_64-unknown-linux-musl/release/agent-sudo-helper').read_bytes()).hexdigest()})+'\nEXPECTED_BOOTSTRAP='+repr(hashlib.sha256((ROOT/'website/install.sh').read_bytes()).hexdigest())+'\nCOMMAND='+repr((ROOT/'website/install-command.txt').read_text().strip())+'\n'+GUEST
+ code='EXPECTED_PACKAGE='+repr(hashlib.sha256((ROOT/'artifacts/agent-sudo-1.0.4-linux-amd64.tar.gz').read_bytes()).hexdigest())+'\nEXPECTED_BINARIES='+repr({'/usr/local/bin/agent-sudo':hashlib.sha256((ROOT/'target/x86_64-unknown-linux-musl/release/agent-sudo').read_bytes()).hexdigest(),'/usr/local/libexec/agent-sudo-helper':hashlib.sha256((ROOT/'target/x86_64-unknown-linux-musl/release/agent-sudo-helper').read_bytes()).hexdigest()})+'\nEXPECTED_BOOTSTRAP='+repr(hashlib.sha256((ROOT/'website/install.sh').read_bytes()).hexdigest())+'\nCOMMAND='+repr((ROOT/'website/install-command.txt').read_text().strip())+'\n'+GUEST
  src=LAB/(name+'-public-test.py');src.write_text(code)
  for local,remote in [(src,'/root/public-test.py'),(ROOT/'tests/vm/guest.py','/root/guest.py')]:
   subprocess.run(['scp','-q','-i',str(LAB/'key'),'-P',str(PEERS[name]),'-o','StrictHostKeyChecking=no','-o','UserKnownHostsFile='+str(LAB/'known_hosts'),str(local),'root@127.0.0.1:'+remote],check=True)

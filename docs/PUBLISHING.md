@@ -5,7 +5,7 @@ Tools hub: https://simple-help.com/tools
 Legacy URL (compatibility forwarding page): https://tools.simplehelp.io/agent-sudo.html
 Bootstrap: https://tools.simplehelp.io/agent-sudo/install.sh
 
-1.0.3 is the current public release. The exact release binaries are tested in disposable Ubuntu VMs. No development-host installation, GitHub push or GitHub release is part of this publication.
+1.0.4 is the current release. The exact release binaries are tested in disposable Ubuntu VMs. No development-host installation is part of publication. GitHub mirrors are published separately after the tools-host release is verified.
 
 ## Versioned release inputs
 
@@ -31,7 +31,7 @@ Product pages live on simple-help.com/tools, separate from download hosting. The
 
 ## Bootstrap trust and privileges
 
-The one-line command is `curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh`. It streams the bootstrap to `sh`; the script needs no recipient, and sudo retains its normal terminal authentication. A single outer shell compound command must parse completely before execution; keep its closing brace as the final byte so every truncated prefix is incomplete or a harmless no-op. Package download, pinned checksum verification, temporary directory and cleanup are handled inside the bootstrap. HTTPS authenticates the hosting connection; the embedded SHA-256 pins the package. It is not a signature or protection from a compromised publisher/site. Downloads, checksum verification and extraction are unprivileged for a normal administrator. Only the verified package's existing offline installer is invoked through sudo; it independently validates payload, ownership, policy and supported sudo version. Installation selects no recipient. Administrative issuance later authorizes each account dynamically. Reinstallation invalidates all grants. Current release is 1.0.3; immutable 0.1.0 and 0.2.0 assets are retained.
+The one-line command is `curl -fsSL https://tools.simplehelp.io/agent-sudo/install.sh | sh`. It streams the bootstrap to `sh`; the script needs no recipient, and sudo retains its normal terminal authentication. A single outer shell compound command must parse completely before execution; keep its closing brace as the final byte so every truncated prefix is incomplete or a harmless no-op. Package download, pinned checksum verification, temporary directory and cleanup are handled inside the bootstrap. HTTPS authenticates the hosting connection; the embedded SHA-256 pins the package. It is not a signature or protection from a compromised publisher/site. Downloads, checksum verification and extraction are unprivileged for a normal administrator. Only the verified package's existing offline installer is invoked through sudo; it independently validates payload, ownership, policy and supported sudo version. Installation selects no recipient. Administrative issuance later authorizes each account dynamically. Reinstallation invalidates all grants. Current release is 1.0.4; immutable 0.1.0 and 0.2.0 assets are retained.
 
 ## 0.1.0 historical public validation
 

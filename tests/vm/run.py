@@ -4,7 +4,7 @@
 
 from lab import ROOT,LAB,PEERS,ssh
 import subprocess,sys,json,concurrent.futures
-artifact=ROOT/'artifacts/agent-sudo-1.0.3-linux-amd64.tar.gz'
+artifact=ROOT/'artifacts/agent-sudo-1.0.4-linux-amd64.tar.gz'
 def one(n):
  (LAB/(n+'-results.json')).unlink(missing_ok=True)
  for src,dst in [(artifact,'/root/agent-sudo.tar.gz'),(ROOT/'tests/vm/guest.py','/root/guest.py')]:

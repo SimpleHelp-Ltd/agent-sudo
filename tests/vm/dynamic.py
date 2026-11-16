@@ -105,7 +105,7 @@ def main():
   subprocess.run(['tar','-xzf','/root/old-0.2.0.tar.gz','-C',str(old)],check=True)
   r=subprocess.run([str(old/'install.sh')],capture_output=True);assert r.returncode==0
   t,i=grant();assert run(t).returncode==0
-  reinstall();assert run(t).returncode!=0 and front(['--version']).stdout==b'agent-sudo 1.0.3\n'
+  reinstall();assert run(t).returncode!=0 and front(['--version']).stdout==b'agent-sudo 1.0.4\n'
   t,i=grant();assert run(t).returncode==0
  check('published-0.2.0-upgrade-invalidates-grants-and-issues-new',upgrade02)
  def upgrade10():
@@ -113,7 +113,7 @@ def main():
   subprocess.run(['tar','-xzf','/root/old-1.0.0.tar.gz','-C',str(old)],check=True)
   assert subprocess.run([str(old/'install.sh')],capture_output=True).returncode==0
   t,i=grant();assert run(t).returncode==0
-  reinstall();assert run(t).returncode!=0 and front(['--version']).stdout==b'agent-sudo 1.0.3\n'
+  reinstall();assert run(t).returncode!=0 and front(['--version']).stdout==b'agent-sudo 1.0.4\n'
   t,i=grant();r=front(['revoke','all']);assert r.returncode==0 and b'Revoked 1 grant(s)'in r.stdout and run(t).returncode!=0
  check('published-1.0.0-upgrade-and-creator-revoke-command',upgrade10)
  def migration():

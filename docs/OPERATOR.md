@@ -1,6 +1,6 @@
 # Operator guide
 
-[Public guide and downloads](https://simple-help.com/tools/agent-sudo). This document describes the current source; published 1.0.3 still prints the old guide URL, which forwards to the new page.
+[Public guide and downloads](https://simple-help.com/tools/agent-sudo). Release 1.0.4 prints this guide URL in help and terminal handoffs. Earlier 1.0.3 handoffs use a compatibility forwarding URL.
 
 Run `agent-sudo --help` or `agent-sudo -h` for a terminal guide for agents and administrators.
 
@@ -15,8 +15,8 @@ Version 1.0 supports Ubuntu 24.04/26.04 amd64 with systemd and the exact sudo re
 Use only the offline versioned package from a trusted build. Verify its archive checksum through a trusted channel; a checksum delivered with untrusted code is not a signature. Start in disposable VMs and keep an independent administrator session open.
 
 ```sh
-sha256sum -c agent-sudo-1.0.3-linux-amd64.tar.gz.sha256
-tar -xzf agent-sudo-1.0.3-linux-amd64.tar.gz
+sha256sum -c agent-sudo-1.0.4-linux-amd64.tar.gz.sha256
+tar -xzf agent-sudo-1.0.4-linux-amd64.tar.gz
 sudo ./install.sh
 ```
 
