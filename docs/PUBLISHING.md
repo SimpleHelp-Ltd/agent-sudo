@@ -111,3 +111,26 @@ hash precondition; anonymous HTTPS verified exact bytes and HTML rendering
 headers. Existing 1.0.3 installer and versioned downloads remain unchanged.
 CLI help/handoff changes are prepared in source and require a new binary
 release to appear in installed copies. No new agent-sudo release was made.
+
+
+## 1.0.4 publication completion — 2026-11-16
+
+Apache-2.0/attribution notices and SimpleHelp guide handoffs are included in
+the exact tested release. Frozen allowlisted source: `90875ca`; package and
+source hashes are recorded in `docs/publication/1.0.4-artifact-identity.json`.
+Both static binaries reproduced exactly in a relocated locked offline build.
+Eight native tests, 230 installed-VM checks, formatting, lint, dependency
+audit and release-commit secret scans passed.
+
+Six immutable release files were anonymously hash-verified before the
+bootstrap update under its freshly checked previous hash. Bootstrap SHA-256:
+`8590f37cd526b61009cf3e2acfc287f5d66aa30ae94289998fd0e59573b9555e`. Both disposable Ubuntu VMs passed 19
+actual public installation/grant/failure checks each, including every proper
+bootstrap prefix with a complete-script positive control. Exact installed
+binary hashes matched the tested artifacts. The VMs were shut down after
+verification. No development/production-host installation was performed.
+
+Seven sanitized publication receipts, public VM results and binary/source
+identities are under `docs/publication/1.0.4-*`. Existing release downloads
+and the legacy forwarding page remain unchanged. This release is mirrored
+on GitHub; product documentation stays at simple-help.com/tools/agent-sudo.

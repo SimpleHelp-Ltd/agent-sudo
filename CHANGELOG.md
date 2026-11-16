@@ -2,12 +2,14 @@
 
 ## 1.0.4 — 2026-11-16
 
+- Publish six immutable downloads and the checksum-pinned bootstrap on tools.simplehelp.io; verify all public hashes and pass 38 actual public-install/grant/failure checks in the two Ubuntu VMs. Preserve older release files and mirror this release on GitHub.
+
 - Validate the exact static binaries with eight native tests, 230 installed-VM checks, lint, dependency audit and identical relocated-source reproduction. Update release harness versions and operator examples.
 
 - Refresh the README with prominent SimpleHelp guide/download links, an administrator/recipient quick start, current-release distinctions and local build instructions; correct stale operator archive examples and generalise private operational references.
 
 - Retire the old tools-host information page with a verified minimal forwarding page so existing handoff URLs reach the new guide.
-- Point terminal handoffs, CLI help and current documentation to https://simple-help.com/tools/agent-sudo; keep installers and versioned downloads on tools.simplehelp.io. Existing 1.0.3 binaries remain unchanged until a new release.
+- Point terminal handoffs, CLI help and current documentation to https://simple-help.com/tools/agent-sudo; keep installers and versioned downloads on tools.simplehelp.io. Existing 1.0.3 binaries retain their historical URL until upgraded.
 
 - Applied Apache-2.0 to the current original source/documentation with SimpleHelp attribution, source licence headers, and licence/attribution/dependency notices in release archives; existing releases remain unchanged.
 - Reviewed reachable Git history, tracked files and public release inputs; detailed review records remain local.
