@@ -9,7 +9,7 @@
 - Retire the old tools-host information page with a verified minimal forwarding page so existing handoff URLs reach the new guide.
 - Point terminal handoffs, CLI help and current documentation to https://simple-help.com/tools/agent-sudo; keep installers and versioned downloads on tools.simplehelp.io. Existing 1.0.3 binaries remain unchanged until a new release.
 
-- Applied Apache-2.0 to the current original source/documentation with SimpleHelp attribution, source licence headers, and licence/attribution/dependency notices in future release archives; existing releases remain unchanged.
+- Applied Apache-2.0 to the current original source/documentation with SimpleHelp attribution, source licence headers, and licence/attribution/dependency notices in release archives; existing releases remain unchanged.
 - Reviewed reachable Git history, tracked files and public release inputs; detailed review records remain local.
 
 ## Website — 2026-11-04

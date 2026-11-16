@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-16",
+  "version": "1.0.4",
+  "native_tests": 8,
+  "installed_vm_checks": 230,
+  "checks_per_vm": {
+    "core": 65,
+    "dynamic_migration": 15,
+    "creator_revocation": 11,
+    "extended": 24
+  },
+  "platforms": [
+    "Ubuntu 24.04.5 amd64 / sudo 1.9.15p5",
+    "Ubuntu 26.04.1 amd64 / sudo-rs 0.2.13"
+  ],
+  "binary_sha256": {
+    "agent-sudo": "eb42dd5e1106f8d0ce8a7195ce3b54824734f2a047cad21af1f306de6c7156dc",
+    "agent-sudo-helper": "2324ed667b554c7d2ac5d44a94051f686d4ae988737db0116efbc5154bb4f6b6"
+  },
+  "relocated_locked_offline_reproduction": "identical for both static binaries",
+  "lint": "cargo fmt and clippy passed",
+  "dependency_audit": "cargo audit passed 2026-11-16",
+  "not_rerun": [
+    "MSRV 1.88",
+    "real-time expiry",
+    "ACPI suspend",
+    "SSH/reboot"
+  ],
+  "production_or_development_host_installation": false
+}
