@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 """Actual ACPI S3 suspension via systemctl and QMP wakeup, not a paused VM."""
 from lab import *
 import socket,concurrent.futures,shlex

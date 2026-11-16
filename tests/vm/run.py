@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 from lab import ROOT,LAB,PEERS,ssh
 import subprocess,sys,json,concurrent.futures
 artifact=ROOT/'artifacts/agent-sudo-1.0.3-linux-amd64.tar.gz'

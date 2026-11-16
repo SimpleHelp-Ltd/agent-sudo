@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 """Run ONLY as root inside disposable VMs. Test secrets stay in memory."""
 import base64,re,os,sys,json,subprocess,struct,time,pathlib,signal,threading,pty,select,pwd,hashlib,fcntl,concurrent.futures
 FRONT='/usr/local/bin/agent-sudo';HELP='/usr/local/libexec/agent-sudo-helper';STATE=pathlib.Path('/run/agent-sudo');CONTROL=pathlib.Path('/var/lib/agent-sudo');POLICY=pathlib.Path('/etc/sudoers.d/agent-sudo')

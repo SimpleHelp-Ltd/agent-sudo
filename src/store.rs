@@ -1,3 +1,6 @@
+// Copyright 2026 SimpleHelp
+// SPDX-License-Identifier: Apache-2.0
+
 use crate::{CONTROL, RUNTIME, Result, fail, security as s};
 use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
 use serde::{Deserialize, Serialize};

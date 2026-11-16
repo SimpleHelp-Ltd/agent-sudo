@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 """Pre-implementation nonsecret transport/logging proof on actual VM sudo."""
 from lab import ssh, PEERS, ROOT
 import json, base64

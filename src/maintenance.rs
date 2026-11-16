@@ -1,3 +1,6 @@
+// Copyright 2026 SimpleHelp
+// SPDX-License-Identifier: Apache-2.0
+
 use crate::{CONTROL, FRONTEND, HELPER, RUNTIME, Result, fail, security as s, store};
 use std::{
     fs::OpenOptions,

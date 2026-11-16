@@ -20,7 +20,8 @@
 - `tests/vm/lab.py` / `transport.py`: Disposable QEMU lab and initial actual-sudo transport/logging gate.
 - `tests/vm/guest.py` / `run.py`: Installed-binary core acceptance matrix and runner.
 - `tests/vm/extended.py` / `dynamic.py` / `revoke_created.py` / `lifecycle.py` / `run_extra.py`: Hostile helper/state/maintenance/logging, dynamic issuance/migration, creator-scoped revocation and clock/expiry checks.
-- `LICENSE`: MIT license for this implementation.
+- `LICENSE` / `NOTICE`: Apache-2.0 licence and SimpleHelp attribution for current sources; prior releases keep their original terms.
+- `THIRD_PARTY_NOTICES.txt`: Locked Linux dependency, Rust standard-library and musl notices; refresh for new build inputs.
 - `CHANGELOG.md`: Development change history.
 - `.gitignore`: Excludes raw debug/working logs, VM state, builds and local artifacts.
 - `tests/vm/suspend.py` / `reboot_ssh.py`: Actual ACPI S3/wakeup, SSH secret transport, reboot invalidation and removal checks.

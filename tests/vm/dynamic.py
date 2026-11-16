@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 """0.2 dynamic issuance and real 0.1 migration; only disposable guest VMs."""
 from guest import *
 

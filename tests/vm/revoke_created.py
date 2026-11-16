@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 """Creator-scoped revocation against actual installed disposable-VM binaries."""
 from guest import *
 import re

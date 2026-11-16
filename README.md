@@ -47,3 +47,14 @@ This is **delegated root authority**, not a sandbox. Tokens are bound to a local
 Supported platforms: Linux amd64, Ubuntu 24.04/26.04 with systemd; traditional sudo 1.9.15p5 or sudo-rs 0.2.13. Policies outside the validated local-file model fail closed. Any sealed sudo-policy change requires administrator reinstallation/revalidation and invalidates all tokens. [Build and reproduce artifacts](docs/BUILD.md). Not an independent security audit.
 
 `agent-sudo revoke all` requests fresh sudo authorization and revokes every stored grant whose creator UID matches the calling account, across all recipients. It works even if you have no grant yourself and succeeds if there are no matching grants. Grants issued by other administrators remain valid, including those issued to you. Use it without a leading `sudo` to retain your own issuer identity; `sudo agent-sudo revoke all` selects root-issued grants. Creator identity uses the recorded numeric UID; revoke before reusing administrator UIDs. The existing `agent-sudo revoke --all` retains its separate recipient meaning: relinquish grants issued **to** your account. Already admitted commands can continue. Upgrading invalidates existing grants.
+
+## Licence
+
+Copyright 2026 SimpleHelp. The original code and documentation in this checkout
+are licensed under the [Apache License, Version 2.0](LICENSE). Attribution is in
+[NOTICE](NOTICE). [Third-party notices](THIRD_PARTY_NOTICES.txt) preserve dependency
+licences; update them when dependencies or build toolchains change.
+
+Previously published releases, including 1.0.3, retain their original MIT licence.
+This change applies to the current source and future releases; it does not alter
+existing release archives or withdraw permissions already granted.

@@ -1,3 +1,6 @@
+// Copyright 2026 SimpleHelp
+// SPDX-License-Identifier: Apache-2.0
+
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const fs=require('fs');
 (async()=>{

@@ -1,4 +1,7 @@
 #!/bin/sh
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 # Offline installer. Deliberately never invokes sudo itself or downloads code.
 set -eu
 if [ "$(id -u)" -ne 0 ]; then

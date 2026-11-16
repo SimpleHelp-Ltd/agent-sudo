@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 """Run extended or lifecycle guest checks concurrently in the two disposable VMs."""
 from lab import ROOT,LAB,PEERS,ssh
 import subprocess,sys,concurrent.futures,json,hashlib

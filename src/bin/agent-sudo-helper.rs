@@ -1,3 +1,6 @@
+// Copyright 2026 SimpleHelp
+// SPDX-License-Identifier: Apache-2.0
+
 use agent_sudo::{Result, execution, fail, maintenance, protocol as p, security as s, store};
 use std::{fs::File, io::Write, os::fd::FromRawFd};
 use zeroize::Zeroize;

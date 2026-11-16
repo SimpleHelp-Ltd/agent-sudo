@@ -1,3 +1,6 @@
+// Copyright 2026 SimpleHelp
+// SPDX-License-Identifier: Apache-2.0
+
 use crate::{Result, fail};
 use sha2::{Digest, Sha256};
 use std::{

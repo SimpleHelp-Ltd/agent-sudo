@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 """Actual public installation; run only in existing disposable QEMU lab.
 Faults use local PATH shims inside guests; real successful downloads use HTTPS.
 """

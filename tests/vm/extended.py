@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 """Additional actual-binary integration and labeled root-injected faults in VMs."""
 from guest import *
 import shutil,re

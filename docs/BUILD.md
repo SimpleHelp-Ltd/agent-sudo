@@ -33,3 +33,12 @@ python3 tests/vm/lab.py stop
 ```
 
 After the guest suites, restart the VMs with QMP enabled (the lab launcher supplies it), then run `python3 tests/vm/suspend.py` and `python3 tests/vm/reboot_ssh.py`. The latter intentionally removes the installation after its SSH/reboot checks. Never point these tests at a real host. Test runner assertions print only names/results, not raw tokens or passwords. Local DEBUGLOG.md and target/vm logs are ignored; secrets are not saved in them. VM SSH keys/fixture credentials are disposable and never reused for a real account.
+
+## Licence files in new releases
+
+The current original source is Apache-2.0. Binary and source distributions must
+include `LICENSE`, `NOTICE` and `THIRD_PARTY_NOTICES.txt`. Refresh third-party
+notices against the exact locked dependencies, Rust standard library and musl
+used for a new build. The local licence change does not republish 1.0.3; select
+a new version before distributing a newly packaged release. Existing MIT
+release archives and checksums remain unchanged.

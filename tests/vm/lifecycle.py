@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 """Guest real-clock and long-lived command checks; no fake clock application hooks."""
 from guest import *
 

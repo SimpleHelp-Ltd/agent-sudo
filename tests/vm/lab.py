@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 """Local QEMU/KVM lab only. No host sudo, mounts or privileged installation."""
 import argparse, pathlib, subprocess, time, json, os
 ROOT=pathlib.Path(__file__).resolve().parents[2]; LAB=ROOT/'target/vm'

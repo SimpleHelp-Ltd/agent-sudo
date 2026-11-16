@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 """Build a local, deterministic Linux amd64 tar archive; never publish/install."""
 import pathlib,subprocess,os,hashlib,tarfile,io,json,argparse,shutil
 root=pathlib.Path(__file__).resolve().parents[1];os.chdir(root)
@@ -13,7 +16,7 @@ for name,expected in [('agent-sudo',args.expected_frontend),('agent-sudo-helper'
  b=(root/'target/x86_64-unknown-linux-musl/release'/name).read_bytes();h=hashlib.sha256(b).hexdigest()
  if expected and expected!=h:raise SystemExit('tested binary hash mismatch: '+name)
  (out/name).write_bytes(b);(out/name).chmod(0o755)
-for f in ['install.sh','uninstall.sh','README.md','LICENSE']:
+for f in ['install.sh','uninstall.sh','README.md','LICENSE','NOTICE','THIRD_PARTY_NOTICES.txt']:
  (out/f).write_bytes((root/f).read_bytes());(out/f).chmod(0o755 if f.endswith('.sh') else 0o644)
 (out/'docs').mkdir(exist_ok=True)
 # Ship user-facing documentation; internal publication history is not release content.

@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2026 SimpleHelp
+# SPDX-License-Identifier: Apache-2.0
+
 """Host-side real SSH/new-session, cross-host, reboot and clean-removal evidence.
 All private inputs stay in this process memory and SSH stdin; never argv/files/logs.
 """

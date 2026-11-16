@@ -1,3 +1,6 @@
+// Copyright 2026 SimpleHelp
+// SPDX-License-Identifier: Apache-2.0
+
 use agent_sudo::{HELPER, Result, fail, protocol as p, security as s};
 use std::{
     fs::{File, OpenOptions},

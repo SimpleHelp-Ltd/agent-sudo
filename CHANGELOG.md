@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased — 2026-11-16
+
+- Applied Apache-2.0 to the current original source/documentation with SimpleHelp attribution, source licence headers, and licence/attribution/dependency notices in future release archives; existing releases remain unchanged.
+
 ## Website — 2026-11-04 (unpublished)
 
 - Redesigned `website/agent-sudo.html` for readability: administrator/agent entry choices, numbered steps, command tables, a prominent root-access warning and collapsible secondary details. Same install command, copy behavior, downloads, hash and SimpleHelp styling; local and live browser checks pass. Published to tools.simplehelp.io on 2026-11-04 (receipt `docs/publication/1.0.3-page-redesign-receipt.json`).
