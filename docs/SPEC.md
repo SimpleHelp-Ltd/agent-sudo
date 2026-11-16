@@ -13,7 +13,7 @@ The administrator runs `agent-sudo` with no arguments, authenticates through nor
 
 There is no network listener, persistent command server, encrypted password file, setuid app or passwordless sudo permission for arbitrary commands. Elevation uses the existing sudo installation and a narrowly authorized, root-owned helper executable. That helper is security-critical privileged code even though it is short-lived.
 
-The existing `ops/grant-agent-sudo.sh` is a different tool: it gives an entire account temporary unrestricted passwordless sudo. Do not silently replace, enable or depend on that mechanism. Preserve those files while developing this app.
+Preserve unrelated administrative tools and existing sudo policy. Do not silently replace, enable or depend on a separate account-wide passwordless sudo mechanism.
 
 ## 2. Scope and trust model
 
@@ -80,7 +80,7 @@ All executable files and parent directories must be owned by root and unwritable
 - Validate generated policy with the host's actual `visudo`; then verify effective behavior, including overlapping rules, sudoers-rs configuration and negative cases. Parse success alone is insufficient.
 - Inspect effective sudo I/O logging: request input contains the token, and grant output contains the newly issued token. Neither may be captured in sudo I/O logs. Where needed, use tested narrowly scoped logging settings for these helper operations, preserving normal authentication/event logs. If the installed sudo or site policy cannot satisfy this requirement, fail installation/enrollment with an explanation; do not silently leak tokens or disable system-wide auditing.
 
-Traditional sudo and sudo-rs have different capabilities. In this environment Iron was previously observed running sudo-rs 0.2.13. Recheck at development/test time. Do not depend on `NOTAFTER`, newer sudoers regex features, preserved extra descriptors or any other unverified feature.
+Traditional sudo and sudo-rs have different capabilities. The validated sudo-rs version is 0.2.13; recheck compatibility at development/test time. Do not depend on `NOTAFTER`, newer sudoers regex features, preserved extra descriptors or any other unverified feature.
 
 ### Request transport
 
@@ -128,7 +128,7 @@ Document an independent administrator recovery path: disable/remove this tool's 
 
 ## 8. Required acceptance tests
 
-Use disposable Ubuntu VMs for privileged integration tests. Mock-only tests and parser checks are insufficient. Do not install on Iron, Tin or another production host as part of development without a separate deployment instruction.
+Use disposable Ubuntu VMs for privileged integration tests. Mock-only tests and parser checks are insufficient. Do not install on a production or development host as part of testing without a separate deployment instruction.
 
 | Area | Evidence required |
 | --- | --- |
@@ -142,7 +142,7 @@ Use disposable Ubuntu VMs for privileged integration tests. Mock-only tests and 
 | State integrity | Symlink/hardlink, path traversal, incorrect ownership/mode/ACL, directory substitution, truncated/corrupt state and concurrent creation attacks fail closed. |
 | Secret handling | Exercise ordinary and I/O logging configurations. Inspect process argv/environment, shell history, journal, sudo logs, app errors and inherited child descriptors; no token/password appears except intentional issuance output and controlled token transport. |
 | Process context | Verify root IDs/groups, `/root` cwd, umask, safe environment, no token/state descriptors and no implicit shell interpretation. |
-| Compatibility | Real traditional sudo and real sudo-rs, including Iron's installed version where a disposable equivalent is available; report exact versions and unsupported policy combinations. |
+| Compatibility | Real traditional sudo and real sudo-rs, using disposable equivalents of supported deployment versions; report exact versions and unsupported policy combinations. |
 | Install/remove | Narrow policy effective with overlapping host rules; no cached-auth bypass of token validation; setup rollback, upgrade invalidation and clean removal; existing unrelated sudo rules unchanged. |
 | Limits | Demonstrate that an admitted long-running command survives expiry and a future invocation fails; guide describes why full root access can retain access. |
 

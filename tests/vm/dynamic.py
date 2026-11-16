@@ -81,7 +81,7 @@ def main():
   assert b'Account: humanadmin'in out and b'Copy and paste this line to your agent:'in out and b'agent-sudo admin revoke'in out
   assert b'Already running commands can continue.'in out and b'host "'not in out and b'VmOnly-TestPassword-9274'not in out
   m=re.search(rb'v2\.[A-Za-z0-9_-]{64}',out);assert m
-  handoff=b'see: https://tools.simplehelp.io/agent-sudo.html | '+m.group(0)
+  handoff=b'see: https://simple-help.com/tools/agent-sudo | '+m.group(0)
   assert out.splitlines().count(handoff)==1
   g=json.loads((STATE/('g-'+token_id(m.group(0).decode()))).read_bytes());assert g['user']=='humanadmin'and g['expires']-g['created']==600
   from zoneinfo import ZoneInfo

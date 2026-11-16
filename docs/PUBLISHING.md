@@ -1,6 +1,8 @@
 # tools.simplehelp.io publication
 
-Public page: https://tools.simplehelp.io/agent-sudo.html
+Public guide: https://simple-help.com/tools/agent-sudo
+Tools hub: https://simple-help.com/tools
+Legacy URL (compatibility forwarding page): https://tools.simplehelp.io/agent-sudo.html
 Bootstrap: https://tools.simplehelp.io/agent-sudo/install.sh
 
 1.0.3 is the current public release. The exact release binaries are tested in disposable Ubuntu VMs. No development-host installation, GitHub push or GitHub release is part of this publication.
@@ -18,14 +20,14 @@ Source snapshot is the original c16c9de implementation; website/bootstrap source
 ## Release ordering
 
 1. Increment the package version; never republish a rebuilt existing version. Include `LICENSE`, `NOTICE` and current `THIRD_PARTY_NOTICES.txt` in both source and binary archives; verify dependency/toolchain notices against the exact new build. Build/test the next version in disposable VMs. Enforce exact binary hashes and inspect the archive/source allowlist. Exclude logs, keys, VM images, stale archives and private files. Produce source and checksums.
-2. Discover `lore services list --agent sh-website --owner antony --action tools_publish` before use. Publish each immutable versioned artifact with `operation: publish`, `public_release: true`, exact SHA-256 and one source field. The current Lore registry enforces a 64 KiB total input limit despite the action’s advertised 1 MiB base64 allowance; use a publisher-reachable `source_url` for larger files, and confirm reachability before submitting. The URL and any redirect/download target must be unsigned and contain no credentials or expiry/signature tokens; the service rejects signed landing-page links. Use a stable request ID for identical retries. Never overwrite a versioned archive; correct mistakes with a new version.
+2. Use the authorised download-host publishing service and inspect its current schema before use. Publish each immutable versioned artifact with `operation: publish`, `public_release: true`, exact SHA-256 and one source field. The current Lore registry enforces a 64 KiB total input limit despite the action’s advertised 1 MiB base64 allowance; use a publisher-reachable `source_url` for larger files, and confirm reachability before submitting. The URL and any redirect/download target must be unsigned and contain no credentials or expiry/signature tokens; the service rejects signed landing-page links. Use a stable request ID for identical retries. Never overwrite a versioned archive; correct mistakes with a new version.
 3. Wait for each asynchronous request via `lore services get ID`. Check both service and action status, download the returned public URLs anonymously and verify their exact hashes. Save sanitized receipts in `docs/publication/`; never save upload payloads containing credentials.
 4. Update the version, archive name and SHA-256 in `website/install.sh`. Review the bootstrap and page; keep the machine-wide installation, private token handoff and grant invalidation explanations. Update the bootstrap with `operation: update` and `expected_previous_sha256` equal to the freshly verified current public hash. A stale hash is a conflict: investigate, do not overwrite blindly. Record the returned previous/current hashes.
-5. Test the actual public bootstrap on both supported disposable VM configurations, including machine-wide installation, positional/prompted grants, normal sudo prompting, failure preservation and grant/run/revoke. No development-host or Loom install.
-6. Update `agent-sudo.html` last using the same checksum precondition. Test HTML MIME/disposition, links/hashes, mobile/desktop rendering, copy success/failure and absence of browser errors. The page remains a preview until deployment validation warrants changing that statement.
+5. Test the actual public bootstrap on both supported disposable VM configurations, including machine-wide installation, positional/prompted grants, normal sudo prompting, failure preservation and grant/run/revoke. No development-host or production-host install.
+6. Coordinate any guide changes with the simple-help.com website owner after the verified downloads and bootstrap are available. Do not republish the legacy tools-host landing page. New CLI help and handoffs point to https://simple-help.com/tools/agent-sudo.
 7. Record publication IDs, receipts, hashes and public test evidence; update CHANGELOG and file maps. Commit locally; pushing or GitHub releases are separate work.
 
-Use `agent-sudo.html`: tools_publish prohibits `index.html`; no directory listing or `/agent-sudo/` landing-page alias is needed. HTML renders with text/html; scripts and other downloads are served as attachments. Files are verified and replaced atomically by SH Website; multi-file publication is ordered, not one atomic transaction. Artifacts precede bootstrap, which precedes the page. Rollback uses a checksum-guarded update of bootstrap/page to a previously verified version; it does not restore invalidated grants.
+Product pages live on simple-help.com/tools, separate from download hosting. The historical `website/agent-sudo.html` is retained as a reference; do not publish it to tools. Use `website/agent-sudo-redirect.html` to retire the old tools-host information page while preserving existing binary handoff links. Publish this forwarding file to `agent-sudo.html` under its freshly verified hash. Literal deletion is unsupported by tools_publish and needs the hosting operator. Scripts and other downloads are served as attachments. Files are verified and replaced atomically by SH Website; multi-file publication is ordered, not one atomic transaction. Artifacts precede bootstrap, which precedes the page. Rollback uses a checksum-guarded update of bootstrap/page to a previously verified version; it does not restore invalidated grants.
 
 ## Bootstrap trust and privileges
 
@@ -41,9 +43,9 @@ Platforms remain Ubuntu 24.04.5 LTS amd64 / sudo 1.9.15p5 (1.9.15p5-3ubuntu5.24.
 
 The source archive's 33 regular files match implementation commit c16c9de exactly; no debug/working logs, private keys, VM state, build directories or stale archives were included. Temporary artifact relays transported only the exact already-public-intended release bytes to SH Website; installed clients use only tools.simplehelp.io. The original LAN source was unreachable and the oversized inline API request was rejected before dispatch. The publication receipts and final public hash verification are recorded alongside this document.
 
-Live browser verification passed: HTML renders with text/html and no attachment disposition; real clipboard write/read, denied-copy selection fallback, exact command text, responsive layouts and download URLs all passed without JavaScript errors. To repeat, run `PLAYWRIGHT_MODULE=/path/to/playwright node tests/website.cjs https://tools.simplehelp.io/agent-sudo.html` with Playwright Chromium installed. Records and screenshots go under ignored target/. Test the live page's rendering MIME/disposition, real clipboard write/read, copy denial fallback, exact command text, 375/768/1280-pixel layouts and JavaScript errors. Public download hashes/MIME/disposition are in publication/download-verification.json; public VM results and sanitized service receipts are in the same directory.
+Live browser verification passed: HTML renders with text/html and no attachment disposition; real clipboard write/read, denied-copy selection fallback, exact command text, responsive layouts and download URLs all passed without JavaScript errors. To repeat checks of the retained historical page source, run `PLAYWRIGHT_MODULE=/path/to/playwright node tests/website.cjs` with Playwright Chromium installed. The live compatibility URL now forwards to the separately maintained public guide; this historical-page test does not target that guide. Records and screenshots go under ignored target/. Test the live page's rendering MIME/disposition, real clipboard write/read, copy denial fallback, exact command text, 375/768/1280-pixel layouts and JavaScript errors. Public download hashes/MIME/disposition are in publication/download-verification.json; public VM results and sanitized service receipts are in the same directory.
 
-Loom testing is pending. No installation occurred on the development host; no GitHub release, push, recurring task or new release-management service was created.
+Production-host testing is outside this publication workflow. No installation occurred on the development host; no GitHub release, push, recurring task or new release-management service was created.
 
 ## 0.2.0 publication — 2026-11-02
 
@@ -56,7 +58,7 @@ Implementation source snapshot: local commit `3efd484`; source archive SHA-256 `
 - Exact public command passed 18 checks in each VM (36 total), including real terminal sudo authentication, machine-wide install, positional grants/run/status/revoke, reinstall, binary hash identity and removal. Simulated download/checksum/truncation/platform cases preserved installation before sudo. All 2,598 proper prefixes of the actual hosted script were checked with marker shims and a full-script positive control.
 - The short shell pipeline can return zero if curl fails before producing any script bytes; curl still emits the error and nothing is installed. Check the final installation message/version. Package failures after a full script return nonzero.
 
-Sanitized 0.2.0 receipts, public download headers/hashes, installed-binary evidence and browser checks are stored in `docs/publication/0.2.0-*`. Immutable 0.1.0 assets remain unchanged. No Loom/development-host installation, GitHub push or GitHub release.
+Sanitized 0.2.0 receipts, public download headers/hashes, installed-binary evidence and browser checks are stored in `docs/publication/0.2.0-*`. Immutable 0.1.0 assets remain unchanged. No production/development-host installation, GitHub push or GitHub release.
 
 Final live page SHA-256: `e0cfdb32d826da37c3e2e66e55c39c83d60285cf7692e1ed7d8cd4097324ef06`. Actual Chromium checks passed at 375/768/1280 px: real clipboard write/read, denied-copy fallback, keyboard focus/activation, loaded brand fonts and inspected colors. Thirteen live URLs passed MIME/link/hash checks, including unchanged 0.1.0 package/source. Desktop and mobile viewport screenshots were visually compared with the live SimpleHelp reference.
 
@@ -72,7 +74,7 @@ Final live page SHA-256: `89ac1380ddbd64652e812b969c88a51e58c2c78c694d1ef90a33e2
 
 ## 1.0.1 publication — 2026-11-02
 
-Creator-scoped `agent-sudo revoke all` is a distinct freshly authenticated administrative operation. Recipient `revoke --all` remains unchanged. Freeze and verify the new versioned package/source/checksum/guides before updating the pinned bootstrap, then test the literal public command in both VMs and update the page last. Preserve all earlier versioned files. Exact identities and sanitized receipts are stored under `docs/publication/1.0.1-*`. No Loom or development-host installation and no GitHub push/release. Installation/upgrades invalidate existing grants.
+Creator-scoped `agent-sudo revoke all` is a distinct freshly authenticated administrative operation. Recipient `revoke --all` remains unchanged. Freeze and verify the new versioned package/source/checksum/guides before updating the pinned bootstrap, then test the literal public command in both VMs and update the page last. Preserve all earlier versioned files. Exact identities and sanitized receipts are stored under `docs/publication/1.0.1-*`. No production-host or development-host installation and no GitHub push/release. Installation/upgrades invalidate existing grants.
 
 Frozen source commit: `1f0df087e62be36f5756995bb7c0a94f78f0ed19`. Package SHA-256: `beefb7afd69d4dd59c67c704518388c364e2384177edf527697e0878d48e2b02`; source archive SHA-256: `a9920651faa0cc96c200fe3647f4c7fb0f02d0271e0b73fa82a797b5377c078f`. Both binaries match the 254-check installed-VM evidence and reproduce identically from relocated locked sources. Public installation and page evidence are recorded after the guarded pointer updates.
 
@@ -86,7 +88,7 @@ Expanded command-line guide and `-h` shortcut; grant and helper behavior unchang
 
 ## 1.0.2 publication completion — 2026-11-03
 
-The published 1.0.2 package matches SHA-256 `cd1e485336a43859bcc8559d21a11f519525649b86740d0b1416182781d61be0`. The installer was updated under the previous hash precondition and the exact public command passed in both disposable Ubuntu VMs. The public page remains on 1.0.1: SH Website could not transfer the revised page via either inline text or base64. The prepared page links to the existing 1.0.1 operator guide and omits links to unpublished optional documents. Earlier failed requests remain recorded for transparency. No Loom installation or GitHub release was performed.
+The published 1.0.2 package matches SHA-256 `cd1e485336a43859bcc8559d21a11f519525649b86740d0b1416182781d61be0`. The installer was updated under the previous hash precondition and the exact public command passed in both disposable Ubuntu VMs. The public page remains on 1.0.1: SH Website could not transfer the revised page via either inline text or base64. The prepared page links to the existing 1.0.1 operator guide and omits links to unpublished optional documents. Earlier failed requests remain recorded for transparency. No production-host installation or GitHub release was performed.
 
 ## 1.0.3 publication preparation — 2026-11-04
 
@@ -99,3 +101,13 @@ All six immutable artifacts were published and anonymously verified before the i
 Chromium verified live HTML MIME/disposition, real clipboard contents, denied-copy fallback, keyboard operation, brand fonts/colors and 375/768/1280 px layouts with no page errors. Nine final public download URLs were verified, including unchanged 1.0.1/1.0.2 packages. The handoff is 118 characters including its 67-character token; earlier chat estimates of 116 were corrected. Script stdout remains token-only. Upgrades invalidate existing grants.
 
 The frozen source archive is the exact allowlisted commit in its artifact identity; a later test-only optional SSH/reboot harness grant-ID correction is recorded in local commit `82bac80`. Those SSH/reboot suites are excluded from this release's claimed 230 installed-binary checks. Production binaries were unchanged by that follow-up. Final review, deterministic clean-staging regression, exact source-file comparison and all publication verification passed. Test VMs were shut down; no development-host installation or GitHub push/release occurred.
+
+## SimpleHelp guide migration — 2026-11-16
+
+Product hub and guide now live at https://simple-help.com/tools and
+https://simple-help.com/tools/agent-sudo. The old tools-host information page
+was replaced by `website/agent-sudo-redirect.html` under the previous-file
+hash precondition; anonymous HTTPS verified exact bytes and HTML rendering
+headers. Existing 1.0.3 installer and versioned downloads remain unchanged.
+CLI help/handoff changes are prepared in source and require a new binary
+release to appear in installed copies. No new agent-sudo release was made.

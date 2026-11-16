@@ -1,6 +1,6 @@
 # File Map
 
-- `README.md`: CLI, trust boundary, supported preview and local build entry point.
+- `README.md`: Public guide/download links, administrator/recipient quick start, trust boundary, supported release and local build entry point.
 - `Cargo.toml` / `Cargo.lock`: Rust frontend/helper package and locked dependencies.
 - `src/bin/agent-sudo.rs`: Unprivileged CLI, one-line agent handoff, hidden/FD token input, sudo preflight and framed stream/result decoding.
 - `src/bin/agent-sudo-helper.rs`: Exact privileged operation dispatch, readiness gates, grant receipt and admissions.
@@ -25,7 +25,8 @@
 - `CHANGELOG.md`: Development change history.
 - `.gitignore`: Excludes raw debug/working logs, VM state, builds and local artifacts.
 - `tests/vm/suspend.py` / `reboot_ssh.py`: Actual ACPI S3/wakeup, SSH secret transport, reboot invalidation and removal checks.
-- `website/agent-sudo.html` / `website/install.sh` / `website/install-command.txt`: Public installation page, pinned download bootstrap and exact copyable command.
+- `website/agent-sudo-redirect.html`: Compatibility forwarding page for the old tools-host URL; new product guide is simple-help.com/tools/agent-sudo.
+- `website/agent-sudo.html` / `website/install.sh` / `website/install-command.txt`: Historical page reference (retired from publishing), pinned download bootstrap and exact copyable command; live guide is simple-help.com/tools/agent-sudo.
 - `docs/PUBLISHING.md` / `docs/publication/`: Immutable artifact/update workflow, public hashes, sanitized service receipts and website validation evidence.
 - `tests/vm/public_bootstrap.py`: Actual public download/bootstrap and failure-preservation VM checks.
 - `tests/website.cjs`: Playwright checks for page MIME/rendering, responsive widths, exact copy text and clipboard-denial fallback.

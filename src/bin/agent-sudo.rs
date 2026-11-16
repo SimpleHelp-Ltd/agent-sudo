@@ -202,7 +202,7 @@ RUN OPTIONS
   agent-sudo --help, -h            Show this help
   agent-sudo --version             Show version
 
-Full guide: https://tools.simplehelp.io/agent-sudo.html"#,
+Full guide: https://simple-help.com/tools/agent-sudo"#,
         agent_sudo::VERSION
     );
 }
@@ -312,7 +312,7 @@ fn call(op: &str, mut request: p::Request, key_fd: Option<i32>, json_result: boo
                             eprintln!("Copy and paste this line to your agent:");
                             writeln!(
                                 stdout,
-                                "see: https://tools.simplehelp.io/agent-sudo.html | {}",
+                                "see: https://simple-help.com/tools/agent-sudo | {}",
                                 *token
                             )?;
                         } else {

@@ -1,5 +1,7 @@
 # Operator guide
 
+[Public guide and downloads](https://simple-help.com/tools/agent-sudo). This document describes the current source; published 1.0.3 still prints the old guide URL, which forwards to the new page.
+
 Run `agent-sudo --help` or `agent-sudo -h` for a terminal guide for agents and administrators.
 
 ## Trust and support
@@ -13,14 +15,14 @@ Version 1.0 supports Ubuntu 24.04/26.04 amd64 with systemd and the exact sudo re
 Use only the offline versioned package from a trusted build. Verify its archive checksum through a trusted channel; a checksum delivered with untrusted code is not a signature. Start in disposable VMs and keep an independent administrator session open.
 
 ```sh
-sha256sum -c agent-sudo-1.0.1-linux-amd64.tar.gz.sha256
-tar -xzf agent-sudo-1.0.1-linux-amd64.tar.gz
+sha256sum -c agent-sudo-1.0.3-linux-amd64.tar.gz.sha256
+tar -xzf agent-sudo-1.0.3-linux-amd64.tar.gz
 sudo ./install.sh
 ```
 
 Installation is machine-wide with no recipient options. An administrator subsequently selects an existing non-root account using `agent-sudo USERNAME MINUTES`; no prior registration is needed. Give the resulting token privately to that account. Installer requires normal root authorization, freezes payload bytes, validates file ownership/ACLs, detects unmanaged/modified files, disables admissions and invalidates grants under the stable maintenance lock, atomically replaces managed files, validates actual sudoers and probes transport, starts the cleanup timer and commits a new generation last. Unsupported policies fail closed. The only passwordless rule permits four exact recipient helper operations for local accounts; each independently requires a live grant before READY, and execution additionally requires its secret token. No administrative operation is granted by this rule. Run the same installer for upgrades or policy changes; **all existing grants become unusable**. Detectable failed installations restore prior managed files/configuration, without resurrecting old grants. A power loss may leave installation disabled or a partial set requiring manual recovery; do not treat this as a cross-file atomic filesystem transaction.
 
-The helper is a root-owned compiled executable, never a script loaded from a checkout. It is mode 0755, without setuid. The tool does not modify SSH, unrelated sudoers files or `ops/grant-agent-sudo.sh`.
+The helper is a root-owned compiled executable, never a script loaded from a checkout. It is mode 0755, without setuid. The tool does not modify SSH or unrelated sudoers files.
 
 ## For administrators: issue access
 
@@ -31,7 +33,7 @@ agent-sudo                            # Prompts; Enter accepts current account a
 agent-sudo grant --user agent --minutes 60  # Compatible explicit syntax
 ```
 
-The grant requests fresh sudo authentication using `sudo -k` with a command; the app does not prompt for, handle or save an administrator password. Passwordless administrator policy may not challenge. Token stdout is intentionally secret; do not redirect to logs, paste into shell commands, or capture terminal output in a recording session. Metadata/revocation instructions go to stderr. The grant output shows the account, local expiry time with timezone and administrative revocation command. In a terminal it says `Copy and paste this line to your agent:` followed by a single line: `see: https://tools.simplehelp.io/agent-sudo.html | TOKEN`. The actual token replaces `TOKEN` and stays separate from the URL. The internal machine-id is available in status metadata. When stdout is redirected, it contains only the token plus a newline; explanations go to stderr. Blank prompted values select the calling account (resolved from the real UID) and 10 minutes. The hidden run prompt is `Access token (hidden):`.
+The grant requests fresh sudo authentication using `sudo -k` with a command; the app does not prompt for, handle or save an administrator password. Passwordless administrator policy may not challenge. Token stdout is intentionally secret; do not redirect to logs, paste into shell commands, or capture terminal output in a recording session. Metadata/revocation instructions go to stderr. The grant output shows the account, local expiry time with timezone and administrative revocation command. In a terminal it says `Copy and paste this line to your agent:` followed by a single line: `see: https://simple-help.com/tools/agent-sudo | TOKEN`. The actual token replaces `TOKEN` and stays separate from the URL. The internal machine-id is available in status metadata. When stdout is redirected, it contains only the token plus a newline; explanations go to stderr. Blank prompted values select the calling account (resolved from the real UID) and 10 minutes. The hidden run prompt is `Access token (hidden):`.
 
 ## For agents: use granted access
 
